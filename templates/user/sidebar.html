@@ -1,0 +1,42 @@
+    {%load static%}
+    <div class="sidebar">
+        <!--
+          Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red"
+      -->
+        <div class="sidebar-wrapper">
+            <div class="logo" style="text-align: center;">
+                <a href="{%url 'dashboard'%}"><img src="{% static 'images\logo.png'%}" class="w-50" alt="Texe Logo"></a>
+            </div>
+            <ul class="nav">
+                <li class='{% if segment == "user_dashboard"%} active {% endif %}'>
+                    <a href="{% url 'user_dashboard'%}">
+                        <i class="tim-icons icon-chart-pie-36"></i>
+                        <p style="font-size: 13px;">Dashboard</p>
+                    </a>
+                </li>
+
+                <li class='{% if segment == "complaint_servicess"%} active {% endif %}'>
+                    <a href="{% url 'complaint_servicess'%}">
+                        <i class="tim-icons icon-chart-pie-36"></i>
+                        <p style="font-size: 13px;">Complaints & Service</p>
+                    </a>
+                </li>
+
+                <li class='{% if segment == "order_user_view"%} active {% endif %}'>
+                    <a href="{% url 'order_user_view'%}">
+                        <i class="tim-icons icon-chart-pie-36"></i>
+                        <p style="font-size: 13px;">Orders</p>
+                    </a>
+                </li>
+
+                
+                
+                <li>
+                    <a href="{% url 'login' %}">
+                        <i class="tim-icons icon-button-power"></i>
+                        <p style="font-size: 13px;">Logout</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>

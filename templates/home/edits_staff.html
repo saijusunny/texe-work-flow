@@ -1,0 +1,146 @@
+{% extends "layouts/base.html" %}
+{% load static%}
+{% block title %} User Profile {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="content">
+    <div class="row">
+      <div class="col-md-8" style="margin: 0 auto;">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-6 pr-md-1">
+                <div class="form-group">
+                  <h5 class="title">Edit Profile</h5>
+                </div>
+              </div>
+              
+              <div class="col-6 pl-md-1" style="text-align: right;">
+                <div class="form-group btn-fill">
+                  <a  style="text-decoration: none;" href="{% url 'delete_staff' usr.id%}" onclick="return confirm('Are you sure, you want to delete it?')">
+                  <div class="btn btn-sm btn-primary btn-simple"  >
+                                      
+                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Delete</span>
+                    <span class="d-block d-sm-none">
+                      <i class="tim-icons icon-trash-simple"></i>
+                    </span>
+                  </div>
+                </a>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="card-body">
+            <form action="{% url 'save_edit_staff' usr.id%}" method="POST" enctype="multipart/form-data">
+              {% csrf_token%}
+              <div class="row">
+                <div class="col-md-5 pr-md-1">
+                  <div class="form-group">
+                    <label>Reg No. (disabled)</label>
+                    <input type="text" class="form-control" disabled="" placeholder="Company" value="{{usr.regno}}">
+                  </div>
+                </div>
+                <div class="col-md-3 px-md-1">
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" placeholder="name" name="name" value="{{usr.name}}">
+                  </div>
+                </div>
+                <div class="col-md-4 pl-md-1">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" placeholder="eg@email.com" name="email" value="{{usr.email}}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 pr-md-1">
+                  <div class="form-group">
+                    <label>Ph. No.</label>
+                    <input type="text" class="form-control" placeholder="Company" name="phn_no" value="{{usr.number}}">
+                  </div>
+                </div>
+                <div class="col-md-4 pr-md-1">
+                  <div class="form-group">
+                    <label>DOB</label>
+                    <input type="date" class="form-control" placeholder="dob" value="{{usr.dob| date:'Y-m-d'}}" name="dob">
+                  </div>
+                </div>
+                <div class="col-md-4 pl-md-1">
+                  <div class="form-group">
+                    <label>Department</label>
+                    <select name="desi" id="" class="form-control">
+                      <option value="{{usr.designation}}" style="color: black;" selected>{{usr.designation}}</option>
+
+                      <option value="Tele Caller" style="color: black;">Tele Caller</option>
+                      <option value="Designer" style="color: black;">Designer</option>
+                      <option value="Cutting" style="color: black;">Cutting</option>
+                      <option value="Stiching" style="color: black;">Stiching</option>
+                      
+                      <option value="Tester" style="color: black;">Tester</option>
+                      <option value="Packing" style="color: black;">Packing</option>
+                  </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" class="form-control" placeholder="Home Address" name="address" value="{{usr.addres}}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 pr-md-1">
+                  <div class="">
+                    <label>Profile Image</label><br>
+                    
+                    <input type="file" class="form-control" placeholder="City" value="{{usr.addres}}" name="propic">
+                  </div>
+                </div>
+                <div class="col-md-6 px-md-1">
+                  <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" class="form-control" placeholder="location" name="location" value="{{usr.location}}">
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    
+                
+                    <input type="checkbox" placeholder="" class="" name="complaintss" {% if usr.complaint == "on" %}checked {%endif%}>&nbsp;&nbsp;&nbsp;<label style="font-size: 16px;" >Complaint Access</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                 
+                    <input type="checkbox" placeholder="" class="" name="order" {% if usr.orders == "on" %}checked {%endif%}>&nbsp;&nbsp;&nbsp;<label style="font-size: 16px;" >Order Access</label>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-fill btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

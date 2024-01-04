@@ -1,0 +1,121 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}  Add User {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-8" style="margin: 0 auto;">
+                        <div class="card card-chart">
+                            <div class="card-header text-center py-4">
+                                <h4 class="title">
+                                    Register User
+                                </h4>
+    
+                                <h6 class="card-category">
+                                    {% if msg %}
+                                        <span class="text-danger">{{ msg | safe }}</span>
+                                    {% else %}
+                                       
+                                    {% endif %}  
+                                </h6>     
+    
+                            </div>
+    
+                            
+    
+                                <form role="form" method="post" action="">
+                
+                                    {% csrf_token %}
+    
+                                    <div class="card-body px-5 py-3">
+    
+                                        <div class="row">
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Name</label>
+                                                    <input type="text" placeholder="" class="form-control" name="name">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>
+                                            
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Address</label>
+                                                    <input type="text" placeholder="" class="form-control" name="address">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>  
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Phone Number</label>
+                                                    <input type="text" placeholder="" class="form-control" name="phn_no">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>  
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Profile Image</label><br>
+                                                    <div class="btn btn-fill btn-primary" >
+                                                        <i class="tim-icons icon-cloud-upload-94" style="font-size: 40px;"></i>  
+                                                    </div>
+                                                    
+                                                    <input type="file" placeholder="" class="form-control" name="propic">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>
+    
+    
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Email</label>
+                                                    <input type="email" placeholder="" class="form-control" name="email">
+                                                </div>
+                                                <span class="text-danger">{{ form.email.errors }}</span>
+                                            </div>
+    
+                                                 
+                                            
+                                                
+    
+                                        </div>
+    
+                                        
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <button type="submit" name="register" class="btn btn-fill btn-primary">Register</button>
+    
+                                        <br /><br />
+                                        
+                                        
+                                    </div>
+                                
+                                </form>
+    
+                            
+    
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+
+{% endblock javascripts %}

@@ -1,0 +1,78 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Login {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+{%load static%}
+    <form action="" method="POST">
+        {%csrf_token %}
+    <div class="content">
+        <div class="container">
+            <div class="row pt-5">
+                <div class="col-md-6 mt-5 offset-md-3 ">
+                    <div class="card">
+                        <div class="row mt-4">
+                            <div class="col-sm-12" style="text-align: center;">
+                              <a href="{%url 'dashboard'%}"><img src="{% static 'login_texe.png'%}" class="w-50" alt="Texe Logo"></a>
+                            </div>
+                          </div>
+                        <div class="card-header text-center py-4">
+                            <h4 class="title">Login</h4>
+                        </div>
+                        <div class="card-body px-5">
+                            
+                                    {% if messages %}
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            {% for message in messages %}
+                                                <li style="font-size: 16px;">{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                   
+                                    
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" class="form-control" placeholder="Username"
+                                                    name="use">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            <input type="password" class="form-control" placeholder="password" name="pass">
+                                            <a href="{% url 'forgotPassword'%}"><label style="float: right;" class="mt-2">Forget Password</label></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-fill btn-primary">Login</button>
+                            
+                            <br /><br />
+
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    </form>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

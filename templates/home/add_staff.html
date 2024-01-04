@@ -1,0 +1,178 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}  Add Staff {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-8" style="margin: 0 auto;">
+                        <div class="card card-chart">
+                            <div class="card-header text-center py-4">
+                                <h4 class="title">
+                                    Staff Creation
+                                </h4>
+    
+                                <h6 class="card-category">
+                                    {% if messages %}
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            {% for message in messages %}
+                                                <li style="font-size: 16px;">{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                   
+                                    
+                                </h6>     
+    
+                            </div>
+    
+    
+                                <form role="form" method="post" action="" enctype="multipart/form-data">
+                
+                                    {% csrf_token %}
+    
+                                    <div class="card-body px-5 py-3">
+    
+                                        <div class="row">
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Name</label>
+                                                    <input type="text" placeholder="" class="form-control" name="name">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>
+                                            
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Address</label>
+                                                    <textarea name="address" id="" class="form-control" placeholder="address..."></textarea>
+                                                    <input type="text" placeholder="" class="form-control" name="address">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>  
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Phone Number</label>
+                                                    <input type="text" placeholder="" class="form-control" name="phn_no">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div> 
+                                            
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Date of Birth</label>
+                                                    <input type="date" placeholder="" class="form-control" name="dob">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div> 
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Profile Image</label><br>
+                                                    <div class="btn btn-fill btn-primary" >
+                                                        <i class="tim-icons icon-cloud-upload-94" style="font-size: 40px;"></i>  
+                                                    </div>
+                                                    
+                                                    <input type="file" placeholder="" class="form-control" name="propic">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>
+    
+                                            
+    
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Email</label>
+                                                    <input type="email" placeholder="" class="form-control" name="email" pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" required>
+                                                </div>
+                                                <span class="text-danger">{{ form.email.errors }}</span>
+                                            </div>
+    
+                                              
+    
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Location</label>
+                                                    <input type="text" placeholder="" class="form-control" name="location">
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>   
+                                            
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    <label style="font-size: 16px;">Designation</label>
+                                                    
+                                                    <select name="desi" id="" class="form-control">
+                                                        <option value="Tele Caller" style="color: black;">Tele Caller</option>
+                                                        <option value="Designer" style="color: black;">Designer</option>
+                                                        <option value="Cutting" style="color: black;">Cutting</option>
+                                                        <option value="Stiching" style="color: black;">Stiching</option>
+                                                        
+                                                        <option value="Tester" style="color: black;">Tester</option>
+                                                        <option value="Packing" style="color: black;">Packing</option>
+                                                    </select>
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>
+
+                                            <div class="col-md-12 px-md-1" >
+                                                <div class="form-group">
+                                                    
+                                                    <input type="checkbox" placeholder="" class="" name="complaintss">&nbsp;&nbsp;&nbsp;
+                                                    <label style="font-size: 16px;">Complaint Access</label>
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>   
+
+                                            <div class="col-md-12 px-md-1">
+                                                <div class="form-group">
+                                                    
+                                                    <input type="checkbox" placeholder="" class="" name="order">&nbsp;&nbsp;&nbsp;<label style="font-size: 16px;">Order Access</label>
+                                                </div>
+                                                <span class="text-danger">{{ form.password2.errors }}</span>
+                                            </div>   
+                                            
+                                                
+    
+                                        </div>
+    
+                                        
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <button type="submit" name="register" class="btn btn-fill btn-primary">Register</button>
+    
+                                        <br /><br />
+                                        
+                                        
+                                    </div>
+                                
+                                </form>
+    
+                   
+    
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+
+{% endblock javascripts %}

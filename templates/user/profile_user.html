@@ -1,0 +1,447 @@
+{% extends "user/base.html" %}
+
+{% block title %} orders {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+{%load static%}
+<style>
+
+  #footer{
+        margin-top: 1rem;
+        color: white;
+      }
+  section{
+      margin-top: 2rem;
+  }
+  svg{
+      top:30px
+  }
+  
+  @media screen and (max-width: 960px) {  
+  svg{
+      top:-13rem
+  }
+  }
+  
+  /* vars */
+  :root {
+    --back: #eeeeee;
+    --blue: #0082d2;
+    --green: #33DDAA;
+    --gray: #777777;
+    --size: 200px;  
+  }
+  
+  
+  .tracking-wrapper {
+    margin: 30px;
+    padding: 0;
+  }
+  .tracking * {
+    padding: 0;
+    margin: 0;
+  }
+  .tracking {
+    width: var(--size);
+    max-width: 100%;
+    position: relative;
+  }
+  .tracking .empty-bar {
+    background: #ddd;
+    position: absolute;
+    width: 90%;
+    height: 20%;
+    top: 40%;
+    margin-left: 5%;
+  }
+  .tracking .color-bar {
+    background: var(--blue);
+    position: absolute;
+    height: 20%;
+    top: 40%;
+    margin-left: 5%;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+  }
+  .tracking ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+  }
+  .tracking ul > li {
+    background: #ddd;
+    text-align: center;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    z-index: 1;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    display: inline-block;
+    position: relative;
+    width: 10%;
+  }
+  .tracking ul > li .el {
+    position: relative;
+    margin-top: 100%;
+  }
+  .tracking ul > li .el i {
+    position: absolute;
+    bottom: 100%;
+    left: 8%;
+    margin-bottom: 12%;
+    color: #fff;
+    font-size: 100%;
+    display: none;
+  }
+  .tracking ul > li .txt {
+    color: #999;
+    position: absolute;
+    top: 120%;
+    left: -75%;
+    text-align: center;
+    width: 250%;
+    font-size: .75rem;
+  }
+  .tracking .progress-0 .color-bar { width: 00%; }
+  .tracking .progress-1 .color-bar { width: 15%; }
+  .tracking .progress-2 .color-bar { width: 30%; }
+  .tracking .progress-3 .color-bar { width: 45%; }
+  .tracking .progress-4 .color-bar { width: 60%; }
+  .tracking .progress-5 .color-bar { width: 75%; }
+  .tracking .progress-6 .color-bar { width: 90%; }
+  .tracking .progress-7 .color-bar { width: 90%; }
+  
+  .tracking .progress-0 > ul > li.bullet-1,
+  .tracking .progress-1 > ul > li.bullet-1,
+  .tracking .progress-2 > ul > li.bullet-1,
+  .tracking .progress-3 > ul > li.bullet-1,
+  .tracking .progress-4 > ul > li.bullet-1,
+  .tracking .progress-5 > ul > li.bullet-1,
+  .tracking .progress-6 > ul > li.bullet-1,
+  .tracking .progress-7 > ul > li.bullet-1
+  { background-color: var(--blue); }
+  
+  .tracking .progress-2 > ul > li.bullet-2,
+  .tracking .progress-3 > ul > li.bullet-2,
+  .tracking .progress-4 > ul > li.bullet-2,
+  .tracking .progress-5 > ul > li.bullet-2,
+  .tracking .progress-6 > ul > li.bullet-2,
+  .tracking .progress-7 > ul > li.bullet-2
+  { background-color: var(--blue); }
+  
+  .tracking .progress-4 > ul > li.bullet-3,
+  .tracking .progress-5 > ul > li.bullet-3,
+  .tracking .progress-6 > ul > li.bullet-3,
+  .tracking .progress-7 > ul > li.bullet-3
+  { background-color: var(--blue); }
+  
+  .tracking .progress-6 > ul > li.bullet-4,
+  .tracking .progress-7 > ul > li.bullet-4
+  { background-color: var(--blue); }
+  
+  .tracking .progress-7 > ul > li.bullet-4
+  { background-color: var(--green); }
+  
+  .tracking .progress-1 > ul > li.bullet-1 .el i,
+  .tracking .progress-2 > ul > li.bullet-1 .el i,
+  .tracking .progress-3 > ul > li.bullet-1 .el i,
+  .tracking .progress-4 > ul > li.bullet-1 .el i,
+  .tracking .progress-5 > ul > li.bullet-1 .el i,
+  .tracking .progress-6 > ul > li.bullet-1 .el i,
+  .tracking .progress-7 > ul > li.bullet-1 .el i
+  { display: block; }
+  
+  .tracking .progress-3 > ul > li.bullet-2 .el i,
+  .tracking .progress-4 > ul > li.bullet-2 .el i,
+  .tracking .progress-5 > ul > li.bullet-2 .el i,
+  .tracking .progress-6 > ul > li.bullet-2 .el i,
+  .tracking .progress-7 > ul > li.bullet-2 .el i
+  { display: block; }
+  
+  .tracking .progress-5 > ul > li.bullet-3 .el i,
+  .tracking .progress-6 > ul > li.bullet-3 .el i,
+  .tracking .progress-7 > ul > li.bullet-3 .el i
+  { display: block; }
+  
+  .tracking .progress-7 > ul > li.bullet-4 .el i
+  { display: block; }
+  
+  .tracking .progress-1 > ul > li.bullet-1 .txt,
+  .tracking .progress-2 > ul > li.bullet-1 .txt,
+  .tracking .progress-3 > ul > li.bullet-1 .txt,
+  .tracking .progress-4 > ul > li.bullet-1 .txt,
+  .tracking .progress-5 > ul > li.bullet-1 .txt,
+  .tracking .progress-6 > ul > li.bullet-1 .txt,
+  .tracking .progress-7 > ul > li.bullet-1 .txt
+  { color: var(--blue); }
+  
+  .tracking .progress-3 > ul > li.bullet-2 .txt,
+  .tracking .progress-4 > ul > li.bullet-2 .txt,
+  .tracking .progress-5 > ul > li.bullet-2 .txt,
+  .tracking .progress-6 > ul > li.bullet-2 .txt,
+  .tracking .progress-7 > ul > li.bullet-2 .txt
+  { color: var(--blue); }
+  
+  .tracking .progress-5 > ul > li.bullet-3 .txt,
+  .tracking .progress-6 > ul > li.bullet-3 .txt,
+  .tracking .progress-7 > ul > li.bullet-3 .txt
+  { color: var(--blue); }
+  
+  .tracking .progress-7 > ul > li.bullet-4 .txt
+  { color: var(--blue); }
+  
+  /* demo */
+  .controls {
+    margin: 90px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .controls > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: space-between;
+    margin: 0;
+    padding: 0;
+  }
+  .controls p,
+  .controls button {
+    border: 0;
+    line-height: 20px;
+    padding: 15px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  .controls button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 6px;
+    background: var(--blue);
+    color: #fff;
+    border-radius: 50px;
+    transition: all .3s;
+  }
+  .controls button:nth-child(1) {
+    margin-left: 0;
+  }
+  .controls button i {
+    font-size: 1rem;
+    margin: 0 5px;
+  }
+  .controls button#prev { padding-right: 30px; }
+  .controls button#next { padding-left: 30px; }
+  
+  .controls button:hover,
+  .controls button:focus {
+    outline: none;
+    background-color: var(--green);
+  }
+  #filter{
+    margin-right: 100px;
+  }
+  #flt_div{
+    text-align: right;
+  }
+  @media screen and (max-width: 960px) {  
+    #filter{
+    margin-right: 0px;
+  }
+  #flt_div{
+    text-align: center;
+  }
+  }
+  
+  
+  </style>
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% if pro.profile == "static\images\static_image\icon.svg"%}
+                                
+                                {%else%}
+                            <div class="col-sm-12 col-lg-4 col-md-4 col-xl-4">
+                                
+                                <div style="background-image: url('{{pro.profile.url}}'); background-position: center; background-repeat: no-repeat; background-size: cover; height:300px; border-radius: 50px;">
+                                
+                                
+                                </div>
+                            </div>
+                            {%endif%}
+                            <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8" style="margin:  0 auto;" >
+                                <div class="row">
+                                    <div class="col-sm-12" style="text-align: right;">
+                                        <a href=" " class="btn btn-danger mr-5 mt-3 mb-3" id="edit" data-toggle="modal" data-target="#dis" >
+                                            <i class="fas fa-pencil-alt"></i> Edit
+                                        
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class=" information">
+                                            <h4>Personal Information &nbsp;</h4> 
+                                            <br>
+                                            <label for="gender">Name:</label>
+                                            <input class="form-control mt-2" type="text" name="" id="" value="{{pro.name}}" style="border: none;cursor: none;" disabled>
+                                        </div>
+                                        <br>
+                                        
+                                        <div class="dob">
+                                            <label for="date_of_birth">Date of Birth:</label>
+                                            <input class="form-control" type="text" value="{{pro.dob}}" style="border: none;cursor: none;" disabled>
+                                        </div>
+                                        <br>                 
+                                        <div class="email">
+                                            <label for="date_of_birth">Email:</label>
+                                            <input class="form-control" type="text" value="{{pro.email}}" style="border: none;cursor: none;" disabled>
+                                        </div>
+                                        <br>
+                                        <div class="mobile">
+                                            <label for="date_of_birth">Phone Number:</label>
+                                            <input class="form-control" type="text" value="{{pro.number}}" style="border: none;cursor: none;" disabled>
+                                        </div>
+                                        <br>
+                                 
+                                        <div class="address_info">
+                                            <label for="date_of_birth">Address :</label>
+                                            <textarea name="" id="" class="form-control" style="border: none;cursor: none;" disabled>{{pro.addres   }}</textarea>
+                                            
+                                        </div>
+                    
+                    
+                    
+                                        <br>
+                                    </div>
+                                </div>
+                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+    <form method="POST" action="{% url 'edit_profile_user' pro.id%}" enctype="multipart/form-data">
+
+        <div class="rowmt-5 modal fade" id="dis">
+          <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-content modal-xl" style="background-color: #191c24;">
+              <div class="card ">
+                <div class="card-body">
+                  <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                    style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  
+                  <div class="container mt-2" style=" padding: 50px;">
+                      <h2 class="text-center text-uppercase" style="font-family:bold; font-size:34px;">Edit Profile</h2>
+                      <hr>
+                      <div class="row">
+                          <div class="col-md-12">
+                              
+                                  {% csrf_token %}
+                                  
+                                  
+                                  <div class="form-group">
+                                      <label for="name">Name:</label>
+                                      <input type="text" id="name" name="name" value="{{pro.name}}" required class="form-control">
+                                  </div>
+                                 
+                                  <div class="form-group d-flex justify-content-center">
+                                      <label for="date_of_birth">Date of Birth:</label>
+                                      <input class="ml-2 form-control " type="date" id="date_of_birth" name="date_of_birth" required value="{{pro.dob| date:'Y-m-d'}}">
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="phone_number">Phone Number:</label>
+                                      <input type="text" id="phone_number" name="phone_number" required class="form-control " value="{{pro.number}}">
+                                  </div>
+                                  
+                                  <div class="form-group">
+                                      <label for="email">Email:</label>
+                                      <input type="email" id="email" name="email" required class="form-control " value="{{pro.email}}">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="profile_pic">Image</label>
+                                    <input type="file" id="pro_pic" name="image" class="form-control " value="{{pro.profile.url}}">
+                                </div>
+    
+                                  
+                                  
+                                  <div class="form-group" style="display: none;" id="pas">
+                                      <label for="password">Password:</label>
+                                      <input type="text" id="password" name="password" class="form-control " >                                  
+                                  </div>
+                                  <div class="form-group" style="display: none;" id="cnpass" >
+                                    <label for="confirm_password">Confirm Password:</label>
+                                    <input type="text" id="con_password" name="con_password"  class="form-control ">                                  
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="phone_number">Address:</label>
+                                    <textarea name="address" id="" class="form-control">{{pro.addres}}</textarea>
+                               
+                                  </div>
+    
+                                  
+                                  
+                                  
+                          </div>
+    
+                          <div class="row">
+                            <div class="col-md-12 d-flex justify-content-center mt-4">
+                                <button type="submit" class="btn btn-danger">Submit</button>
+                            </div>
+                        </div>
+                      </div>
+                      
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    
+      
+    
+    
+   
+    
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+    function shows(){
+        document.getElementById('pas').style.display="block";
+        document.getElementById('cnpass').style.display="block";
+    }
+</script>
+{% endblock javascripts %}

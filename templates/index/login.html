@@ -1,0 +1,108 @@
+{% extends 'index\base_login.html' %}
+{% load static %}
+
+{% block content %}
+  <style>
+    .line-wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px; /* Adjust as needed */
+    }
+
+    .line {
+      flex: 1;
+      border-top: 1px solid #000;
+      margin: 0 10px;
+    }
+
+    .text {
+      font-size: 18px;
+    }
+    .submit{
+      width: 50%;
+    }
+    #texe_login{
+      margin-top: 3rem;
+    }
+    
+    @media (max-width:992px) {
+        #image{
+        display: none;
+    }
+    .submit{
+      width: 100%;
+    }
+    #texe_login{
+      margin-top: 0rem;
+    }
+    }
+    
+ 
+  </style>
+  <title>Sign Up</title>
+
+<form action="" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+<div class="container" style="margin-top:4rem;border: radius 1px;">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="div"></div>
+      {% if messages %}
+          <div class="alert alert-danger">
+              <ul>
+                  {% for message in messages %}
+                      <li>{{ message }}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+        {% endif %}
+    
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-12" style="margin:auto">
+      <div class="row">
+        <div class="col-sm-6" id="image" style="background-color: red;text-align: center;">
+          <img src="static\images\static_image\texe_login.png" class="img-fluid w-75" style=" background-color: red;" alt="">
+        </div>
+        <div class="col-sm-6" id="texe_login">
+          <div class="row mb-4">
+            <div class="col-sm-12" style="text-align: center;">
+              <a href=""><img src="{% static 'login_texe.png'%}" class="w-50" alt="Texe Logo"></a>
+            </div>
+          </div>
+
+          <h4 style="text-align: center;">Sign In</h4>
+          
+          <div class="form-group">
+            <label class="login_label">Email</label>
+            <input type="text" name="use" placeholder="" class="form-control" required> 
+          </div>
+          
+          <div class="form-group">
+            <label class="login_label">Password</label>
+            <input type="password" placeholder="" name="pass" class="form-control" id="eyeIcon" required>
+            
+          </div>
+          <div class="form-check">
+           
+            <a href="" style="text-align: right;color: #4e4e4e;"><p style="font-size: 14px;">Forgot Password?</p></a>
+  
+          </div>
+          <!-- <div class="form-group" style="background-color: red;"> -->
+            <button type="submit"  class="form-control submit" style="background-color: red;color: white;border-color: red;margin-top: 10px;margin-bottom: 10px;">Sign In</button>
+            
+          <!-- </div> -->
+          <p>Don't have an account? <a href="" style="color: red;">Sign Up</a></p>
+          
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+{% endblock %}

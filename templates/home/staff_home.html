@@ -1,0 +1,112 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Staff % List{% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .card-img-top {
+    width: 323px; 
+    height: 200px; 
+    object-fit: cover;
+    object-position: 25% 25%; 
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+{% load static%}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-sm-12   text-left">
+                                <h5 class="card-category"></h5>
+                                <h2 class="card-title" id="card-title">Staff</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+
+                                
+                            </div>
+                            <div class="col-6">
+
+                                
+                                
+                                <div class="float-right btn-group btn-group-toggle mr-4"  >
+                                    <a  style="text-decoration: none;" href="{% url 'add_staff'%}">
+                                    <div class="btn btn-sm btn-primary btn-simple"  >
+                                      
+                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Add Staff</span>
+                                        <span class="d-block d-sm-none">
+                                            <i class="tim-icons icon-single-02"></i>
+                                        </span>
+                                    </div>
+
+                                    </a>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% for i in staffs%}
+                        <div class="row">
+                            <div class="col-sm-3 outers" >
+                                <div class="card">
+                                    {% if i.profile == "static\images\static_image\icon.svg"%}
+                                    <img src="{% static 'noimage.jpg'%}" class="card-img-top" alt="Placeholder Image">
+                                    {% elif i.profile == ""%}
+                                    <img src="{% static 'noimage.jpg'%}" class="card-img-top" alt="Placeholder Image">
+                                    {%else%}
+                                    <img src="{{i.profile.url}}" class="card-img-top" alt="Placeholder Image">
+                                    {%endif%}
+                                    
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{i.regno}}</h5>
+                                        <p class="card-text" style="font-size: 15px;">{{i.name}}</p>
+                                        <p class="card-text" style="font-size: 15px;">{{i.designation}}</p>
+                                        <a href="{% url 'edit_staff' i.id%}" class="btn btn-primary form-control">View</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        {%endfor%}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+const input = document.getElementById('search')
+input.addEventListener('keyup', (e) => {
+var inputs = e.target.value.toLowerCase(); //do lowercase
+document.querySelectorAll('.outers').forEach(function(el) {
+    el.style.display = 'none';
+});
+
+document.querySelectorAll('.outers .card-title').forEach(function(el) {
+    //compare 
+    if (el.textContent.toLowerCase().indexOf(inputs) > -1) {
+    el.closest('.outers').style.display = "block"; //if match show that div
+    }
+})
+})
+</script>
+
+{% endblock javascripts %}

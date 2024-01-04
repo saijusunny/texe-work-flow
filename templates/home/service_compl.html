@@ -1,0 +1,285 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Service % Complaints {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-sm-12   text-left">
+                                <h5 class="card-category"></h5>
+                                <h2 class="card-title" id="card-title">Complaints</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+
+                                
+                                
+                                <div class="float-left btn-group btn-group-toggle mr-4"  >
+                                    <a  style="text-decoration: none;" onclick="show_compl()" >
+                                    <div class="btn btn-sm btn-primary btn-simple active"  id="btncomp">
+                                      
+                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Complaint</span>
+                                        <span class="d-block d-sm-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                              </svg>
+                                        </span>
+                                    </div>
+
+                                    </a>
+                                    <a  style="text-decoration: none;" onclick="show_service()">
+
+                                    <div class="btn btn-sm btn-primary btn-simple"  id="btnser">
+                                        <input type="radio" class="d-none d-sm-none" name="options">
+                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Service</span>
+                                        <span class="d-block d-sm-none">
+                                            <i class="tim-icons icon-settings-gear-63"></i>
+                                        </span>
+                                    </div>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-6">
+
+                                
+                                
+                                <div class="float-right btn-group btn-group-toggle mr-4"  >
+                                    <a  style="text-decoration: none;" href="{% url 'add_complaint'%}">
+                                    <div class="btn btn-sm btn-primary btn-simple"  >
+                                      
+                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Add Complaintes</span>
+                                        <span class="d-block d-sm-none">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                          </svg>
+                                            <i class="tim-icons icon-simple-add"></i>
+                                        </span>
+                                    </div>
+
+                                    </a>
+                                    <a  style="text-decoration: none;"  href="{% url 'add_service'%}">
+
+                                    <div class="btn btn-sm btn-primary btn-simple" id="1">
+                                        <input type="radio" class="d-none d-sm-none" name="options">
+                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Add Service</span>
+                                        <span class="d-block d-sm-none">
+                                          <i class="tim-icons icon-settings-gear-63"></i>
+                                          <i class="tim-icons icon-simple-add"></i>
+                                        </span>
+                                    </div>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table bg-fill bg-primary" style="border-radius: 5px;display: block;
+                        overflow-x: auto;white-space: nowrap;text-align: center; "  id="complaint">
+                            <thead>
+                                <th style="font-size: 15px;width: 200px;">Reg. No.</th>
+                                <th style="font-size: 15px;width: 200px;">Reg. Date</th>
+                                <th style="font-size: 15px;width: 200px;">Name</th>
+                                <th style="font-size: 15px;width: 200px;">Ph No</th>
+                                <th style="font-size: 15px;width: 200px;">Status</th>
+                                <th style="font-size: 15px;width: 200px;">Action</th>
+                                <th style="font-size: 15px;width: 200px;"></th>
+                            </thead>
+                            <tbody>
+                            {% for k in comp%}
+                              <tr class="table-active">
+                                <td style="font-size: 16px;color: white;">{{k.regno}}</td>
+                                <td style="font-size: 16px;color: white;">{{k.date_register}}</td>
+                                <td style="font-size: 16px;color: white;">{{k.users.name}}</td>
+                                <td style="font-size: 16px;color: white;">{{k.users.number}}</td>
+                                <td style="font-size: 16px;color: white;">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false" style="text-decoration: none; background: linear-gradient(40deg,#ff0080,#ff8c00 70%);border-radius: 15px; color: white;">
+                                        {{k.status}}
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; z-index: 999;">
+                                      <a class="dropdown-item" href="" onclick="add_status('{{k.id}}','pending')">Pending</a>
+                                      <a class="dropdown-item" href="" onclick="add_status('{{k.id}}','rectify')">Rectify</a>
+                                      
+                                    </div>
+                                  </div>
+                                </td>
+                                <td style="font-size: 16px;color: white;"><button type="button" class="btn" data-toggle="modal" data-target="#exampleModalLong{{k.id}}" style="text-decoration: none; background: linear-gradient(40deg,#ff0080,#ff8c00 70%);border-radius: 15px; color: white;">
+                                    view
+                                </button></td>
+                                <td style="font-size: 16px;color: white;"><a href="{% url 'delete_comp' k.id%}" style="text-decoration: none; background: linear-gradient(40deg,#ff0080,#ff8c00 70%);border-radius: 15px; color: white;" class="pl-3 pr-3 pt-2 pb-2" title="delete" onclick="return confirm('Are you sure, you want to delete it?')"><i class="tim-icons icon-trash-simple"></i></a></td>
+                                
+                              </tr>
+                              {%endfor%}
+                            
+                              
+                              
+                              
+                            </tbody>
+                          </table>
+
+                          <table class="table bg-fill bg-primary" style="border-radius: 5px;display: block;
+                          overflow-x: auto;white-space: nowrap;text-align: center; display: none;"  id="service">
+                            <thead>
+                                <th style="font-size: 15px;width: 200px;">Reg. No.</th>
+                                <th style="font-size: 15px;width: 200px;">Reg. Date</th>
+                                <th style="font-size: 15px;width: 200px;">Name</th>
+                                <th style="font-size: 15px;width: 200px;">Ph No</th>
+                                <th style="font-size: 15px;width: 200px;">Status</th>
+                                <th style="font-size: 15px;width: 200px;">Action</th>
+                                <th style="font-size: 15px;width: 200px;"></th>
+                            </thead>
+                            <tbody>
+                            
+
+                              
+
+                              {% for k in serv%}
+                              <tr class="table-active">
+                                <td style="font-size: 16px;color: white;">{{k.regno}}</td>
+                                <td style="font-size: 16px;color: white;">{{k.date_register}}</td>
+                                <td style="font-size: 16px;color: white;">{{k.users.name}}</td>
+                                <td style="font-size: 16px;color: white;">{{k.users.number}}</td>
+                                <td style="font-size: 16px;color: white;">
+                                    <div class="dropdown" style="position: relative;float: right; top: 0;right: 20px;">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; background: linear-gradient(40deg,#ff0080,#ff8c00 70%);border-radius: 15px; color: white;">
+                                            {{k.status}}
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="" onclick="add_status('{{k.id}}','pending')">Pending</a>
+                                            <a class="dropdown-item" href="" onclick="add_status('{{k.id}}','rectify')">Rectify</a>
+                                        </div>
+                                      </div>
+                                
+                                </td>
+
+                                <td style="font-size: 16px;color: white;">
+                                    
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong2{{k.id}}" style="text-decoration: none; background: linear-gradient(40deg,#ff0080,#ff8c00 70%);border-radius: 15px; color: white;">
+                                        view
+                                    </button>
+                            
+                                </td>
+
+                                <td style="font-size: 16px;color: white;"><a href="{% url 'delete_comp' k.id%}" style="text-decoration: none; background: linear-gradient(40deg,#ff0080,#ff8c00 70%);border-radius: 15px; color: white;" class="pl-3 pr-3 pt-2 pb-2" onclick="return confirm('Are you sure, you want to delete it?')"><i class="tim-icons icon-trash-simple"></i></a></td>
+
+                                
+                                
+                              </tr>
+                              {%endfor%}
+                              
+                              
+                            </tbody>
+                          </table>
+
+                          
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <!-- Modal -->
+  {% for k in comp%}
+  <div class="modal fade" id="exampleModalLong{{k.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">{{k.regno}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{k.complaint}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+ 
+        </div>
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+
+  {% for k in serv%}
+  <div class="modal fade" id="exampleModalLong2{{k.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">{{k.regno}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{k.complaint}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+ 
+        </div>
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+
+    function add_status(id,stg){
+      $.ajax({
+                type: "GET",
+                url: "{% url 'change_compl_status' %}",
+                data: {
+                    ele : id,
+                    stage:stg,
+                    
+                    
+                },
+                success:function(response){
+                    alert("Status Update Successfully")
+                    location.reload()
+                }});
+    }
+
+</script>
+
+<script>
+    function show_compl(){
+        document.getElementById('complaint').style.display = 'block';
+        document.getElementById('service').style.display = 'none';
+        document.getElementById('card-title').innerHTML="Complaint"
+        const btnEl = document.getElementById("btncomp").classList.add("active")
+        const btnEl2 = document.getElementById("btnser").classList.remove("active");
+      
+    }
+    function show_service(){
+        document.getElementById('complaint').style.display = 'none';
+        document.getElementById('service').style.display = 'block';
+        document.getElementById('card-title').innerHTML="Service"
+
+        const btnEl = document.getElementById("btncomp").classList.remove("active");
+        const btnEl2 = document.getElementById("btnser").classList.add("active");
+    }
+</script>
+{% endblock javascripts %}

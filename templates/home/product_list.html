@@ -1,0 +1,109 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Staff % List{% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    /* .card-img-top {
+    width: 323px; 
+    height: 200px; 
+    object-fit: cover;
+    object-position: 25% 25%; 
+    } */
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+{% load static%}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-sm-12   text-left">
+                                <h5 class="card-category"></h5>
+                                <h2 class="card-title" id="card-title">Products</h2>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="card-body">
+                        {% if items%}
+    <div class="row">
+   
+        {% for i in items %}
+            <div class="col-md-3 col-sm-12 col-lg-3 mt-2 outers"  style="margin: 2rem auto;">
+
+            <a href="{% url 'view_items_orders' i.id%}"  class="stretched-link" style="text-decoration: none; ">
+                <div class="card" style="height: auto;text-align: left; ">
+                    <img src="http://127.0.0.1:7000{{i.image.url}}" class="card-img-top w-100">
+                    
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{i.name}}
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </a>
+            </div>
+            {%endfor%}
+            
+
+            
+        
+        </div>
+
+        
+
+    
+    </div>
+    {%else%}
+
+        <div class="row">
+            <div class="col-sm-8" style="margin: 0 auto;">
+                <div class="card" style="height: 100px;text-align: center; padding-top: 4%;">
+                    <h4><strong>No items found</strong></h4>
+                </div>
+                
+            </div>
+        </div>
+        {%endif%}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+const input = document.getElementById('search')
+input.addEventListener('keyup', (e) => {
+var inputs = e.target.value.toLowerCase(); //do lowercase
+document.querySelectorAll('.outers').forEach(function(el) {
+    el.style.display = 'none';
+});
+
+document.querySelectorAll('.outers .card-title').forEach(function(el) {
+    //compare 
+    if (el.textContent.toLowerCase().indexOf(inputs) > -1) {
+    el.closest('.outers').style.display = "block"; //if match show that div
+    }
+})
+})
+</script>
+
+{% endblock javascripts %}
