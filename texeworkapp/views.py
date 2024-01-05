@@ -1008,6 +1008,10 @@ def cart_change_model(request):
     crt.model_id = model.id
     crt.save()
     return JsonResponse({"status":" not", "ids":crt.id})
+
+
+def order_management(request):
+    return render(request, 'home/order_management.html')
 ############################################################STAFF MODULE
 
 def staff_index(request):

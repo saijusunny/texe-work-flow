@@ -43,12 +43,11 @@ urlpatterns = [
     path('change_order_status_client',views.change_order_status_client, name='change_order_status_client'),
     path('change_order_stage_client',views.change_order_stage_client, name='change_order_stage_client'),
     path('orders_list_client/<int:id>',views.orders_list_client, name='orders_list_client'),
-
-
     path('up_expect',views.up_expect, name='up_expect'),
     path('up_expect_crm',views.up_expect_crm, name='up_expect_crm'),
     path('delivery_tomorrow',views.delivery_tomorrow, name='delivery_tomorrow'),
     path('delivery_today',views.delivery_today, name='delivery_today'),
+    path('order_management',views.order_management, name='order_management'),
     
     #########################################################################Staff Module
     path('staff_index',views.staff_index, name='staff_index'),
