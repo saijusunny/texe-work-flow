@@ -156,14 +156,27 @@ def dashboard(request):
     for i in sub2:
         
         nm.append(i)
-        qty=orders.objects.filter(date__day=i).count()
+        qty=orders_crm.objects.filter(date__day=i).count()
         cnt.append(qty)
     
  
     return render(request,'home/index.html',{'segment':segment,"user":user,'sub_cat':sub_cat,'nm':nm,
         'cnt':cnt,'data': data,'event':event})
 
+def get_date_event(request):
+    day = request.GET.get('day')
+    month = request.GET.get('month')
+    year = request.GET.get('year')
+    all_event = events.objects.filter(start__day=day, start__month=month, start__year=year)
+    names = [obj.name for obj in all_event]
+    strt = [obj.start.hour for obj in all_event]
+    ends = [obj.end.hour for obj in all_event]
+   
+    return JsonResponse({"status":" not","strt": strt,"ends":ends,"names":names})
 
+def icons(request):
+    return render(request,"home/icons.html")
+    
 def filter_date_event(request):
     if request.method=="POST":
         dates=request.POST.get('date_filter',None)
@@ -333,289 +346,7 @@ def delete_staff(request,id):
     usr.delete()
     return redirect('staff_home')
 
-def ser_cmp(request):
-    comp=complaint_service.objects.filter(type="complaint")
- 
-    serv=complaint_service.objects.filter(type="service")
-    resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
-    context={
-        'comp':comp,
-        'serv':serv,
-        'segment':segment,
-        'user':user,
-    }
-    return render(request,'home/service_compl.html',context)
-def change_compl_status(request):
-    ele = request.GET.get('ele')
-    count = request.GET.get('stage')
 
-    itm=complaint_service.objects.get(id=ele)
-    itm.status=count
-    itm.save()
-    return JsonResponse({"status":" not"})
-
-
-def delete_comp(request,id):
-    itm=complaint_service.objects.get(id=id)
-    itm.delete()
-    return redirect('ser_cmp')
-
-def add_complaint(request):
-    names=users.objects.filter(role="user")
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
-    dt= date.today()
-    cmp_reg=complaint_service.objects.all().last()
-    if cmp_reg:
-        regst=int(cmp_reg.id)+1
-    else:
-        regst=1
-    regss="CMP"+str(regst)+str(dt.day)+str(dt.year)[-2:]
-    resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
-    context={
-        "names":names,
-        "regss":regss,
-        'segment':segment,
-        'user':user,
-    }
-    
-    if request.method=="POST":
-        
-        com_srv=complaint_service()
-        usr=request.POST.get('name')
-        usrid=users.objects.get(id=usr)
-        com_srv.users=usrid
-        com_srv.regno=request.POST.get('regno')
-        com_srv.complaint=request.POST.get('complaint')
-        com_srv.type="complaint"
-        com_srv.status="pending"
-        com_srv.date_register=date.today()
-        com_srv.save()
-        current_site = get_current_site(request)
-        mail_subject = "Texe Complaint Registred"
-        message = f"Hai {usrid.name},\n\nUser name : {usrid.email}\nPassword : {usrid.password}\nClick the link {current_site} to view your given complaint status"
-
-        to_email = usrid.email
-        send_email = EmailMessage(mail_subject,message,to = [to_email])
-        send_email.send()
-
-        return redirect('ser_cmp')
-    
-    return render(request,"home/add_complaint.html",context)
-
-def add_user_complaint(request):
-    user_reg=users.objects.all().last()
-    resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
-    if request.method=='POST':
-        urs=users()
-        dt= date.today()
-        digits = string.digits
-        otp = ''.join(random.choices(digits, k=6))
-        if user_reg:
-            regst=int(user_reg.id)+1
-        else:
-            regst=1
-        urs.regno= "CUS"+str(regst)+str(dt.day)+str(dt.year)[-2:]
-        urs.name = request.POST.get('name',None)
-        urs.email = request.POST.get('email',None)
-        urs.number = request.POST.get('phn_no',None)
-        urs.password = otp
-        if request.FILES.get('propic',None)=="":
-            pass
-        else:
-            profile = request.FILES.get('propic',None)
-        urs.joindate = date.today()
-        urs.status ="active"
-        urs.addres =  request.POST.get('address',None)
-        urs.role = "user"
-        urs.save()
-        return redirect('add_complaint')
-       
-    return render(request,"home/add_user_complaint.html",{'segment':segment,'user':user,})
-
-
-def add_service(request):
-    names=users.objects.filter(role="user")
-    dt= date.today()
-    cmp_reg=complaint_service.objects.all().last()
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
-    if cmp_reg:
-        regst=int(cmp_reg.id)+1
-    else:
-        regst=1
-    regss="SER"+str(regst)+str(dt.day)+str(dt.year)[-2:]
-    resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
-    context={
-        "names":names,
-        "regss":regss,
-        'segment':segment,
-        'user':user,
-    }
-    
-    if request.method=="POST":
-        
-        com_srv=complaint_service()
-        usr=request.POST.get('name')
-        usrid=users.objects.get(id=usr)
-        com_srv.users=usrid
-        com_srv.regno=request.POST.get('regno')
-        com_srv.complaint=request.POST.get('complaint')
-        com_srv.type="service"
-        com_srv.status="pending"
-        com_srv.date_register=date.today()
-        com_srv.save()
-
-        current_site = get_current_site(request)
-        mail_subject = "Texe Complaint Registred"
-        message = f"Hai {usrid.name},\n\nUser name : {usrid.email}\nPassword : {usrid.password}\nClick the link {current_site} to view your given service status"
-
-        to_email = usrid.email
-        send_email = EmailMessage(mail_subject,message,to = [to_email])
-        send_email.send()
-
-        return redirect('ser_cmp')
-    
-    return render(request,"home/add_service.html",context)
-
-def add_user_service(request):
-    user_reg=users.objects.all().last()
-    resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
-    if request.method=='POST':
-        urs=users()
-        dt= date.today()
-        digits = string.digits
-        otp = ''.join(random.choices(digits, k=6))
-        if user_reg:
-            regst=int(user_reg.id)+1
-        else:
-            regst=1
-        urs.regno= "CUS"+str(regst)+str(dt.day)+str(dt.year)[-2:]
-        urs.name = request.POST.get('name',None)
-        urs.email = request.POST.get('email',None)
-        urs.number = request.POST.get('phn_no',None)
-        urs.password = otp
-        if request.FILES.get('propic',None)=="":
-            pass
-        else:
-            profile = request.FILES.get('propic',None)
-        urs.joindate = date.today()
-        urs.status ="active"
-        urs.addres =  request.POST.get('address',None)
-        urs.role = "user"
-        urs.save()
-        return redirect('add_service')
-       
-    return render(request,"home/add_user_service.html",{'segment':segment,'user':user})
-
-def users_lst(request):
-    resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
-    context={
-        'segment':segment,
-        'user':user,
-    }
-    return render(request,"home/user_list.html")
-
-def icons(request):
-    return render(request,"home/icons.html")
-
-def get_date_event(request):
-    day = request.GET.get('day')
-    month = request.GET.get('month')
-    year = request.GET.get('year')
-    all_event = events.objects.filter(start__day=day, start__month=month, start__year=year)
-    names = [obj.name for obj in all_event]
-    strt = [obj.start.hour for obj in all_event]
-    ends = [obj.end.hour for obj in all_event]
-   
-    return JsonResponse({"status":" not","strt": strt,"ends":ends,"names":names})
-
-def all_events(request):
-    all_events = events.objects.all()
-    out=[]
-    for event in all_events:
-        out.append({
-            "title":event.name,
-            "id":event.id,
-            "start":event.start.strftime("%m/%d/%Y, %H:%M:%S"), 
-        })
-    return JsonResponse(out, safe=False) 
- 
- 
-def add_event(request):
-    
-    if request.method == 'POST':
-        start = request.POST.get('str_dt', None)
-        end = request.POST.get('end_dt', None)
-        title = request.POST.get('des', None)
-       
-
-        event = events(name=title, start=start,end=end, user=None) 
-        event.save()
-        data = {}
-        return redirect('admin_home')
-    return redirect('admin_home')
- 
-def update(request):
-    start = request.GET.get("start", None)
-    end = request.GET.get("end", None)
-    title = request.GET.get("title", None)
-    id = request.GET.get("id", None)
-    event = events.objects.get(id=id)
-    event.start = start
-    event.end = end
-    event.name = title
-    event.save()
-    data = {}
-    return JsonResponse(data)
- 
-def remove(request):
-    id = request.GET.get("id", None)
-    try:
-        event = events.objects.get(id=id)
-        spl=str(event.name).split(" ")
-        dt=spl[0]
-        or_nm=spl[1]
-        date=event.start
-        data = {'dt':dt,'date':date,'or_nm':or_nm}
-    except:
-        event = events.objects.get(id=id)
-        title=event.name
-        
-        data = {'title':title,}
-    return JsonResponse(data)
 
 def orders_dta(request):
     resolved_func = resolve(request.path_info).func
@@ -1345,69 +1076,7 @@ def filter_date_event_staff(request):
             'cnt':cnt,'data': data,'event':event})
     return redirect('dashboard')
 
-############################################################### USER MODULE
-def user_dashboard(request):
-    usr=request.session['userid']
-    userss=users.objects.get(id=usr)
-    resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
 
-
-    context={
-        'user':userss,
-        'segment':segment,
-    }
-    return render(request, 'user\dashboard.html',context)
-
-def complaint_servicess(request):
-    usr=request.session['userid']
-    userss=users.objects.get(id=usr)
-
-    resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
-
-    comp=complaint_service.objects.filter(type="complaint", users=userss)
- 
-    serv=complaint_service.objects.filter(type="service", users=userss)
-
-    context={
-        'user':userss,
-        'segment':segment,
-        'comp':comp,
-        'serv':serv,
-    }
-    return render(request, 'user\comp_serv_user.html',context)
-
-
-def order_user_view(request):
-    usr=request.session['userid']
-    userss=users.objects.get(id=usr)
-
-    resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
-    ords=orders_crm.objects.filter(user=userss)
-    
-    ords_itm=checkout_item_crm.objects.all()
-    context={
-        'user':userss,
-        'segment':segment,
-        'ords':ords,
-
-        'ords_itm':ords_itm,
-       
-    }
-    return render(request, 'user\order_user_view.html',context)
-
-def cancel_order(request,id):
-    ords=orders_crm.objects.get(id=id)
-    ords.status=="cancel"
-    ords.save()
-    return redirect('order_user_view')
-
-def delete_comp_usr(request,id):
-    itm=complaint_service.objects.get(id=id)
-    itm.delete()
-    return redirect('complaint_servicess')
 
 def profile(request):
     ids=request.session['userid']
@@ -1450,44 +1119,4 @@ def edit_user_profile(request,id):
         return redirect ("profile")
     return redirect ("profile")
 
-def profile_user_prop(request):
-    ids=request.session['userid']
-    usr=users.objects.get(id=ids)
-    
-    context={
-        'pro':usr,
-        'user':usr,
-    }
-    return render(request, 'user/profile_user.html',context)
 
-def edit_profile_user(request,id):
-
-    if request.method == "POST":
-        form = users.objects.get(id=id)
-        eml=form.email
-      
-        form.name = request.POST.get('name',None)
-
-        form.dob = request.POST.get('date_of_birth',None)
-        form.number = request.POST.get('phone_number',None)
-        form.email = request.POST.get('email',None)
-        if request.FILES.get('image',None) == None:
-            pass
-        else:
-            form.profile = request.FILES.get('image',None)
-        form.addres = request.POST.get('address',None)
-        form.location = request.POST.get('location')
-        if request.POST.get('password',None) == "":
-            form.password == form.password
-        else:
-            if request.POST.get('password',None) == request.POST.get('con_password',None):
-                form.password == request.POST.get('password',None)
-            else:
-                messages.error(request,"Passwords do not match!")
-                return redirect ("profile_user")
-       
-        form.save()
-   
-        
-        return redirect ("profile_user")
-    return redirect ("profile_user")

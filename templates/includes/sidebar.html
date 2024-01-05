@@ -15,66 +15,29 @@
                     </a>
                 </li>
 
-                {% if user%}
-                    {% if user.role == "staff"%}
-                    
-                        {% if user.orders == "on"%}
-                            <li class='{% if segment == "orders_dta"%} active {% endif %}'>
-                                <a href="{% url 'orders_dta'%}">
-                                    <i class="tim-icons icon-atom"></i>
-                                    <p style="font-size: 13px;">Orders</p>
-                                </a>
-                            </li>
-                        {%else%}
-                        {%endif%}
-                    {%endif%}
-                {%else%}
+                
                 <li class='{% if segment == "orders_dta"%} active {% endif %}'>
                     <a href="{% url 'orders_dta'%}">
                         <i class="tim-icons icon-atom"></i>
                         <p style="font-size: 13px;">Orders</p>
                     </a>
                 </li>
-                {%endif%}
-                {% if user%}
-                    {% if user.role == "staff"%}
-                    
-                        {% if user.complaint == "on"%}
-                        <li class='{% if segment == "ser_cmp"%} active {% endif %}'>
-                            <a href="{% url 'ser_cmp'%}">
-                                <i class="tim-icons icon-atom"></i>
-                                <p style="font-size: 13px;">Service & Complaintes</p>
-                            </a>
-                        </li>
-                        {%else%}
-                        {%endif%}
-                    {%endif%}
-                {%else%}
-                <li class='{% if segment == "ser_cmp"%} active {% endif %}'>
-                    <a href="{% url 'ser_cmp'%}">
-                        <i class="tim-icons icon-atom"></i>
-                        <p style="font-size: 13px;">Service & Complaintes</p>
-                    </a>
-                </li>
-                {%endif%}
+                  
                 
-                {% if user%}
-                    {% if user.role == "staff"%}
-                    
-                        
-                    {%endif%}
-                {%else%}
                 <li class='{% if segment == "staff_home"%} active {% endif %}'>
                     <a href="{% url 'staff_home'%}">
                         <i class="tim-icons icon-single-02"></i>
                         <p style="font-size: 13px;">Staff Profile</p>
                     </a>
                 </li>
-                {%endif%}
                 
 
-                
-
+                <li class='{% if segment == "staff_home"%} active {% endif %}'>
+                    <a href="{% url 'staff_home'%}">
+                        <i class="tim-icons icon-single-02"></i>
+                        <p style="font-size: 13px;">Order Management</p>
+                    </a>
+                </li>
                 
                 <li>
                     <a href="{% url 'login' %}">

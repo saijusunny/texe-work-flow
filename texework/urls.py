@@ -20,8 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('texecrmapp.urls')),
-    path('texeworkapp/', include('texeworkapp.urls')),
+    path('texecrmapp/',include('texecrmapp.urls')),
+    path('', include('texeworkapp.urls')),
     path('texeclientapp/', include('texeclientapp.urls')),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

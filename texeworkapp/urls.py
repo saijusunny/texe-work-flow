@@ -7,23 +7,16 @@ urlpatterns = [
     path('resetpassword_validate/<uidb64>/<token>/', views.resetpassword_validate,name='resetpassword_validate'),
     path('resetPassword/', views.resetPassword,name='resetPassword'),
     path('dashboard',views.dashboard, name='dashboard'),
-    path('users_lst',views.users_lst, name='users_lst'),
+
     path('staff_home',views.staff_home, name='staff_home'),
-    path('ser_cmp',views.ser_cmp, name='ser_cmp'),
-    path('add_complaint',views.add_complaint, name='add_complaint'),
-    path('add_user_complaint',views.add_user_complaint, name='add_user_complaint'),
-    path('add_service',views.add_service, name='add_service'),
-    path('add_user_service',views.add_user_service, name='add_user_service'),
+    
     path('add_staff',views.add_staff, name='add_staff'),
     path('edit_staff/<int:id>',views.edit_staff, name='edit_staff'),
     path('save_edit_staff/<int:id>',views.save_edit_staff, name='save_edit_staff'),
     path('delete_staff/<int:id>',views.delete_staff, name='delete_staff'),
     path('orders_dta',views.orders_dta, name='orders_dta'),
 
-    path('all_events',views.all_events, name='all_events'),
-    path('add_event',views.add_event, name='add_event'),
-    path('update',views.update, name='update'),
-    path('remove',views.remove, name='remove'),
+    
     path('get_date_event',views.get_date_event, name='get_date_event'),
     path('view_items_orders/<int:id>',views.view_items_orders, name='view_items_orders'),
 
@@ -50,10 +43,12 @@ urlpatterns = [
     path('change_order_status_client',views.change_order_status_client, name='change_order_status_client'),
     path('change_order_stage_client',views.change_order_stage_client, name='change_order_stage_client'),
     path('orders_list_client/<int:id>',views.orders_list_client, name='orders_list_client'),
-    path('change_compl_status',views.change_compl_status, name='change_compl_status'),
-    path('delete_comp/<int:id>',views.delete_comp, name='delete_comp'),
+
+
     path('up_expect',views.up_expect, name='up_expect'),
     path('up_expect_crm',views.up_expect_crm, name='up_expect_crm'),
+    path('delivery_tomorrow',views.delivery_tomorrow, name='delivery_tomorrow'),
+    path('delivery_today',views.delivery_today, name='delivery_today'),
     
     #########################################################################Staff Module
     path('staff_index',views.staff_index, name='staff_index'),
@@ -63,15 +58,7 @@ urlpatterns = [
     path('edit_user_profile/<int:id>',views.edit_user_profile, name='edit_user_profile'),
     path('filter_date_event_staff',views.filter_date_event_staff, name='filter_date_event_staff'),
     ########################################################################USER MODULE
-    path('user_dashboard',views.user_dashboard, name='user_dashboard'),
-    path('complaint_servicess',views.complaint_servicess, name='complaint_servicess'),
-    path('order_user_view',views.order_user_view, name='order_user_view'),
-    path('cancel_order/<int:id>',views.cancel_order, name='cancel_order'),
-    path('delete_comp_usr/<int:id>',views.delete_comp_usr, name='delete_comp_usr'),
-    path('profile_user_prop',views.profile_user_prop, name='profile_user_prop'),
-    path('edit_profile_user/<int:id>',views.edit_profile_user, name='edit_profile_user'),
-    path('delivery_tomorrow',views.delivery_tomorrow, name='delivery_tomorrow'),
-    path('delivery_today',views.delivery_today, name='delivery_today'),
+    
     
     ######################################################################################
     path('logout',views.logout, name='logout'),
