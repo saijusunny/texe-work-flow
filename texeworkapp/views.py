@@ -1012,6 +1012,69 @@ def cart_change_model(request):
 
 def order_management(request):
     return render(request, 'home/order_management.html')
+
+def pending_orders(request):
+    resolved_func = resolve(request.path_info).func
+    segment=resolved_func.__name__
+    try:
+        usr=request.session['userid']
+        user=users.objects.get(id=usr)
+    except:
+        user=None
+    orde=orders_crm.objects.filter(stage="pending").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="pending").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+    context={
+            'segment':segment,
+            'user':user,
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+    
+    return render(request, 'home/pending_payment.html',context)
+
+
+##### For Design
+def orders_list_designer(request,id):
+    orde = orders_crm.objects.filter(id=id).order_by("-id")
+    ord_item=checkout_item_crm.objects.filter(orders=id)
+ 
+    segment="orders_dta"
+    try:
+        usr=request.session['userid']
+        user=users.objects.get(id=usr)
+    except:
+        user=None
+    context={
+        "orders":orde,
+        "ord_item":ord_item,
+        'segment':segment,
+        'user':user,
+    }
+    return render(request, 'home/orders_list_designer.html', context)
+
+def orders_list_designer_client(request,id):
+    orde = orders.objects.filter(id=id).order_by("-id")
+    ord_item=checkout_item.objects.filter(id=id)
+ 
+    segment="orders_dta"
+    try:
+        usr=request.session['userid']
+        user=users.objects.get(id=usr)
+    except:
+        user=None
+    context={
+        "orders":orde,
+        "ord_item":ord_item,
+        'segment':segment,
+        'user':user,
+    }
+    return render(request, 'home/orders_list_designer_client.html', context)
+
 ############################################################STAFF MODULE
 
 def staff_index(request):

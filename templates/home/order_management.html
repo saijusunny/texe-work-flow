@@ -1,89 +1,99 @@
-{% extends "layouts/base.html" %}
-
-{% block title %}Staff % List{% endblock %} 
+{% extends "layouts/base.html" %} {% block title %}Staff % List{% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
+{% block stylesheets %} {% endblock stylesheets %} {% block content %} {% load
+static%}
 
-{% endblock stylesheets %}
-
-{% block content %}
-{% load static%}
-
-    <div class="content">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-chart">
-                    <div class="card-header ">
-                        <div class="row">
-                            <div class="col-sm-12   text-left">
-                                <h5 class="card-category"></h5>
-                                <h2 class="card-title" id="card-title">Products</h2>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="card-body">
-                        
-                        <div class="row">
-                            <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6">
-                              <div class="font-icon-detail">
-                                <i class="tim-icons icon-pencil"></i>
-                                <p>Designing</p>
-                              </div>
-                            </div>
-                            <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6">
-                              <div class="font-icon-detail">
-                                <i class="tim-icons icon-align-center"></i>
-                                <p>icon-align-center</p>
-                              </div>
-                            </div>
-                            <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6">
-                              <div class="font-icon-detail">
-                                <i class="tim-icons icon-align-left-2"></i>
-                                <p>icon-align-left-2</p>
-                              </div>
-                            </div>
-                            <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6">
-                              <div class="font-icon-detail">
-                                <i class="tim-icons icon-app"></i>
-                                <p>icon-app</p>
-                              </div>
-                            </div>
-                            <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6">
-                              <div class="font-icon-detail">
-                                <i class="tim-icons icon-atom"></i>
-                                <p>icon-atom</p>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-chart">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-sm-12 text-left">
+              <h5 class="card-category"></h5>
+              <h2 class="card-title" id="card-title">Order Management</h2>
             </div>
+          </div>
         </div>
-        
-        
+        <div class="card-body">
+
+          <div class="row">
+            
+            <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6">
+              <a href="{% url 'pending_orders'%}">
+              <div class="font-icon-detail">
+                <i class="tim-icons icon-pencil"></i>
+                <p>Payment pending orders</p>
+              </div>
+              </a>
+            </div>
+          
+
+            <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6">
+              <div class="font-icon-detail">
+                <i class="tim-icons icon-pencil"></i>
+                <p>Designing</p>
+              </div>
+            </div>
+            <div
+              class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6"
+            >
+              <div class="font-icon-detail">
+                <i class="tim-icons icon-align-center"></i>
+                <p>Cutting</p>
+              </div>
+            </div>
+            <div
+              class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6"
+            >
+              <div class="font-icon-detail">
+                <i class="tim-icons icon-align-left-2"></i>
+                <p>Stiching</p>
+              </div>
+            </div>
+            <div
+              class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6"
+            >
+              <div class="font-icon-detail">
+                <i class="tim-icons icon-app"></i>
+                <p>Printing</p>
+              </div>
+            </div>
+            <div
+              class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6"
+            >
+              <div class="font-icon-detail">
+                <i class="tim-icons icon-atom"></i>
+                <p>Testing</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script>
-const input = document.getElementById('search')
-input.addEventListener('keyup', (e) => {
-var inputs = e.target.value.toLowerCase(); //do lowercase
-document.querySelectorAll('.outers').forEach(function(el) {
-    el.style.display = 'none';
-});
+  const input = document.getElementById("search");
+  input.addEventListener("keyup", (e) => {
+    var inputs = e.target.value.toLowerCase(); //do lowercase
+    document.querySelectorAll(".outers").forEach(function (el) {
+      el.style.display = "none";
+    });
 
-document.querySelectorAll('.outers .card-title').forEach(function(el) {
-    //compare 
-    if (el.textContent.toLowerCase().indexOf(inputs) > -1) {
-    el.closest('.outers').style.display = "block"; //if match show that div
-    }
-})
-})
+    document.querySelectorAll(".outers .card-title").forEach(function (el) {
+      //compare
+      if (el.textContent.toLowerCase().indexOf(inputs) > -1) {
+        el.closest(".outers").style.display = "block"; //if match show that div
+      }
+    });
+  });
 </script>
 
 {% endblock javascripts %}

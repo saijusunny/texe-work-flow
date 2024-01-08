@@ -381,53 +381,7 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script>
 
-  function next(ids){
-      console.log(ids)
-      var trak = document.getElementById(`progress${ids}`);
-  
-      var cls = trak.className.split('-').pop();
-      console.log(cls)
-    cls > 6 ? cls = 0 : cls++;
-      trak.className = 'progress-' + cls;
-  
-      $.ajax({
-              type: "GET",
-              url: "{% url 'change_order_status' %}",
-              data: {
-                  ele : ids,
-                  
-                  
-              },
-              success:function(response){
-                  alert("Order Status Update Successfully")
-              }});
-  
-  
-  }
-  
-  function prev(ids){
-      var trak = document.getElementById(`progress${ids}`);
-      var cls = trak.className.split('-').pop();
-    cls < 1 ? cls = 7 : cls--;
-      trak.className = 'progress-' + cls;
-  
-      $.ajax({
-              type: "GET",
-              url: "{% url 'change_order_status' %}",
-              data: {
-                  ele : ids,
-                  
-                  
-              },
-              success:function(response){
-                   alert("Order Status Update Successfully")
-              }});
-  
-  }
-  
-  </script>
   
     <script>
       const input = document.getElementById('search')
