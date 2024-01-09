@@ -269,8 +269,50 @@
                         
                     </div>
                     <div class="card-body">
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <form action="" method="POST" enctype="multipart/form-data">
+                              
+                              
+                              <div class="col-sm-8 px-md-1" style="margin: 0 auto;">
+                                <fieldset>
+                                  <legend>Assign</legend>
+                                <div class="form-group">
+                                    <label style="font-size: 16px;">Stage</label>
+                                    <select name="stage" id="stage_list" class="form-control" onchange="add_stage(this)">
+                                          <option value="pending"  style="color: black;" >Pending</option>
+                                          
+                                          <option value="designer"  style="color: black;" >Designing</option>
+                                          <option value="cutting"  style="color: black;" >Cutting</option>
+                                          <option value="stiching"  style="color: black;" >Stiching</option>
+                                          <option value="printing"  style="color: black;" >Printing</option>
+                                          <option value="testing"  style="color: black;" >Testing</option>
+                                          <option value="packing"  style="color: black;" >Packing</option>
+                                          <option value="despatch"  style="color: black;" >Despatch</option>
+                                          <option value="arrived"  style="color: black;" >Arrived</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                  <label style="font-size: 16px;">Staff</label>
+                                  <select name="stage_staff" id="staff_list" class="form-control">
+                                        
+                                  </select>
+                                  </div>
+                                  <input type="submit" value="Assign" name="" id="" class="btn btn-fill btn-primary">
+                              
+                                </div>
+                              </fieldset>
+                              </div>
+
+                              
+
+                              
+                            </form>
+                        </div>
+                      </div>
                         
-                      <section style="">
+                      <section>
                         <div class="container ">
                           
                           {% for ord in orders %}
@@ -281,7 +323,7 @@
                           <div class="row justify-content-center mb-3">
                             <div class="col-md-12 col-xl-10">
                                
-                              <div class="card shadow-0 border rounded-3">
+                              <div class="card shadow-0 border rounded-3" outers>
                                 <div class="card-body">
                                   <div class="row">
                                     <div class="col-md-12 col-lg-2 col-xl-2 mb-4 mb-lg-0">
@@ -307,7 +349,7 @@
                                       </div>
                                     </div>
                                     <div class="col-md-6 col-lg-6 col-xl-6 mt-4 ">
-                                      <h5>{{i.item.name}}</h5>
+                                      <h5 class="card-title">{{i.item.name}}</h5>
                                       <div class="d-flex flex-row">
                                       <div class="mt-4">
                                           <p><span>₹{{i.item.offer_price}}&nbsp;&nbsp;</span><span class=" text-muted"><strike>₹{{i.item.price}}</strike></span></p><br>
@@ -382,6 +424,38 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
+<script>
+  function add_stage(cnt){
+   
+    
+    $.ajax({
+          type: "GET",
+          url: "{% url 'get_staff_list' %}",
+          data: {
+              dep : cnt.value,
+       
+          },
+          success:function(response){
+                ids = response.data
+                const selectElement = document.getElementById('staff_list');
+                let option =  '';
+                option += '<option value="" style="color:black">select staff</option>';
+                ids.forEach(staff => {
+
+                    const id = staff.id;
+                    const name = staff.name;
+                 
+                    option += `<option value=${id} style="color:black">${name}</option>`;
+
+                });
+                
+                selectElement.innerHTML = option;
+                
+            }
+
+          });
+  }
+</script>
   
     <script>
       const input = document.getElementById('search')

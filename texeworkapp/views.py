@@ -235,7 +235,7 @@ def registrations(request):
 def staff_home(request):
     resolved_func = resolve(request.path_info).func
     segment=resolved_func.__name__
-    staffs=users.objects.filter(role="staff")
+    staffs=user_registration.objects.filter(role="staff")
     try:
         usr=request.session['userid']
         user=users.objects.get(id=usr)
@@ -248,11 +248,11 @@ def add_staff(request):
     segment=resolved_func.__name__
     try:
         usr=request.session['userid']
-        user=users.objects.get(id=usr)
+        user=user_registration.objects.get(id=usr)
     except:
         user=None
     if request.method=="POST":
-        user_reg=users.objects.all().last()
+        user_reg=user_registration.objects.all().last()
         dt= date.today()
         digits = string.digits
         otp = ''.join(random.choices(digits, k=6))
@@ -260,9 +260,9 @@ def add_staff(request):
             regst=int(user_reg.id)+1
         else:
             regst=1
-        usr=users()
+        usr=user_registration()
         em=request.POST.get('email', None)
-        if users.objects.filter(email=em).exists():
+        if user_registration.objects.filter(email=em).exists():
            
             messages.error(request,"Email Already exists !")
             return redirect('add_staff')
@@ -286,6 +286,7 @@ def add_staff(request):
             usr.complaint=request.POST.get('complaintss',None)
             usr.orders=request.POST.get('order',None)
             usr.preformance="0"
+            usr.joindate=date.today()
             usr.save()
             current_site = get_current_site(request)
             mail_subject = "Texe Registration Success"
@@ -302,17 +303,17 @@ def add_staff(request):
 
 def edit_staff(request,id):
 
-    usr=users.objects.get(id=id)
+    usr_client=user_registration.objects.get(id=id)
     try:
         usr=request.session['userid']
-        user=users.objects.get(id=usr)
+        user=user_registration.objects.get(id=usr)
     except:
         user=None
-    return render(request,'home\edits_staff.html',{'usr':usr,'user':user,})
+    return render(request,'home\edits_staff.html',{'usr_client':usr_client,'user':user,})
  
 
 def save_edit_staff(request,id):
-    usr=users.objects.get(id=id)
+    usr=user_registration.objects.get(id=id)
 
     if request.method=="POST":
         
@@ -342,7 +343,7 @@ def save_edit_staff(request,id):
 
     return redirect('staff_home')
 def delete_staff(request,id):
-    usr=users.objects.get(id=id)
+    usr=user_registration.objects.get(id=id)
     usr.delete()
     return redirect('staff_home')
 
@@ -1038,7 +1039,7 @@ def pending_orders(request):
     return render(request, 'home/pending_payment.html',context)
 
 
-##### For Design
+#####! For Design
 def orders_list_designer(request,id):
     orde = orders_crm.objects.filter(id=id).order_by("-id")
     ord_item=checkout_item_crm.objects.filter(orders=id)
@@ -1075,6 +1076,14 @@ def orders_list_designer_client(request,id):
     }
     return render(request, 'home/orders_list_designer_client.html', context)
 
+def get_staff_list(request):
+    dep = request.GET.get('dep')
+   
+    print("dep")
+    staff_st=user_registration.objects.filter(designation=dep)
+    data = list(staff_st.values())
+    print(data)
+    return JsonResponse({"status":" not", "data":data})
 ############################################################STAFF MODULE
 
 def staff_index(request):

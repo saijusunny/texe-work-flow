@@ -30,3 +30,16 @@ class user_registration(models.Model):
     preformance=models.CharField(max_length=250, null=True, blank=True)
     def get_email_field_name(self):
         return 'email'
+
+
+class order_management(models.Model):
+    user = models.ForeignKey(user_registration, on_delete=models.SET_NULL, null=True, blank=True)
+    order_crm = models.ForeignKey(orders_crm, on_delete=models.SET_NULL, null=True, blank=True)
+    order = models.ForeignKey(orders, on_delete=models.SET_NULL, null=True, blank=True)
+    start_time=models.DateTimeField(null=True, blank=True, default=datetime.now())
+    end_time=models.DateTimeField(null=True, blank=True)
+    time_taken=models.CharField(max_length=255, null=True, blank=True)
+
+
+
+

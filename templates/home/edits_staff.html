@@ -21,7 +21,7 @@
               
               <div class="col-6 pl-md-1" style="text-align: right;">
                 <div class="form-group btn-fill">
-                  <a  style="text-decoration: none;" href="{% url 'delete_staff' usr.id%}" onclick="return confirm('Are you sure, you want to delete it?')">
+                  <a  style="text-decoration: none;" href="{% url 'delete_staff' usr_client.id%}" onclick="return confirm('Are you sure, you want to delete it?')">
                   <div class="btn btn-sm btn-primary btn-simple"  >
                                       
                     <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Delete</span>
@@ -36,25 +36,25 @@
             
           </div>
           <div class="card-body">
-            <form action="{% url 'save_edit_staff' usr.id%}" method="POST" enctype="multipart/form-data">
+            <form action="{% url 'save_edit_staff' usr_client.id%}" method="POST" enctype="multipart/form-data">
               {% csrf_token%}
               <div class="row">
                 <div class="col-md-5 pr-md-1">
                   <div class="form-group">
                     <label>Reg No. (disabled)</label>
-                    <input type="text" class="form-control" disabled="" placeholder="Company" value="{{usr.regno}}">
+                    <input type="text" class="form-control" disabled="" placeholder="Company" value="{{usr_client.regno}}">
                   </div>
                 </div>
                 <div class="col-md-3 px-md-1">
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control" placeholder="name" name="name" value="{{usr.name}}">
+                    <input type="text" class="form-control" placeholder="name" name="name" value="{{usr_client.name}}">
                   </div>
                 </div>
                 <div class="col-md-4 pl-md-1">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" placeholder="eg@email.com" name="email" value="{{usr.email}}">
+                    <input type="email" class="form-control" placeholder="eg@email.com" name="email" value="{{usr_client.email}}">
                   </div>
                 </div>
               </div>
@@ -62,20 +62,20 @@
                 <div class="col-md-4 pr-md-1">
                   <div class="form-group">
                     <label>Ph. No.</label>
-                    <input type="text" class="form-control" placeholder="Company" name="phn_no" value="{{usr.number}}">
+                    <input type="text" class="form-control" placeholder="Company" name="phn_no" value="{{usr_client.number}}">
                   </div>
                 </div>
                 <div class="col-md-4 pr-md-1">
                   <div class="form-group">
                     <label>DOB</label>
-                    <input type="date" class="form-control" placeholder="dob" value="{{usr.dob| date:'Y-m-d'}}" name="dob">
+                    <input type="date" class="form-control" placeholder="dob" value="{{usr_client.dob| date:'Y-m-d'}}" name="dob">
                   </div>
                 </div>
                 <div class="col-md-4 pl-md-1">
                   <div class="form-group">
                     <label>Department</label>
                     <select name="desi" id="" class="form-control">
-                      <option value="{{usr.designation}}" style="color: black;" selected>{{usr.designation}}</option>
+                      <option value="{{usr_client.designation}}" style="color: black;" selected>{{usr_client.designation}}</option>
 
                       <option value="Tele Caller" style="color: black;">Tele Caller</option>
                       <option value="Designer" style="color: black;">Designer</option>
@@ -94,7 +94,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>Address</label>
-                    <input type="text" class="form-control" placeholder="Home Address" name="address" value="{{usr.addres}}">
+                    <input type="text" class="form-control" placeholder="Home Address" name="address" value="{{usr_client.addres}}">
                   </div>
                 </div>
               </div>
@@ -103,32 +103,18 @@
                   <div class="">
                     <label>Profile Image</label><br>
                     
-                    <input type="file" class="form-control" placeholder="City" value="{{usr.addres}}" name="propic">
+                    <input type="file" class="form-control" placeholder="City" value="{{usr_client.addres}}" name="propic">
                   </div>
                 </div>
                 <div class="col-md-6 px-md-1">
                   <div class="form-group">
                     <label>Location</label>
-                    <input type="text" class="form-control" placeholder="location" name="location" value="{{usr.location}}">
+                    <input type="text" class="form-control" placeholder="location" name="location" value="{{usr_client.location}}">
                   </div>
                 </div>
                 
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    
-                
-                    <input type="checkbox" placeholder="" class="" name="complaintss" {% if usr.complaint == "on" %}checked {%endif%}>&nbsp;&nbsp;&nbsp;<label style="font-size: 16px;" >Complaint Access</label>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                 
-                    <input type="checkbox" placeholder="" class="" name="order" {% if usr.orders == "on" %}checked {%endif%}>&nbsp;&nbsp;&nbsp;<label style="font-size: 16px;" >Order Access</label>
-                  </div>
-                </div>
-              </div>
+              
               <div class="card-footer">
                 <button type="submit" class="btn btn-fill btn-primary">Save</button>
               </div>

@@ -50,7 +50,7 @@ urlpatterns = [
     path('order_management',views.order_management, name='order_management'),
     path('orders_list_designer/<int:id>',views.orders_list_designer, name='orders_list_designer'),
     path('orders_list_designer_client/<int:id>',views.orders_list_designer_client, name='orders_list_designer_client'),
-    
+    path('get_staff_list',views.get_staff_list, name='get_staff_list'),
     #########################################################################Staff Module
     path('staff_index',views.staff_index, name='staff_index'),
     path('registrations',views.registrations, name='registrations'),
