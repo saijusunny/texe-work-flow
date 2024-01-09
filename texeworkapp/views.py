@@ -1011,7 +1011,7 @@ def cart_change_model(request):
     return JsonResponse({"status":" not", "ids":crt.id})
 
 
-def order_management(request):
+def order_managements(request):
     return render(request, 'home/order_management.html')
 
 def pending_orders(request):
@@ -1060,6 +1060,7 @@ def orders_list_designer(request,id):
 
 def orders_list_designer_client(request,id):
     orde = orders.objects.filter(id=id).order_by("-id")
+   
     ord_item=checkout_item.objects.filter(id=id)
  
     segment="orders_dta"
@@ -1068,22 +1069,41 @@ def orders_list_designer_client(request,id):
         user=users.objects.get(id=usr)
     except:
         user=None
+    orde_stat = orders.objects.get(id=id)
     context={
         "orders":orde,
         "ord_item":ord_item,
         'segment':segment,
         'user':user,
+        'ord_ids':id,
+        'orde_stat':orde_stat,
     }
     return render(request, 'home/orders_list_designer_client.html', context)
 
 def get_staff_list(request):
     dep = request.GET.get('dep')
-   
-    print("dep")
+
     staff_st=user_registration.objects.filter(designation=dep)
     data = list(staff_st.values())
-    print(data)
+ 
     return JsonResponse({"status":" not", "data":data})
+
+def save_assign_stage(request, id):
+    if request.method=="POST":
+        ors= order_management()
+        urs= request.POST.get('stage_staff')
+        ords=orders.objects.get(id=id)
+        idrs=user_registration.objects.get(id=urs)
+        ors.user=idrs
+        ors.order_id=id
+        ors.work_status="working"
+        ors.save()
+        orde_stat = orders.objects.get(id=id)
+        orde_stat.stage=request.POST.get('stage')
+        orde_stat.save()
+        return redirect('orders_list_designer_client',id)
+    return redirect('orders_list_designer_client',id)
+
 ############################################################STAFF MODULE
 
 def staff_index(request):

@@ -47,10 +47,11 @@ urlpatterns = [
     path('up_expect_crm',views.up_expect_crm, name='up_expect_crm'),
     path('delivery_tomorrow',views.delivery_tomorrow, name='delivery_tomorrow'),
     path('delivery_today',views.delivery_today, name='delivery_today'),
-    path('order_management',views.order_management, name='order_management'),
+    path('order_managements',views.order_managements, name='order_managements'),
     path('orders_list_designer/<int:id>',views.orders_list_designer, name='orders_list_designer'),
     path('orders_list_designer_client/<int:id>',views.orders_list_designer_client, name='orders_list_designer_client'),
     path('get_staff_list',views.get_staff_list, name='get_staff_list'),
+    path('save_assign_stage/<int:id>',views.save_assign_stage, name='save_assign_stage'),
     #########################################################################Staff Module
     path('staff_index',views.staff_index, name='staff_index'),
     path('registrations',views.registrations, name='registrations'),

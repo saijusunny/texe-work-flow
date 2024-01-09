@@ -272,16 +272,17 @@
 
                       <div class="row">
                         <div class="col-sm-12">
-                            <form action="" method="POST" enctype="multipart/form-data">
+                            <form action="{% url 'save_assign_stage' ord_ids %}" method="POST" enctype="multipart/form-data">
+                              {% csrf_token%}
                               
                               
                               <div class="col-sm-8 px-md-1" style="margin: 0 auto;">
-                                <fieldset>
-                                  <legend>Assign</legend>
+                               
                                 <div class="form-group">
                                     <label style="font-size: 16px;">Stage</label>
                                     <select name="stage" id="stage_list" class="form-control" onchange="add_stage(this)">
-                                          <option value="pending"  style="color: black;" >Pending</option>
+                                      <option value="{{orde_stat.stage}}"  style="color: black;" selected>{{orde_stat.stage}}</option>
+                                      <option value="pending"  style="color: black;" >Pending</option>
                                           
                                           <option value="designer"  style="color: black;" >Designing</option>
                                           <option value="cutting"  style="color: black;" >Cutting</option>
@@ -302,7 +303,7 @@
                                   <input type="submit" value="Assign" name="" id="" class="btn btn-fill btn-primary">
                               
                                 </div>
-                              </fieldset>
+                            
                               </div>
 
                               

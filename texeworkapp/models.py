@@ -39,6 +39,8 @@ class order_management(models.Model):
     start_time=models.DateTimeField(null=True, blank=True, default=datetime.now())
     end_time=models.DateTimeField(null=True, blank=True)
     time_taken=models.CharField(max_length=255, null=True, blank=True)
+    work_status=models.CharField(max_length=255, null=True, blank=True)
+    
 
 
 
