@@ -52,6 +52,8 @@ urlpatterns = [
     path('orders_list_designer_client/<int:id>',views.orders_list_designer_client, name='orders_list_designer_client'),
     path('get_staff_list',views.get_staff_list, name='get_staff_list'),
     path('save_assign_stage/<int:id>',views.save_assign_stage, name='save_assign_stage'),
+    path('designer_section',views.designer_section, name='designer_section'),
+    
     #########################################################################Staff Module
     path('staff_index',views.staff_index, name='staff_index'),
     path('registrations',views.registrations, name='registrations'),

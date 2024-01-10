@@ -1043,7 +1043,7 @@ def pending_orders(request):
 def orders_list_designer(request,id):
     orde = orders_crm.objects.filter(id=id).order_by("-id")
     ord_item=checkout_item_crm.objects.filter(orders=id)
- 
+    request.session['previous_url'] = request.META.get('HTTP_REFERER')
     segment="orders_dta"
     try:
         usr=request.session['userid']
@@ -1062,6 +1062,7 @@ def orders_list_designer_client(request,id):
     orde = orders.objects.filter(id=id).order_by("-id")
    
     ord_item=checkout_item.objects.filter(id=id)
+    request.session['previous_url'] = request.META.get('HTTP_REFERER')
  
     segment="orders_dta"
     try:
@@ -1070,6 +1071,7 @@ def orders_list_designer_client(request,id):
     except:
         user=None
     orde_stat = orders.objects.get(id=id)
+    request.session['previous_url'] = request.META.get('HTTP_REFERER')
     context={
         "orders":orde,
         "ord_item":ord_item,
@@ -1101,8 +1103,35 @@ def save_assign_stage(request, id):
         orde_stat = orders.objects.get(id=id)
         orde_stat.stage=request.POST.get('stage')
         orde_stat.save()
-        return redirect('orders_list_designer_client',id)
-    return redirect('orders_list_designer_client',id)
+        
+        return redirect(request.session['previous_url'])
+    return redirect('order_managements')
+
+def designer_section(request):
+    resolved_func = resolve(request.path_info).func
+    segment=resolved_func.__name__
+    try:
+        usr=request.session['userid']
+        user=users.objects.get(id=usr)
+    except:
+        user=None
+    orde=orders_crm.objects.filter(stage="designer").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="designer").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+    
+
+    context={
+            'segment':segment,
+            'user':user,
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+    
+    return render(request, 'home/pending_payment.html',context)
 
 ############################################################STAFF MODULE
 
