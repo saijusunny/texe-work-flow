@@ -37,7 +37,7 @@ from texecrmapp.views import *
 from texecrmapp.models import *
 
 from datetime import datetime, timedelta
-
+from django.utils import timezone
 def login(request):
     if request.method == "POST":
         username  = request.POST.get('use')
@@ -45,9 +45,9 @@ def login(request):
         print(username)
         user = authenticate(username=username, password=password)
         try:
-            if users.objects.filter(email=username, password=password,role="staff").exists():
+            if user_registration.objects.filter(email=username, password=password,role="staff").exists():
 
-                    member = users.objects.get(email=username, password=password)
+                    member = user_registration.objects.get(email=username, password=password)
                     request.session['userid'] = member.id
                     return redirect('staff_index')
             elif users.objects.filter(email=username, password=password,role="user").exists():
@@ -133,11 +133,7 @@ def resetPassword(request):
 def dashboard(request):
     resolved_func = resolve(request.path_info).func
     segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+   
     data = item.objects.all()
     sub_cat=sub_category.objects.all()
     today = datetime.now()
@@ -160,7 +156,7 @@ def dashboard(request):
         cnt.append(qty)
     
  
-    return render(request,'home/index.html',{'segment':segment,"user":user,'sub_cat':sub_cat,'nm':nm,
+    return render(request,'home/index.html',{'segment':segment,'sub_cat':sub_cat,'nm':nm,
         'cnt':cnt,'data': data,'event':event})
 
 def get_date_event(request):
@@ -181,11 +177,7 @@ def filter_date_event(request):
     if request.method=="POST":
         dates=request.POST.get('date_filter',None)
         segment="dashboard"
-        try:
-            usr=request.session['userid']
-            user=users.objects.get(id=usr)
-        except:
-            user=None
+       
         data = item.objects.all()
         sub_cat=sub_category.objects.all()
         today = datetime.now()
@@ -202,7 +194,7 @@ def filter_date_event(request):
 
         
     
-        return render(request,'home/index.html',{'segment':segment,"user":user,'sub_cat':sub_cat,'nm':nm,
+        return render(request,'home/index.html',{'segment':segment,'sub_cat':sub_cat,'nm':nm,
             'cnt':cnt,'data': data,'event':event})
     return redirect('dashboard')
 
@@ -236,21 +228,13 @@ def staff_home(request):
     resolved_func = resolve(request.path_info).func
     segment=resolved_func.__name__
     staffs=user_registration.objects.filter(role="staff")
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
-    return render(request,'home/staff_home.html',{'segment':segment,'staffs':staffs,'user':user,})
+
+    return render(request,'home/staff_home.html',{'segment':segment,'staffs':staffs})
 
 def add_staff(request):
     resolved_func = resolve(request.path_info).func
     segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=user_registration.objects.get(id=usr)
-    except:
-        user=None
+    
     if request.method=="POST":
         user_reg=user_registration.objects.all().last()
         dt= date.today()
@@ -298,18 +282,14 @@ def add_staff(request):
         return redirect('staff_home')
 
 
-    return render(request,'home/add_staff.html',{'segment':segment,'user':user,})
+    return render(request,'home/add_staff.html',{'segment':segment,})
 
 
 def edit_staff(request,id):
 
     usr_client=user_registration.objects.get(id=id)
-    try:
-        usr=request.session['userid']
-        user=user_registration.objects.get(id=usr)
-    except:
-        user=None
-    return render(request,'home\edits_staff.html',{'usr_client':usr_client,'user':user,})
+    
+    return render(request,'home\edits_staff.html',{'usr_client':usr_client})
  
 
 def save_edit_staff(request,id):
@@ -352,11 +332,7 @@ def delete_staff(request,id):
 def orders_dta(request):
     resolved_func = resolve(request.path_info).func
     segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+  
     orde=orders_crm.objects.all().order_by("-id")
     ord_item=checkout_item_crm.objects.all()
 
@@ -364,7 +340,7 @@ def orders_dta(request):
     ord_item_client=checkout_item.objects.all()
     context={
             'segment':segment,
-            'user':user,
+     
             "orders":orde,
             "ord_item":ord_item,
             'orde_client':orde_client,
@@ -377,26 +353,22 @@ def filter_order(request):
         st_dt=request.POST.get('str_dt')
         en_dt=request.POST.get('end_dt')
         segment="orders_dta"
-        try:
-            usr=request.session['userid']
-            user=users.objects.get(id=usr)
-        except:
-            user=None
-        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt)
+    
+        orde = orders_crm.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
         ord_item=checkout_item_crm.objects.all()
 
-        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt)
+        orde_client=orders.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
         ord_item_client=checkout_item.objects.all()
-
+        
         context={
             "orders":orde,
             "ord_item":ord_item,
             'segment':segment,
-            'user':user,
+           
             'orde_client':orde_client,
             'ord_item_client':ord_item_client,
         }
-        return render(request,'home/orders.html', context)
+        return render(request,request.session['previous_html'], context)
 
 
 def filter_order_id(request):
@@ -407,30 +379,22 @@ def filter_order_id(request):
         orde_client=orders.objects.filter(regno=ord_id)
         ord_item_client=checkout_item.objects.all()
         segment="orders_dta"
-        try:
-            usr=request.session['userid']
-            user=users.objects.get(id=usr)
-        except:
-            user=None
+      
         context={
             "orders":orde,
             "ord_item":ord_item,
             'segment':segment,
-            'user':user,
+       
             'orde_client':orde_client,
             'ord_item_client':ord_item_client,
         }
-        return render(request,'home/orders.html', context)
+        return render(request,request.session['previous_html'], context)
 
 
 def pending_orders(request):
     resolved_func = resolve(request.path_info).func
     segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+   
     orde=orders_crm.objects.filter(stage="pending").order_by("-id")
     
     ord_item=checkout_item_crm.objects.all()
@@ -439,7 +403,7 @@ def pending_orders(request):
     ord_item_client=checkout_item.objects.all()
     context={
             'segment':segment,
-            'user':user,
+           
             "orders":orde,
             "ord_item":ord_item,
             'orde_client':orde_client,
@@ -452,11 +416,7 @@ def filter_pending(request):
         st_dt=request.POST.get('str_dt')
         en_dt=request.POST.get('end_dt')
         segment="orders_dta"
-        try:
-            usr=request.session['userid']
-            user=users.objects.get(id=usr)
-        except:
-            user=None
+       
         orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="pending")
         ord_item=checkout_item_crm.objects.all()
         orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="pending")
@@ -465,7 +425,7 @@ def filter_pending(request):
             "orders":orde,
             "ord_item":ord_item,
             'segment':segment,
-            'user':user,
+          
             'orde_client':orde_client,
             'ord_item_client':ord_item_client,
         }
@@ -478,18 +438,14 @@ def filter_pending_id(request):
         orde = orders_crm.objects.filter(regno=ord_id,stage="pending" )
         ord_item=checkout_item_crm.objects.all()
         segment="orders_dta"
-        try:
-            usr=request.session['userid']
-            user=users.objects.get(id=usr)
-        except:
-            user=None
+    
         orde_client=orders.objects.filter(regno=ord_id,stage="pending" )
         ord_item_client=checkout_item.objects.all()
         context={
             "orders":orde,
             "ord_item":ord_item,
             'segment':segment,
-            'user':user,
+       
             'orde_client':orde_client,
             'ord_item_client':ord_item_client,
         }
@@ -499,11 +455,7 @@ def filter_pending_id(request):
 def today_orders(request):
     resolved_func = resolve(request.path_info).func
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+
     orde=orders_crm.objects.filter(date__date=date.today())
     
     ord_item=checkout_item_crm.objects.all()
@@ -512,7 +464,7 @@ def today_orders(request):
     print(orde_client)
     context={
             'segment':segment,
-            'user':user,
+   
             "orders":orde,
             "ord_item":ord_item,
             'orde_client':orde_client,
@@ -524,11 +476,7 @@ def today_orders(request):
 def delivery_today(request):
     resolved_func = resolve(request.path_info).func
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+   
     orde=orders_crm.objects.filter(date__date=date.today())
     
     ord_item=checkout_item_crm.objects.all()
@@ -537,7 +485,7 @@ def delivery_today(request):
     print(orde_client)
     context={
             'segment':segment,
-            'user':user,
+        
             "orders":orde,
             "ord_item":ord_item,
             'orde_client':orde_client,
@@ -548,11 +496,7 @@ def delivery_today(request):
 def delivery_tomorrow(request):
     resolved_func = resolve(request.path_info).func
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+  
 
     today = datetime.now()
     tomorrow = today + timedelta(days=1)
@@ -597,16 +541,12 @@ def filter_today_id(request):
         ord_item_client=checkout_item.objects.all()
         
         segment="orders_dta"
-        try:
-            usr=request.session['userid']
-            user=users.objects.get(id=usr)
-        except:
-            user=None
+       
         context={
             "orders":orde,
             "ord_item":ord_item,
             'segment':segment,
-            'user':user,
+      
             'orde_client':orde_client,
             'ord_item_client':ord_item_client,
         }
@@ -671,16 +611,12 @@ def orders_list(request,id):
     ord_item=checkout_item_crm.objects.filter(orders=id)
  
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+   
     context={
         "orders":orde,
         "ord_item":ord_item,
         'segment':segment,
-        'user':user,
+      
     }
     return render(request, 'home/orders_list.html', context)
 
@@ -689,38 +625,26 @@ def orders_list_client(request,id):
     ord_item=checkout_item.objects.filter(id=id)
  
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+
     context={
         "orders":orde,
         "ord_item":ord_item,
         'segment':segment,
-        'user':user,
+   
     }
     return render(request, 'home/orders_list_client.html', context)
 
 def prouct_list(request):
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+ 
     
 
     items=item.objects.all()
-    return render(request, 'home/product_list.html', {'items':items,'segment':segment,'user':user,})
+    return render(request, 'home/product_list.html', {'items':items,'segment':segment})
 
 def view_items_orders(request,id):
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+
     names=users.objects.filter(role="user")
    
     dt= date.today()
@@ -739,7 +663,7 @@ def view_items_orders(request,id):
     
     context={
             'segment':segment,
-            'user':user,
+      
     
             'items':items,
             'sub':sub,
@@ -757,11 +681,7 @@ def add_user_order(request,id):
     user_reg=users.objects.all().last()
 
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+ 
     if request.method=='POST':
         urs=users()
         dt= date.today()
@@ -786,7 +706,7 @@ def add_user_order(request,id):
         urs.role = "user"
         urs.save()
         return redirect('view_items_orders',id)
-    return render(request, 'home/add_user_order.html', {'segment':segment,'user':user})
+    return render(request, 'home/add_user_order.html', {'segment':segment})
 
 def save_cart(request,id):
     
@@ -1017,11 +937,7 @@ def order_managements(request):
 def pending_orders(request):
     resolved_func = resolve(request.path_info).func
     segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+ 
     orde=orders_crm.objects.filter(stage="pending").order_by("-id")
     ord_item=checkout_item_crm.objects.all()
 
@@ -1029,7 +945,7 @@ def pending_orders(request):
     ord_item_client=checkout_item.objects.all()
     context={
             'segment':segment,
-            'user':user,
+      
             "orders":orde,
             "ord_item":ord_item,
             'orde_client':orde_client,
@@ -1045,16 +961,12 @@ def orders_list_designer(request,id):
     ord_item=checkout_item_crm.objects.filter(orders=id)
     request.session['previous_url'] = request.META.get('HTTP_REFERER')
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+ 
     context={
         "orders":orde,
         "ord_item":ord_item,
         'segment':segment,
-        'user':user,
+    
     }
     return render(request, 'home/orders_list_designer.html', context)
 
@@ -1065,18 +977,14 @@ def orders_list_designer_client(request,id):
     request.session['previous_url'] = request.META.get('HTTP_REFERER')
  
     segment="orders_dta"
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+  
     orde_stat = orders.objects.get(id=id)
     request.session['previous_url'] = request.META.get('HTTP_REFERER')
     context={
         "orders":orde,
         "ord_item":ord_item,
         'segment':segment,
-        'user':user,
+ 
         'ord_ids':id,
         'orde_stat':orde_stat,
     }
@@ -1110,17 +1018,13 @@ def save_assign_stage(request, id):
 def designer_section(request):
     resolved_func = resolve(request.path_info).func
     segment=resolved_func.__name__
-    try:
-        usr=request.session['userid']
-        user=users.objects.get(id=usr)
-    except:
-        user=None
+   
     orde=orders_crm.objects.filter(stage="designer").order_by("-id")
     ord_item=checkout_item_crm.objects.all()
 
     orde_client=orders.objects.filter(stage="designer").order_by("-id")
     ord_item_client=checkout_item.objects.all()
-    
+    request.session['previous_html']="home/pending_payment.html"
 
     context={
             'segment':segment,
@@ -1139,7 +1043,7 @@ def staff_index(request):
     resolved_func = resolve(request.path_info).func
     segment=resolved_func.__name__
     usr=request.session['userid']
-    userss=users.objects.get(id=usr)
+    userss=user_registration.objects.get(id=usr)
     data = item.objects.all()
     sub_cat=sub_category.objects.all()
     today = datetime.now()
@@ -1162,14 +1066,7 @@ def staff_index(request):
         cnt.append(qty)
     
  
-    return render(request,"staff\staff_index.html",{'segment':segment,"user":userss,'sub_cat':sub_cat,'nm':nm,'cnt':cnt,'data': data,'event':event})
-
-def logout(request):
-    if 'userid' in request.session:  
-        request.session.flush()
-        return redirect('/')
-    else:
-        return redirect('/')
+    return render(request,"staff/staff_index.html",{'segment':segment,"user":userss,'sub_cat':sub_cat,'nm':nm,'cnt':cnt,'data': data,'event':event})
 
 
 def filter_date_event_staff(request):
@@ -1178,7 +1075,7 @@ def filter_date_event_staff(request):
         segment="dashboard"
         try:
             usr=request.session['userid']
-            user=users.objects.get(id=usr)
+            user=user_registration.objects.get(id=usr)
         except:
             user=None
         data = item.objects.all()
@@ -1203,9 +1100,10 @@ def filter_date_event_staff(request):
 
 
 
+
 def profile(request):
     ids=request.session['userid']
-    usr=users.objects.get(id=ids)
+    usr=user_registration.objects.get(id=ids)
     
     context={
         'pro':usr,
@@ -1215,7 +1113,7 @@ def profile(request):
 
 def edit_user_profile(request,id):
     if request.method == "POST":
-        form = users.objects.get(id=id)
+        form = user_registration.objects.get(id=id)
         eml=form.email
       
         form.name = request.POST.get('name',None)
@@ -1243,5 +1141,260 @@ def edit_user_profile(request,id):
         
         return redirect ("profile")
     return redirect ("profile")
+
+
+
+def order_staff_designer(request):
+  
+    resolved_func = resolve(request.path_info).func
+    segment=resolved_func.__name__
+
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+   
+    orde=orders_crm.objects.filter(stage="designer").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="designer").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+
+    assigns=order_management.objects.filter(user=user, work_status="working")
+    
+    request.session['previous_url'] = request.META.get('HTTP_REFERER')
+    context={
+            'segment':segment,
+            'user':user,
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+    
+    return render(request, 'staff/order_staff_designer.html',context)
+
+def staff_filter_order_design(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="orders_dta"
+
+        resolved_func = resolve(request.path_info).func
+        segment="order_staff_designer"
+
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+    
+        orde = orders_crm.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
+        ord_item=checkout_item_crm.objects.all()
+
+        orde_client=orders.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
+        ord_item_client=checkout_item.objects.all()
+
+        assigns=order_management.objects.filter(user=user, work_status="working")
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'assigns':assigns,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'user':user,
+        }
+        return render(request,'staff/order_staff_designer.html', context)
+
+
+def staff_filter_order_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id)
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(regno=ord_id)
+        ord_item_client=checkout_item.objects.all()
+        segment="order_staff_designer"
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+        assigns=order_management.objects.filter(user=user, work_status="working")
+  
+
+        
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'user':user,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+        return render(request,'staff/order_staff_designer.html', context)
+
+
+
+def staff_orders_list_designer(request,id):
+    orde = orders_crm.objects.filter(id=id).order_by("-id")
+    ord_item=checkout_item_crm.objects.filter(orders=id)
+
+    segment="order_staff_designer"
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+ 
+    context={
+        "orders":orde,
+        "ord_item":ord_item,
+        'segment':segment,
+        'user':user,
+    
+    }
+    return render(request, 'staff/staff_orders_list_designer.html', context)
+
+def staff_orders_list_designer_client(request,id):
+    orde = orders.objects.filter(id=id).order_by("-id")
+   
+    ord_item=checkout_item.objects.filter(id=id)
+    
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+    segment="order_staff_designer"
+  
+    orde_stat = orders.objects.get(id=id)
+
+    context={
+        "orders":orde,
+        "ord_item":ord_item,
+        'segment':segment,
+ 
+        'ord_ids':id,
+        'orde_stat':orde_stat,
+        'user':user,
+    }
+    return render(request, 'staff/staff_orders_list_designer_client.html', context)
+
+def staff_change_order_stage(request):
+    ele = request.GET.get('ele')
+    stg = request.GET.get('stage')
+    print(ele)
+    itm=orders_crm.objects.get(id=ele)
+
+    itm.stage=stg
+    itm.save()
+    return JsonResponse({"status":" not"})
+
+
+def staff_change_order_stage_client(request):
+    ele = request.GET.get('ele')
+    stg = request.GET.get('stage')
+    mang_id = request.GET.get('mang_ids')
+ 
+    itm=orders.objects.get(id=ele)
+    itm.save()
+    mangement=order_management.objects.get(id=mang_id)
+
+    # Sample date-time strings
+    date_str1 = mangement.start_time
+    date_str2 = timezone.now()
+
+    # Calculate the difference
+    time_difference = date_str1 - date_str2
+
+    mangement.work_status=stg
+    mangement.end_time=datetime.now()
+    mangement.time_taken=time_difference
+    mangement.save()
+    return JsonResponse({"status":" not"})
+
+
+def completed_work_designer(request):
+    resolved_func = resolve(request.path_info).func
+    segment=resolved_func.__name__
+
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+   
+    orde=orders_crm.objects.all().order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.all().order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+
+    assigns=order_management.objects.filter(user=user, work_status="completed")
+ 
+    context={
+            'segment':segment,
+            'user':user,
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+    
+    return render(request, 'staff/completed_work_designer.html',context)
+
+
+def staff_filter_complete_design(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="orders_dta"
+
+        resolved_func = resolve(request.path_info).func
+        segment="order_staff_designer"
+
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+    
+        orde = orders_crm.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
+        ord_item=checkout_item_crm.objects.all()
+
+        orde_client=orders.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
+        ord_item_client=checkout_item.objects.all()
+
+        assigns=order_management.objects.filter(user=user, work_status="completed")
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'assigns':assigns,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'user':user,
+        }
+        return render(request,'staff/completed_work_designer.html', context)
+
+
+def staff_filter_complete_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id)
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(regno=ord_id)
+        ord_item_client=checkout_item.objects.all()
+        segment="order_staff_designer"
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+        assigns=order_management.objects.filter(user=user, work_status="completed")
+  
+
+        
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'user':user,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+        return render(request,'staff/completed_work_designer.html', context)
+    
+def logout(request):
+    if 'userid' in request.session:  
+        request.session.flush()
+        return redirect('/')
+    else:
+        return redirect('/')
+
+
 
 

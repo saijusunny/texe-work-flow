@@ -59,8 +59,18 @@ urlpatterns = [
     path('registrations',views.registrations, name='registrations'),
     path('icons',views.icons, name='icons'),
     path('profile',views.profile, name='profile'),
+    path('order_staff_designer',views.order_staff_designer, name='order_staff_designer'),
     path('edit_user_profile/<int:id>',views.edit_user_profile, name='edit_user_profile'),
     path('filter_date_event_staff',views.filter_date_event_staff, name='filter_date_event_staff'),
+    path('staff_filter_order_id',views.staff_filter_order_id, name='staff_filter_order_id'),
+    path('staff_filter_order_design',views.staff_filter_order_design, name='staff_filter_order_design'),
+    path('staff_orders_list_designer/<int:id>',views.staff_orders_list_designer, name='staff_orders_list_designer'),
+    path('staff_orders_list_designer_client/<int:id>',views.staff_orders_list_designer_client, name='staff_orders_list_designer_client'),
+    path('staff_change_order_stage',views.staff_change_order_stage, name='staff_change_order_stage'),
+    path('staff_change_order_stage_client',views.staff_change_order_stage_client, name='staff_change_order_stage_client'),
+    path('completed_work_designer',views.completed_work_designer, name='completed_work_designer'),
+    path('staff_filter_complete_design',views.staff_filter_complete_design, name='staff_filter_complete_design'),
+    path('staff_filter_complete_id',views.staff_filter_complete_id, name='staff_filter_complete_id'),    
     ########################################################################USER MODULE
     
     

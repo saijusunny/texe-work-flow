@@ -43,24 +43,32 @@
                                 </p>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right dropdown-navbar">
+                                <li class="nav-link"><a href="{% url 'today_orders'%}" class="nav-item dropdown-item">Todays Order</a></li>
+
+                                <li class="nav-link"><a href="{% url 'delivery_today'%}" class="nav-item dropdown-item">Delivery Todays</a></li>
+
+                                <li class="nav-link"><a href="{% url 'delivery_tomorrow'%}" class="nav-item dropdown-item">Delivery Tomorrow</a></li>
+
                                 <li class="nav-link"><a href="{% url 'pending_orders'%}" class="nav-item dropdown-item">Pending Order</a></li>
-                                <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Todays Order</a></li>
-                                <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item"></a></li>
-                                <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Another
-                                    notification</a></li>
-                                <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Another
-                                    one</a></li>
+                                
+                                
                             </ul>
                         </li>
-                    
-                        
+
+                       
                         
                         <li class="dropdown nav-item">
                             <a href="{% url 'logout'%}" class="dropdown-toggle nav-link" data-toggle="dropdown">
                                 <div class="photo">
-                               
+          
+                                {% if user.profile == "static\images\static_image\icon.svg"%}
                                     <img src="{% static 'assets\img\anime3.png'%}" alt="Profile Photo">
-                                    
+                                {% elif user.profile == ""%}
+                                    <img src="{% static 'assets\img\anime3.png'%}" alt="Profile Photo">
+                                {%else%}
+                                <img src="{{user.profile.url}}" alt="Profile Photo">
+                                {%endif%}
+           
                                 </div>
                                 <b class="caret d-none d-lg-block d-xl-block"></b>
                                 <p class="d-lg-none">
@@ -68,10 +76,15 @@
                                 </p>
                             </a>
                             <ul class="dropdown-menu dropdown-navbar">
-                                
+                             
+                                <li class="nav-link">
+                                    <a href="{% url 'profile'%}" class="nav-item dropdown-item">Profile</a>
+                                </li>
+                                    
+                                <li class="dropdown-divider"></li>
                                 <li class="nav-link">
                                     <a href="{% url 'logout' %}" 
-                                       class="nav-item dropdown-item">Logout</a>
+                                       class="nav-item dropdown-item">logout</a>
                                 </li>
                             </ul>
                         </li>

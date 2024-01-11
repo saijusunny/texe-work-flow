@@ -14,30 +14,30 @@
                         <p style="font-size: 13px;">Dashboard</p>
                     </a>
                 </li>
-
                 
-                <li class='{% if segment == "orders_dta"%} active {% endif %}'>
-                    <a href="{% url 'orders_dta'%}">
+                
+                {% if user.designation == "designer"%}
+                
+                <li class='{% if segment == "completed_work_designer"%} active {% endif %}'>
+                    <a href="{% url 'completed_work_designer'%}">
                         <i class="tim-icons icon-atom"></i>
-                        <p style="font-size: 13px;">Orders</p>
+                        <p style="font-size: 13px;">Completed Order</p>
                     </a>
                 </li>
-                  
-                
-                <li class='{% if segment == "staff_home"%} active {% endif %}'>
-                    <a href="{% url 'staff_home'%}">
-                        <i class="tim-icons icon-single-02"></i>
-                        <p style="font-size: 13px;">Staff Profile</p>
-                    </a>
-                </li>
-                
+                {%else%}
+                {%endif%}
 
-                <li class='{% if segment == "order_managements"%} active {% endif %}'>
-                    <a href="{% url 'order_managements'%}">
-                        <i class="tim-icons icon-single-02"></i>
+                {% if user.designation == "designer"%}
+                
+                <li class='{% if segment == "order_staff_designer"%} active {% endif %}'>
+                    <a href="{% url 'order_staff_designer'%}">
+                        <i class="tim-icons icon-atom"></i>
                         <p style="font-size: 13px;">Order Management</p>
                     </a>
                 </li>
+                {%else%}
+                {%endif%}
+                  
                 
                 <li>
                     <a href="{% url 'logout' %}">

@@ -1,0 +1,468 @@
+{% extends "staff/base.html" %}
+
+{% block title %} orders {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+{%load static%}
+<style>
+
+  #footer{
+        margin-top: 1rem;
+        color: white;
+      }
+  section{
+      margin-top: 2rem;
+  }
+  svg{
+      top:30px
+  }
+  
+  @media screen and (max-width: 960px) {  
+  svg{
+      top:-13rem
+  }
+  }
+  
+  /* vars */
+  :root {
+    --back: #eeeeee;
+    --blue: #0082d2;
+    --green: #33DDAA;
+    --gray: #777777;
+    --size: 200px;  
+  }
+  
+  
+  .tracking-wrapper {
+    margin: 30px;
+    padding: 0;
+  }
+  .tracking * {
+    padding: 0;
+    margin: 0;
+  }
+  .tracking {
+    width: var(--size);
+    max-width: 100%;
+    position: relative;
+  }
+  .tracking .empty-bar {
+    background: #ddd;
+    position: absolute;
+    width: 90%;
+    height: 20%;
+    top: 40%;
+    margin-left: 5%;
+  }
+  .tracking .color-bar {
+    background: var(--blue);
+    position: absolute;
+    height: 20%;
+    top: 40%;
+    margin-left: 5%;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+  }
+  .tracking ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+  }
+  .tracking ul > li {
+    background: #ddd;
+    text-align: center;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    z-index: 1;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    display: inline-block;
+    position: relative;
+    width: 10%;
+  }
+  .tracking ul > li .el {
+    position: relative;
+    margin-top: 100%;
+  }
+  .tracking ul > li .el i {
+    position: absolute;
+    bottom: 100%;
+    left: 8%;
+    margin-bottom: 12%;
+    color: #fff;
+    font-size: 100%;
+    display: none;
+  }
+  .tracking ul > li .txt {
+    color: #999;
+    position: absolute;
+    top: 120%;
+    left: -75%;
+    text-align: center;
+    width: 250%;
+    font-size: .75rem;
+  }
+  .tracking .progress-0 .color-bar { width: 00%; }
+  .tracking .progress-1 .color-bar { width: 15%; }
+  .tracking .progress-2 .color-bar { width: 30%; }
+  .tracking .progress-3 .color-bar { width: 45%; }
+  .tracking .progress-4 .color-bar { width: 60%; }
+  .tracking .progress-5 .color-bar { width: 75%; }
+  .tracking .progress-6 .color-bar { width: 90%; }
+  .tracking .progress-7 .color-bar { width: 90%; }
+  
+  .tracking .progress-0 > ul > li.bullet-1,
+  .tracking .progress-1 > ul > li.bullet-1,
+  .tracking .progress-2 > ul > li.bullet-1,
+  .tracking .progress-3 > ul > li.bullet-1,
+  .tracking .progress-4 > ul > li.bullet-1,
+  .tracking .progress-5 > ul > li.bullet-1,
+  .tracking .progress-6 > ul > li.bullet-1,
+  .tracking .progress-7 > ul > li.bullet-1
+  { background-color: var(--blue); }
+  
+  .tracking .progress-2 > ul > li.bullet-2,
+  .tracking .progress-3 > ul > li.bullet-2,
+  .tracking .progress-4 > ul > li.bullet-2,
+  .tracking .progress-5 > ul > li.bullet-2,
+  .tracking .progress-6 > ul > li.bullet-2,
+  .tracking .progress-7 > ul > li.bullet-2
+  { background-color: var(--blue); }
+  
+  .tracking .progress-4 > ul > li.bullet-3,
+  .tracking .progress-5 > ul > li.bullet-3,
+  .tracking .progress-6 > ul > li.bullet-3,
+  .tracking .progress-7 > ul > li.bullet-3
+  { background-color: var(--blue); }
+  
+  .tracking .progress-6 > ul > li.bullet-4,
+  .tracking .progress-7 > ul > li.bullet-4
+  { background-color: var(--blue); }
+  
+  .tracking .progress-7 > ul > li.bullet-4
+  { background-color: var(--green); }
+  
+  .tracking .progress-1 > ul > li.bullet-1 .el i,
+  .tracking .progress-2 > ul > li.bullet-1 .el i,
+  .tracking .progress-3 > ul > li.bullet-1 .el i,
+  .tracking .progress-4 > ul > li.bullet-1 .el i,
+  .tracking .progress-5 > ul > li.bullet-1 .el i,
+  .tracking .progress-6 > ul > li.bullet-1 .el i,
+  .tracking .progress-7 > ul > li.bullet-1 .el i
+  { display: block; }
+  
+  .tracking .progress-3 > ul > li.bullet-2 .el i,
+  .tracking .progress-4 > ul > li.bullet-2 .el i,
+  .tracking .progress-5 > ul > li.bullet-2 .el i,
+  .tracking .progress-6 > ul > li.bullet-2 .el i,
+  .tracking .progress-7 > ul > li.bullet-2 .el i
+  { display: block; }
+  
+  .tracking .progress-5 > ul > li.bullet-3 .el i,
+  .tracking .progress-6 > ul > li.bullet-3 .el i,
+  .tracking .progress-7 > ul > li.bullet-3 .el i
+  { display: block; }
+  
+  .tracking .progress-7 > ul > li.bullet-4 .el i
+  { display: block; }
+  
+  .tracking .progress-1 > ul > li.bullet-1 .txt,
+  .tracking .progress-2 > ul > li.bullet-1 .txt,
+  .tracking .progress-3 > ul > li.bullet-1 .txt,
+  .tracking .progress-4 > ul > li.bullet-1 .txt,
+  .tracking .progress-5 > ul > li.bullet-1 .txt,
+  .tracking .progress-6 > ul > li.bullet-1 .txt,
+  .tracking .progress-7 > ul > li.bullet-1 .txt
+  { color: var(--blue); }
+  
+  .tracking .progress-3 > ul > li.bullet-2 .txt,
+  .tracking .progress-4 > ul > li.bullet-2 .txt,
+  .tracking .progress-5 > ul > li.bullet-2 .txt,
+  .tracking .progress-6 > ul > li.bullet-2 .txt,
+  .tracking .progress-7 > ul > li.bullet-2 .txt
+  { color: var(--blue); }
+  
+  .tracking .progress-5 > ul > li.bullet-3 .txt,
+  .tracking .progress-6 > ul > li.bullet-3 .txt,
+  .tracking .progress-7 > ul > li.bullet-3 .txt
+  { color: var(--blue); }
+  
+  .tracking .progress-7 > ul > li.bullet-4 .txt
+  { color: var(--blue); }
+  
+  /* demo */
+  .controls {
+    margin: 90px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .controls > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: space-between;
+    margin: 0;
+    padding: 0;
+  }
+  .controls p,
+  .controls button {
+    border: 0;
+    line-height: 20px;
+    padding: 15px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  .controls button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 6px;
+    background: var(--blue);
+    color: #fff;
+    border-radius: 50px;
+    transition: all .3s;
+  }
+  .controls button:nth-child(1) {
+    margin-left: 0;
+  }
+  .controls button i {
+    font-size: 1rem;
+    margin: 0 5px;
+  }
+  .controls button#prev { padding-right: 30px; }
+  .controls button#next { padding-left: 30px; }
+  
+  .controls button:hover,
+  .controls button:focus {
+    outline: none;
+    background-color: var(--green);
+  }
+  
+  </style>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-sm-12   text-left">
+                                <h5 class="card-category"></h5>
+                                <h2 class="card-title" id="card-title">Order Items</h2>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="card-body">
+                        
+                      <section style="">
+                        <div class="container ">
+                          
+                          {% for ord in orders %}
+                       
+                          {%for i in ord_item%}
+                          
+                          {% if ord.id == i.orders_id%}
+                          <div class="row justify-content-center mb-3">
+                            <div class="col-md-12 col-xl-10">
+                               
+                              <div class="card shadow-0 border rounded-3">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-12 col-lg-2 col-xl-2 mb-4 mb-lg-0">
+                                      <div class="bg-image hover-zoom ripple rounded ripple-surface" >
+                                        {% if i.cart.color %}
+                                   
+                                        <img src="http://127.0.0.1:7000{{i.cart.sub_color.color.url}}" class="w-100" id="main_img"/>
+                                        {%else%}
+                                            
+                                          {% if i.cart.model %}
+                                     
+                                          <img src="http://127.0.0.1:7000{{i.cart.model.image.url}}" class="w-100" id="main_img"/>
+                                          {%else%}
+                                          sasadadsd
+                                          <img src="http://127.0.0.1:7000{{i.item.image.url}}" class="w-100"/>
+                                          {%endif%}
+                                        {%endif%}
+                                        <a href="#!">
+                                          <div class="hover-overlay">
+                                            <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                          </div>
+                                        </a>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-xl-6 mt-4 ">
+                                      <h5>{{i.item.name}}</h5>
+                                      <div class="d-flex flex-row">
+                                      <div class="mt-4">
+                                          <p><span>₹{{i.item.offer_price}}&nbsp;&nbsp;</span><span class=" text-muted"><strike>₹{{i.item.price}}</strike></span></p><br>
+                                      </div>
+                                      
+                      
+                                      
+                                      </div>
+                                      <div class="">
+                                          <div class="row">
+                                              <div class="col-sm-4 ">
+                                                  <p><span>Size : {{i.cart.size}}</span></p>
+                                              </div>
+                                             
+                                              <div class="col-sm-6">
+                                                  <p><span class="">Meterial : {{i.cart.meterial}}</span></p>
+                                              </div>
+                                          </div>
+                                          
+                                          
+                                      </div>
+                                      
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-lg-4 col-xl-4 border-sm-start-none border-start">
+                                      <div class="d-flex flex-row align-items-center mb-1">
+                      
+                                        <div class="row mt-2">
+                                          <div class="col-sm-12">
+                                              <p>Quantity : {{i.qty}}</p>
+                                              <p>Order Date : {{ord.date}}</p> 
+                                              <p>Total : ₹{{i.item_price}}</p>
+                                              
+                      
+                                              
+                                                
+                                                
+                                          </div>
+                                        </div>
+                                          
+                                      </div>
+                                      
+                                      <div class="d-flex flex-column mt-4">
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {%else%}
+                          {%endif%}
+                          {% endfor%}
+                          {%endfor%}
+                          
+                          
+                        </div>
+                      </section>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+
+  function next(ids){
+      console.log(ids)
+      var trak = document.getElementById(`progress${ids}`);
+  
+      var cls = trak.className.split('-').pop();
+      console.log(cls)
+    cls > 6 ? cls = 0 : cls++;
+      trak.className = 'progress-' + cls;
+  
+      $.ajax({
+              type: "GET",
+              url: "{% url 'change_order_status' %}",
+              data: {
+                  ele : ids,
+                  
+                  
+              },
+              success:function(response){
+                  alert("Order Status Update Successfully")
+              }});
+  
+  
+  }
+  
+  function prev(ids){
+      var trak = document.getElementById(`progress${ids}`);
+      var cls = trak.className.split('-').pop();
+    cls < 1 ? cls = 7 : cls--;
+      trak.className = 'progress-' + cls;
+  
+      $.ajax({
+              type: "GET",
+              url: "{% url 'change_order_status' %}",
+              data: {
+                  ele : ids,
+                  
+                  
+              },
+              success:function(response){
+                   alert("Order Status Update Successfully")
+              }});
+  
+  }
+  
+  </script>
+  
+    <script>
+      const input = document.getElementById('search')
+      input.addEventListener('keyup', (e) => {
+      var inputs = e.target.value.toLowerCase(); //do lowercase
+      document.querySelectorAll('.outers').forEach(function(el) {
+          el.style.display = 'none';
+      });
+  
+      document.querySelectorAll('.outers .card-title').forEach(function(el) {
+          //compare 
+          if (el.textContent.toLowerCase().indexOf(inputs) > -1) {
+          el.closest('.outers').style.display = "block"; //if match show that div
+          }
+      })
+      })
+  </script> 
+  
+  
+    <script>
+        
+         function fieldset1_function(){
+            document.getElementById('field2').style.display="none";
+            document.getElementById('field1').style.display="block";
+  
+         }
+         function fieldset2_function(){
+            document.getElementById('field1').style.display="none";
+            document.getElementById('field2').style.display="block";
+  
+         }
+   
+     </script> 
+  
+  
+
+{% endblock javascripts %}
+
