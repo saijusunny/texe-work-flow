@@ -609,13 +609,14 @@ def change_order_stage(request):
 def orders_list(request,id):
     orde = orders_crm.objects.filter(id=id).order_by("-id")
     ord_item=checkout_item_crm.objects.filter(orders=id)
- 
+    
     segment="orders_dta"
    
     context={
         "orders":orde,
         "ord_item":ord_item,
         'segment':segment,
+        'ord_ids':id,
       
     }
     return render(request, 'home/orders_list.html', context)
@@ -630,6 +631,7 @@ def orders_list_client(request,id):
         "orders":orde,
         "ord_item":ord_item,
         'segment':segment,
+        'ord_ids':id,
    
     }
     return render(request, 'home/orders_list_client.html', context)
@@ -936,7 +938,7 @@ def order_managements(request):
 
 def pending_orders(request):
     resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
+    segment="order_managements"
  
     orde=orders_crm.objects.filter(stage="pending").order_by("-id")
     ord_item=checkout_item_crm.objects.all()
@@ -945,7 +947,7 @@ def pending_orders(request):
     ord_item_client=checkout_item.objects.all()
     context={
             'segment':segment,
-      
+            'stg':"Pending orders",
             "orders":orde,
             "ord_item":ord_item,
             'orde_client':orde_client,
@@ -960,12 +962,13 @@ def orders_list_designer(request,id):
     orde = orders_crm.objects.filter(id=id).order_by("-id")
     ord_item=checkout_item_crm.objects.filter(orders=id)
     request.session['previous_url'] = request.META.get('HTTP_REFERER')
-    segment="orders_dta"
+    segment="order_managements"
  
     context={
         "orders":orde,
         "ord_item":ord_item,
         'segment':segment,
+        'ord_ids':id,
     
     }
     return render(request, 'home/orders_list_designer.html', context)
@@ -976,7 +979,7 @@ def orders_list_designer_client(request,id):
     ord_item=checkout_item.objects.filter(id=id)
     request.session['previous_url'] = request.META.get('HTTP_REFERER')
  
-    segment="orders_dta"
+    segment="order_managements"
   
     orde_stat = orders.objects.get(id=id)
     request.session['previous_url'] = request.META.get('HTTP_REFERER')
@@ -1013,22 +1016,39 @@ def save_assign_stage(request, id):
         orde_stat.save()
         
         return redirect(request.session['previous_url'])
-    return redirect('order_managements')
+    return redirect('orders_list_designer_client', id)
+
+def save_assign_stage_crm(request, id):
+    if request.method=="POST":
+        ors= order_management()
+        urs= request.POST.get('stage_staff')
+        ords=orders_crm.objects.get(id=id)
+        idrs=user_registration.objects.get(id=urs)
+        ors.user=idrs
+        ors.order_crm_id=id
+        ors.work_status="working"
+        ors.save()
+        orde_stat = orders_crm.objects.get(id=id)
+        orde_stat.stage=request.POST.get('stage')
+        orde_stat.save()
+        
+        return redirect(request.session['previous_url'])
+    return redirect('orders_list_designer',id)
 
 def designer_section(request):
     resolved_func = resolve(request.path_info).func
-    segment=resolved_func.__name__
+    segment="order_managements"
    
-    orde=orders_crm.objects.filter(stage="designer").order_by("-id")
+    orde=orders_crm.objects.filter(stage="designing").order_by("-id")
     ord_item=checkout_item_crm.objects.all()
 
-    orde_client=orders.objects.filter(stage="designer").order_by("-id")
+    orde_client=orders.objects.filter(stage="designing").order_by("-id")
     ord_item_client=checkout_item.objects.all()
     request.session['previous_html']="home/pending_payment.html"
 
     context={
             'segment':segment,
-            'user':user,
+            'stg':"Designing Section",
             "orders":orde,
             "ord_item":ord_item,
             'orde_client':orde_client,
@@ -1152,10 +1172,10 @@ def order_staff_designer(request):
     usr=request.session['userid']
     user=user_registration.objects.get(id=usr)
    
-    orde=orders_crm.objects.filter(stage="designer").order_by("-id")
+    orde=orders_crm.objects.filter(stage="designing").order_by("-id")
     ord_item=checkout_item_crm.objects.all()
 
-    orde_client=orders.objects.filter(stage="designer").order_by("-id")
+    orde_client=orders.objects.filter(stage="designing").order_by("-id")
     ord_item_client=checkout_item.objects.all()
 
     assigns=order_management.objects.filter(user=user, work_status="working")
@@ -1246,7 +1266,7 @@ def staff_orders_list_designer(request,id):
         'user':user,
     
     }
-    return render(request, 'staff/staff_orders_list_designer.html', context)
+    return render(request, 'staff/staff_orders_list_client.html', context)
 
 def staff_orders_list_designer_client(request,id):
     orde = orders.objects.filter(id=id).order_by("-id")

@@ -30,7 +30,7 @@ urlpatterns = [
     path('cart_change_meterial',views.cart_change_meterial, name='cart_change_meterial'),
     path('cart_change_model',views.cart_change_model, name='cart_change_model'),
     path('save_cart/<int:id>',views.save_cart, name='save_cart'),
-    path('orders_list',views.orders_list, name='orders_list'),
+    path('orders_list/<int:id>',views.orders_list, name='orders_list'),
     path('filter_order',views.filter_order, name='filter_order'),
     path('filter_order_id',views.filter_order_id, name='filter_order_id'),
     path('change_order_status',views.change_order_status, name='change_order_status'),
@@ -52,7 +52,9 @@ urlpatterns = [
     path('orders_list_designer_client/<int:id>',views.orders_list_designer_client, name='orders_list_designer_client'),
     path('get_staff_list',views.get_staff_list, name='get_staff_list'),
     path('save_assign_stage/<int:id>',views.save_assign_stage, name='save_assign_stage'),
+    path('save_assign_stage_crm/<int:id>',views.save_assign_stage_crm, name='save_assign_stage_crm'),
     path('designer_section',views.designer_section, name='designer_section'),
+    
     
     #########################################################################Staff Module
     path('staff_index',views.staff_index, name='staff_index'),

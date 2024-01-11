@@ -269,6 +269,7 @@
                         
                     </div>
                     <div class="card-body">
+                      
                         
                       <section style="">
                         <div class="container ">
@@ -382,52 +383,37 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script>
+  function add_stage(cnt){
+   
+    
+    $.ajax({
+          type: "GET",
+          url: "{% url 'get_staff_list' %}",
+          data: {
+              dep : cnt.value,
+       
+          },
+          success:function(response){
+                ids = response.data
+                const selectElement = document.getElementById('staff_list');
+                let option =  '';
+                option += '<option value="" style="color:black">select staff</option>';
+                ids.forEach(staff => {
 
-  function next(ids){
-      console.log(ids)
-      var trak = document.getElementById(`progress${ids}`);
-  
-      var cls = trak.className.split('-').pop();
-      console.log(cls)
-    cls > 6 ? cls = 0 : cls++;
-      trak.className = 'progress-' + cls;
-  
-      $.ajax({
-              type: "GET",
-              url: "{% url 'change_order_status' %}",
-              data: {
-                  ele : ids,
-                  
-                  
-              },
-              success:function(response){
-                  alert("Order Status Update Successfully")
-              }});
-  
-  
+                    const id = staff.id;
+                    const name = staff.name;
+                 
+                    option += `<option value=${id} style="color:black">${name}</option>`;
+
+                });
+                
+                selectElement.innerHTML = option;
+                
+            }
+
+          });
   }
-  
-  function prev(ids){
-      var trak = document.getElementById(`progress${ids}`);
-      var cls = trak.className.split('-').pop();
-    cls < 1 ? cls = 7 : cls--;
-      trak.className = 'progress-' + cls;
-  
-      $.ajax({
-              type: "GET",
-              url: "{% url 'change_order_status' %}",
-              data: {
-                  ele : ids,
-                  
-                  
-              },
-              success:function(response){
-                   alert("Order Status Update Successfully")
-              }});
-  
-  }
-  
-  </script>
+</script>
   
     <script>
       const input = document.getElementById('search')
@@ -446,22 +432,7 @@
       })
   </script> 
   
-  
-    <script>
-        
-         function fieldset1_function(){
-            document.getElementById('field2').style.display="none";
-            document.getElementById('field1').style.display="block";
-  
-         }
-         function fieldset2_function(){
-            document.getElementById('field1').style.display="none";
-            document.getElementById('field2').style.display="block";
-  
-         }
-   
-     </script> 
-  
+
   
 
 {% endblock javascripts %}

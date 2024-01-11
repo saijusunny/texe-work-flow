@@ -269,7 +269,45 @@
                         
                     </div>
                     <div class="card-body">
-                        
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <form action="{% url 'save_assign_stage_crm' ord_ids %}" method="POST" enctype="multipart/form-data">
+                              {% csrf_token%}
+                              
+                              
+                              <div class="col-sm-8 px-md-1" style="margin: 0 auto;">
+                               
+                                <div class="form-group">
+                                    <label style="font-size: 16px;">Stage</label>
+                                    <select name="stage" id="stage_list" class="form-control" onchange="add_stage(this)">
+                                      <option value="{{orde_stat.stage}}"  style="color: black;" selected>{{orde_stat.stage}}</option>
+                                      <option value="pending"  style="color: black;" >Pending</option>
+                                          
+                                          <option value="designing"  style="color: black;" >Designing</option>
+                                          <option value="cutting"  style="color: black;" >Cutting</option>
+                                          <option value="stiching"  style="color: black;" >Stiching</option>
+                                          <option value="printing"  style="color: black;" >Printing</option>
+                                          <option value="testing"  style="color: black;" >Testing</option>
+                                          <option value="packing"  style="color: black;" >Packing</option>
+                                          <option value="despatch"  style="color: black;" >Despatch</option>
+                                          <option value="arrived"  style="color: black;" >Arrived</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                  <label style="font-size: 16px;">Staff</label>
+                                  <select name="stage_staff" id="staff_list" class="form-control">
+                                        
+                                  </select>
+                                  </div>
+                                  <input type="submit" value="Assign" name="" id="" class="btn btn-fill btn-primary">
+                              
+                                </div>
+                            
+                              </div>
+
+                            </form>
+                        </div>
+                      </div>
                       <section>
                         <div class="container ">
                           
@@ -416,7 +454,38 @@
    
      </script> 
   
+  <script>
+    function add_stage(cnt){
+     
+      
+      $.ajax({
+            type: "GET",
+            url: "{% url 'get_staff_list' %}",
+            data: {
+                dep : cnt.value,
+         
+            },
+            success:function(response){
+                  ids = response.data
+                  const selectElement = document.getElementById('staff_list');
+                  let option =  '';
+                  option += '<option value="" style="color:black">select staff</option>';
+                  ids.forEach(staff => {
   
+                      const id = staff.id;
+                      const name = staff.name;
+                   
+                      option += `<option value=${id} style="color:black">${name}</option>`;
+  
+                  });
+                  
+                  selectElement.innerHTML = option;
+                  
+              }
+  
+            });
+    }
+  </script>
 
 {% endblock javascripts %}
 

@@ -335,12 +335,13 @@
                       
                           
                      
-                          {%for i in orders%}
-                          {%for l in assigns%}
-                          {% if i.id == l.order_id%}
+                          
                             
                           <div class="row justify-content-center mb-3 ">
-                            <div class="col-md-12 col-xl-10">
+                          {%for i in orders%}
+                          {%for l in assigns%}
+                          {% if i.id == l.order_crm_id%}
+                            <div class="col-md-6 col-xl-6">
                                
                               <div class="card shadow-0 border rounded-3 outers">
                                 <div class="card-body">
@@ -419,7 +420,7 @@
                                 </div>
                               </div>
                             </div>
-                          </div>
+                       
                           {%else%}
                           {%endif%}
                           {%endfor%}
@@ -428,8 +429,7 @@
 
                         
                           
-                          
-                          <div class="row justify-content-center mb-3 ">
+                        
                             {%for i in orde_client%}
                             {%for l in assigns%}
                             {% if i.id == l.order_id%}

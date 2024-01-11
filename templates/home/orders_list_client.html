@@ -269,6 +269,8 @@
                         
                     </div>
                     <div class="card-body">
+
+                      
                         
                       <section style="">
                         <div class="container ">
@@ -462,7 +464,38 @@
    
      </script> 
   
+  <script>
+    function add_stage(cnt){
+     
+      
+      $.ajax({
+            type: "GET",
+            url: "{% url 'get_staff_list' %}",
+            data: {
+                dep : cnt.value,
+         
+            },
+            success:function(response){
+                  ids = response.data
+                  const selectElement = document.getElementById('staff_list');
+                  let option =  '';
+                  option += '<option value="" style="color:black">select staff</option>';
+                  ids.forEach(staff => {
   
+                      const id = staff.id;
+                      const name = staff.name;
+                   
+                      option += `<option value=${id} style="color:black">${name}</option>`;
+  
+                  });
+                  
+                  selectElement.innerHTML = option;
+                  
+              }
+  
+            });
+    }
+  </script>
 
 {% endblock javascripts %}
 

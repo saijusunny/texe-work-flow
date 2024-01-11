@@ -285,7 +285,7 @@
                         <div class="row">
                             <div class="col-sm-12   text-left">
                                 <h5 class="card-category"></h5>
-                                <h2 class="card-title" id="card-title">Orders</h2>
+                                <h2 class="card-title" id="card-title">{{stg}}</h2>
                             </div>
                         </div>
                         
@@ -335,10 +335,11 @@
                       
                           
                      
-                          {%for i in orders%}
+                          
                           
                           <div class="row justify-content-center mb-3 outers">
-                            <div class="col-md-12 col-xl-10">
+                            {%for i in orders%}
+                            <div class="col-md-6 col-xl-6">
                                
                               <div class="card shadow-0 border rounded-3 outers">
                                 <div class="card-body">
@@ -370,7 +371,7 @@
                                     </div>
                                   </div>
                                   
-                                  <div class="row">
+                                  <div class="row clickable-row" data-href="{%url 'orders_list_designer' i.id%}">
                                     <div class="col-md-12 col-lg-2 col-xl-2 mb-4 mb-lg-0">
                                       
                                       <div class="bg-image hover-zoom ripple rounded ripple-surface" >
@@ -411,49 +412,7 @@
                                     
                                     <div class="col-md-6 col-lg-4 col-xl-4 ">
                                       <div class="d-flex flex-row align-items-center mb-1">
-
-                                        
-                      
-                                        <div class="row">
-                                          <div class="col-sm-12">
-                                              
-                                              <div class="tracking-wrapper">
-                                                  <div class="tracking">
-                                                    <div id="progress{{forloop.counter}}" class="progress-{{i.stage_count}}">
-                                                      <div class="empty-bar"></div>
-                                                      <div class="color-bar"></div>
-                                                      <ul>
-                                                        <li class="bullet-1">
-                                                          <div class="el"><i class='bx bx-check'></i></div>
-                                                          <div class="txt">Order Processed</div>
-                                                        </li>
-                                                        <li class="bullet-2">
-                                                          <div class="el"><i class='bx bx-check'></i></div>
-                                                          <div class="txt">Order Shipped</div>
-                                                        </li>
-                                                        <li class="bullet-3">
-                                                          <div class="el"><i class='bx bx-check'></i></div>
-                                                          <div class="txt">Order En Route</div>
-                                                        </li>
-                                                        <li class="bullet-4">
-                                                          <div class="el"><i class='bx bx-check '></i></div>
-                                                          <div class="txt">Order Arrived</div>
-                                                        </li>
-                                                      </ul>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                
-                                                <div class="controls">
-                                                  <div>
-                                                    <button id="prev" onclick="prev('{{forloop.counter}}', '{{i.id}}')"><i class='bx bx-chevron-left'></i> Prev</button>
-                                                    <button id="next" onclick="next('{{forloop.counter}}', '{{i.id}}')">Next <i class='bx bx-chevron-right'></i></button>
-                                                  </div>
-                                                  
-                                                </div>
-                                          </div>
-                                        </div>
-                                          
+ 
                                       </div>
                                       
                                       <div class="d-flex flex-column mt-4">
@@ -464,19 +423,18 @@
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          {%endfor%}
+                            {%endfor%}
                           
 
                         
                           
                           
-                          <div class="row justify-content-center mb-3 outers">
+                       
                             {%for i in orde_client%}
                             
                             <div class="col-md-6 col-xl-6">
                             
-                              <div class="card shadow-0 border rounded-3 outers clickable-row" data-href="{%url 'orders_list_designer_client' i.id%}">
+                              <div class="card shadow-0 border rounded-3 outers" >
                                 <div class="card-body">
                                   <div class="row">
                                     <div class="col-sm-12">
@@ -505,7 +463,7 @@
                                     </div>
                                   </div>
                                   
-                                  <div class="row">
+                                  <div class="row clickable-row" data-href="{%url 'orders_list_designer_client' i.id%}">
                                     <div class="col-md-12 col-lg-2 col-xl-2 mb-4 mb-lg-0">
                                       
                                       <div class="bg-image hover-zoom ripple rounded ripple-surface" >
