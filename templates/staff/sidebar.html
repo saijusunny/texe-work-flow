@@ -5,11 +5,11 @@
       -->
         <div class="sidebar-wrapper">
             <div class="logo" style="text-align: center;">
-                <a href="{%url 'dashboard'%}"><img src="{% static 'images\logo.png'%}" class="w-50" alt="Texe Logo"></a>
+                <a href="{%url 'staff_index'%}"><img src="{% static 'images\logo.png'%}" class="w-50" alt="Texe Logo"></a>
             </div>
             <ul class="nav">
-                <li class='{% if segment == "dashboard"%} active {% endif %}'>
-                    <a href="{% url 'dashboard'%}">
+                <li class='{% if segment == "staff_index"%} active {% endif %}'>
+                    <a href="{% url 'staff_index'%}">
                         <i class="tim-icons icon-chart-pie-36"></i>
                         <p style="font-size: 13px;">Dashboard</p>
                     </a>
@@ -26,8 +26,18 @@
                         <p style="font-size: 13px;">Order Management</p>
                     </a>
                 </li>
+                {% elif user.designation == "cutting"%}
+                
+                <li class='{% if segment == "cutting_order_list"%} active {% endif %}'>
+                    <a href="{% url 'cutting_order_list'%}">
+                        <i class="tim-icons icon-atom"></i>
+                        <p style="font-size: 13px;">Order Management</p>
+                    </a>
+                </li>
                 {%else%}
                 {%endif%}
+
+                
 
                 {% if user.designation == "designer"%}
                 
@@ -37,6 +47,16 @@
                         <p style="font-size: 13px;">Completed Order</p>
                     </a>
                 </li>
+                {%elif user.designation == "cutting" %}
+              
+                
+                    <li class='{% if segment == "cutting_complete_order"%} active {% endif %}'>
+                        <a href="{% url 'cutting_complete_order'%}">
+                            <i class="tim-icons icon-atom"></i>
+                            <p style="font-size: 13px;">Completed Order</p>
+                        </a>
+                    </li>
+             
                 {%else%}
                 {%endif%}
                   

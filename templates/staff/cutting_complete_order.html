@@ -561,7 +561,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="{% url 'staff_filter_complete_design'%}" method="POST" enctype="multipart/form-data">
+              <form action="{% url 'cutting_filter_complete_order'%}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %} 
     
                 <div class="row">
@@ -610,7 +610,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="{% url 'staff_filter_complete_id'%}" method="POST" enctype="multipart/form-data">
+              <form action="{% url 'cutting_filter_complete_order_id'%}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %} 
     
                 <div class="row">

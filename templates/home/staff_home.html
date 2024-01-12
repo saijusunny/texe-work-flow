@@ -55,8 +55,9 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        {% for i in staffs%}
+                        
                         <div class="row">
+                            {% for i in staffs%}
                             <div class="col-sm-3 outers" >
                                 <div class="card">
                                     {% if i.profile == "static\images\static_image\icon.svg"%}
@@ -75,9 +76,9 @@
                                     </div>
                                 </div>
                             </div>
-
+                            {%endfor%}
                         </div>
-                        {%endfor%}
+                        
 
 
                     </div>

@@ -72,7 +72,17 @@ urlpatterns = [
     path('staff_change_order_stage_client',views.staff_change_order_stage_client, name='staff_change_order_stage_client'),
     path('completed_work_designer',views.completed_work_designer, name='completed_work_designer'),
     path('staff_filter_complete_design',views.staff_filter_complete_design, name='staff_filter_complete_design'),
-    path('staff_filter_complete_id',views.staff_filter_complete_id, name='staff_filter_complete_id'),    
+    path('staff_filter_complete_id',views.staff_filter_complete_id, name='staff_filter_complete_id'),
+
+    #! */*/*/*/*//*/*/*//*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/* Cutting Section - Admin
+     
+    path('cutting_section',views.cutting_section, name='cutting_section'),
+    path('cutting_order_list',views.cutting_order_list, name='cutting_order_list'),
+    path('cutting_filter_order_date',views.cutting_filter_order_date, name='cutting_filter_order_date'),
+    path('cutting_filter_order_id',views.cutting_filter_order_id, name='cutting_filter_order_id'),
+    path('cutting_complete_order',views.cutting_complete_order, name='cutting_complete_order'),
+    path('cutting_filter_complete_order',views.cutting_filter_complete_order, name='cutting_filter_complete_order'),
+    path('cutting_filter_complete_order_id',views.cutting_filter_complete_order_id, name='cutting_filter_complete_order_id'),
     ########################################################################USER MODULE
     
     
