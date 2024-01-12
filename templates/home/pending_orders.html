@@ -296,7 +296,7 @@
                           {% if orders%}
                           {%for i in orders%}
                           
-                          <div class="row justify-content-center mb-3 outers">
+                          <div class="row justify-content-center mb-3">
                             <div class="col-md-12 col-xl-10">
                                
                               <div class="card shadow-0 border rounded-3 outers">
@@ -423,7 +423,7 @@
                         
                           {%for i in orde_client%}
                           
-                          <div class="row justify-content-center mb-3 outers">
+                          <div class="row justify-content-center mb-3 ">
                             <div class="col-md-12 col-xl-10">
                                
                               <div class="card shadow-0 border rounded-3 outers">
@@ -820,6 +820,21 @@
     }
     
     </script>
+<script>
+  const input = document.getElementById('search')
+  input.addEventListener('keyup', (e) => {
+  var inputs = e.target.value.toLowerCase(); //do lowercase
+  document.querySelectorAll('.outers').forEach(function(el) {
+      el.style.display = 'none';
+  });
 
+  document.querySelectorAll('.outers .card-title').forEach(function(el) {
+      //compare 
+      if (el.textContent.toLowerCase().indexOf(inputs) > -1) {
+      el.closest('.outers').style.display = "block"; //if match show that div
+      }
+  })
+  })
+</script> 
 
 {% endblock javascripts %}

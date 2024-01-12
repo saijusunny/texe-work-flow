@@ -337,7 +337,7 @@
                      
                           
                           
-                          <div class="row justify-content-center mb-3 outers">
+                          <div class="row justify-content-center mb-3 ">
                             {%for i in orders%}
                             <div class="col-md-6 col-xl-6">
                                
@@ -392,11 +392,13 @@
                                       </div>
                                     </div>
                                     <div class="col-md-6 col-lg-6 col-xl-6 mt-1 ">
-                                      <h5 class="card-title">{{i.user.regno}}</h5>
+                                      <h5 ><span>ORD No : </span><span class="card-title">{{i.regno}}</span></h5>
+                                      
                                       <h5 class="card-title">{{i.user.name}}</h5>
+                                      <h5 class="card-title">{{i.user.regno}}</h5>
                                       <div class="d-flex flex-row">
                                       <p class="">
-                                          <span style=" font-size: 12px;">Order Number : {{i.regno}}</span><br>
+                                         
                                           <span style=" font-size: 12px;">Ph. No : {{i.user.number}}</span><br>
                                           <span style=" font-size: 12px;">Address : {{i.user.addres}}</span><br>
                                           <span style=" font-size: 12px;">Order Date : {{i.date}}</span><br>
@@ -484,11 +486,12 @@
                                       </div>
                                     </div>
                                     <div class="col-md-6 col-lg-6 col-xl-6 mt-1 ">
+                                      <h5 ><span>ORD No : </span><span class="card-title">{{i.regno}}</span></h5>
                                       <h5 class="card-title">{{i.user.regno}}</h5>
                                       <h5 class="card-title">{{i.user.name}}</h5>
                                       <div class="d-flex flex-row">
                                       <p class="">
-                                          <span style=" font-size: 12px;">Order Number : {{i.regno}}</span><br>
+                                          
                                           <span style=" font-size: 12px;">Ph. No : {{i.user.number}}</span><br>
                                           <span style=" font-size: 12px;">Address : {{i.user.addres}}</span><br>
                                           <span style=" font-size: 12px;">Order Date : {{i.date}}</span><br>
@@ -816,4 +819,21 @@
         });
     });
 </script>
+
+<script>
+  const input = document.getElementById('search')
+  input.addEventListener('keyup', (e) => {
+  var inputs = e.target.value.toLowerCase(); //do lowercase
+  document.querySelectorAll('.outers').forEach(function(el) {
+      el.style.display = 'none';
+  });
+
+  document.querySelectorAll('.outers .card-title').forEach(function(el) {
+      //compare 
+      if (el.textContent.toLowerCase().indexOf(inputs) > -1) {
+      el.closest('.outers').style.display = "block"; //if match show that div
+      }
+  })
+  })
+</script> 
 {% endblock javascripts %}

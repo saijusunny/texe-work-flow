@@ -53,9 +53,18 @@ urlpatterns = [
     path('get_staff_list',views.get_staff_list, name='get_staff_list'),
     path('save_assign_stage/<int:id>',views.save_assign_stage, name='save_assign_stage'),
     path('save_assign_stage_crm/<int:id>',views.save_assign_stage_crm, name='save_assign_stage_crm'),
+
     path('designer_section',views.designer_section, name='designer_section'),
+
+    path('stiching_section',views.stiching_section, name='stiching_section'),
     
+    path('printing_section',views.printing_section, name='printing_section'),
     
+    path('testing_section',views.testing_section, name='testing_section'),
+
+    path('packing_section',views.packing_section, name='packing_section'),
+
+    path('despatch_section',views.despatch_section, name='despatch_section'),
     #########################################################################Staff Module
     path('staff_index',views.staff_index, name='staff_index'),
     path('registrations',views.registrations, name='registrations'),
@@ -83,6 +92,8 @@ urlpatterns = [
     path('cutting_complete_order',views.cutting_complete_order, name='cutting_complete_order'),
     path('cutting_filter_complete_order',views.cutting_filter_complete_order, name='cutting_filter_complete_order'),
     path('cutting_filter_complete_order_id',views.cutting_filter_complete_order_id, name='cutting_filter_complete_order_id'),
+
+
     ########################################################################USER MODULE
     
     

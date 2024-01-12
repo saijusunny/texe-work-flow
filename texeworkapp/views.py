@@ -1083,8 +1083,119 @@ def cutting_section(request):
     
     return render(request, 'home/pending_payment.html',context)
 
+def stiching_section(request):
+   
+    resolved_func = resolve(request.path_info).func
+    segment="order_managements"
+   
+    orde=orders_crm.objects.filter(stage="stiching").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="stiching").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+    request.session['previous_html']="home/pending_payment.html"
+
+    context={
+            'segment':segment,
+            'stg':"Stiching Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+    
+    return render(request, 'home/pending_payment.html',context)
 
 
+
+def printing_section(request):
+   
+    resolved_func = resolve(request.path_info).func
+    segment="order_managements"
+   
+    orde=orders_crm.objects.filter(stage="printing").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="printing").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+    request.session['previous_html']="home/pending_payment.html"
+
+    context={
+            'segment':segment,
+            'stg':"Printing Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+    
+    return render(request, 'home/pending_payment.html',context)
+
+def testing_section(request):
+    resolved_func = resolve(request.path_info).func
+    segment="order_managements"
+   
+    orde=orders_crm.objects.filter(stage="testing").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="testing").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+    request.session['previous_html']="home/pending_payment.html"
+
+    context={
+            'segment':segment,
+            'stg':"Testing Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+    
+    return render(request, 'home/pending_payment.html',context)
+
+def packing_section(request):
+    resolved_func = resolve(request.path_info).func
+    segment="order_managements"
+   
+    orde=orders_crm.objects.filter(stage="packing").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="packing").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+    request.session['previous_html']="home/pending_payment.html"
+
+    context={
+            'segment':segment,
+            'stg':"Packing Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+    
+    return render(request, 'home/pending_payment.html',context)
+
+def despatch_section(request):
+    resolved_func = resolve(request.path_info).func
+    segment="order_managements"
+   
+    orde=orders_crm.objects.filter(stage="despatch").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="despatch").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+    request.session['previous_html']="home/pending_payment.html"
+
+    context={
+            'segment':segment,
+            'stg':"Despatch Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+    
+    return render(request, 'home/pending_payment.html',context)
 ############################################################  STAFF MODULE
 
 def staff_index(request):
