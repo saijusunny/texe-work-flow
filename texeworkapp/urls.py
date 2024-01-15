@@ -93,6 +93,21 @@ urlpatterns = [
     path('cutting_filter_complete_order',views.cutting_filter_complete_order, name='cutting_filter_complete_order'),
     path('cutting_filter_complete_order_id',views.cutting_filter_complete_order_id, name='cutting_filter_complete_order_id'),
 
+    #? stiching
+    path('stiching_order_list',views.stiching_order_list, name='stiching_order_list'),
+    path('stiching_filter_order_date',views.stiching_filter_order_date, name='stiching_filter_order_date'),
+    path('stiching_filter_order_id',views.stiching_filter_order_id, name='stiching_filter_order_id'),
+    path('stiching_complete_order',views.stiching_complete_order, name='stiching_complete_order'),
+    path('stiching_filter_complete_order',views.stiching_filter_complete_order, name='stiching_filter_complete_order'),
+    path('stiching_filter_complete_order_id',views.stiching_filter_complete_order_id, name='stiching_filter_complete_order_id'),
+
+    #! Printing
+    path('printing_order_list',views.printing_order_list, name='printing_order_list'),
+    path('printing_filter_order_date',views.printing_filter_order_date, name='printing_filter_order_date'),
+    path('printing_filter_order_id',views.printing_filter_order_id, name='printing_filter_order_id'),
+    path('printing_complete_order',views.printing_complete_order, name='printing_complete_order'),
+    path('printing_filter_complete_order',views.printing_filter_complete_order, name='printing_filter_complete_order'),
+    path('printing_filter_complete_order_id',views.printing_filter_complete_order_id, name='printing_filter_complete_order_id'),
 
     ########################################################################USER MODULE
     

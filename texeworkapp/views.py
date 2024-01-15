@@ -277,6 +277,7 @@ def add_staff(request):
             message = f"Hai {usr.name},\n\nUser name : {em}\nPassword : {otp}\nClick the link {current_site} to log in to your account."
 
             to_email = usr.email
+          
             send_email = EmailMessage(mail_subject,message,to = [to_email])
             send_email.send()
         return redirect('staff_home')
@@ -1749,8 +1750,354 @@ def cutting_filter_complete_order_id(request):
         }
         return render(request,'staff/cutting_complete_order.html', context)
 
+#! Stiching Section
+def stiching_order_list(request):
+
+    resolved_func = resolve(request.path_info).func
+    segment=resolved_func.__name__
+
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+   
+    orde=orders_crm.objects.filter(stage="stiching").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="stiching").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+
+    assigns=order_management.objects.filter(user=user, work_status="working")
+    
+    request.session['previous_url'] = request.META.get('HTTP_REFERER')
+    context={
+            'segment':segment,
+            'user':user,
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+    
+    return render(request, 'staff/stiching_order_list.html',context)
 
 
+def stiching_filter_order_date(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+      
+
+        resolved_func = resolve(request.path_info).func
+        segment="stiching_order_list"
+
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+    
+        orde = orders_crm.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt,stage="stiching")
+        ord_item=checkout_item_crm.objects.all()
+
+        orde_client=orders.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt,stage="stiching")
+        ord_item_client=checkout_item.objects.all()
+
+        assigns=order_management.objects.filter(user=user, work_status="working")
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'assigns':assigns,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'user':user,
+        }
+        return render(request,'staff/stiching_order_list.html', context)
+
+
+def stiching_filter_order_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="stiching")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(regno=ord_id,stage="stiching")
+        ord_item_client=checkout_item.objects.all()
+        segment="stiching_order_list"
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+        assigns=order_management.objects.filter(user=user, work_status="working")
+  
+
+        
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'user':user,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+        return render(request,'staff/stiching_order_list.html', context)
+
+
+
+
+def stiching_complete_order(request):
+    resolved_func = resolve(request.path_info).func
+    segment=resolved_func.__name__
+
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+   
+    orde=orders_crm.objects.all().order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.all().order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+
+    assigns=order_management.objects.filter(user=user, work_status="completed")
+ 
+    context={
+            'segment':segment,
+            'user':user,
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+    
+    return render(request, 'staff/stiching_complete_order.html',context)
+
+
+def stiching_filter_complete_order(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+
+
+        resolved_func = resolve(request.path_info).func
+        segment="stiching_complete_order"
+
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+    
+        orde = orders_crm.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
+        ord_item=checkout_item_crm.objects.all()
+
+        orde_client=orders.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
+        ord_item_client=checkout_item.objects.all()
+
+        assigns=order_management.objects.filter(user=user, work_status="completed")
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'assigns':assigns,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'user':user,
+        }
+        return render(request,'staff/stiching_complete_order.html', context)
+
+
+def stiching_filter_complete_order_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id)
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(regno=ord_id)
+        ord_item_client=checkout_item.objects.all()
+        segment="stiching_complete_order"
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+        assigns=order_management.objects.filter(user=user, work_status="completed")
+  
+
+        
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'user':user,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+        return render(request,'staff/stiching_complete_order.html', context)
+
+# ? ----------------------------------------------------------------------printning section
+
+def printing_order_list(request):
+
+    resolved_func = resolve(request.path_info).func
+    segment=resolved_func.__name__
+
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+   
+    orde=orders_crm.objects.filter(stage="printing").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="printing").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+
+    assigns=order_management.objects.filter(user=user, work_status="working")
+    
+    request.session['previous_url'] = request.META.get('HTTP_REFERER')
+    context={
+            'segment':segment,
+            'user':user,
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+    
+    return render(request, 'staff/printing_order_list.html',context)
+
+
+def printing_filter_order_date(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+      
+
+        resolved_func = resolve(request.path_info).func
+        segment="printing_order_list"
+
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+    
+        orde = orders_crm.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt,stage="printing")
+        ord_item=checkout_item_crm.objects.all()
+
+        orde_client=orders.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt,stage="printing")
+        ord_item_client=checkout_item.objects.all()
+
+        assigns=order_management.objects.filter(user=user, work_status="working")
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'assigns':assigns,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'user':user,
+        }
+        return render(request,'staff/printing_order_list.html', context)
+
+
+def printing_filter_order_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="printing")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(regno=ord_id,stage="printing")
+        ord_item_client=checkout_item.objects.all()
+        segment="printing_order_list"
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+        assigns=order_management.objects.filter(user=user, work_status="working")
+  
+
+        
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'user':user,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+        return render(request,'staff/printing_order_list.html', context)
+
+
+
+
+def printing_complete_order(request):
+    resolved_func = resolve(request.path_info).func
+    segment=resolved_func.__name__
+
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+   
+    orde=orders_crm.objects.all().order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.all().order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+
+    assigns=order_management.objects.filter(user=user, work_status="completed")
+ 
+    context={
+            'segment':segment,
+            'user':user,
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+    
+    return render(request, 'staff/printing_complete_order.html',context)
+
+
+def printing_filter_complete_order(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+
+
+        resolved_func = resolve(request.path_info).func
+        segment="printing_complete_order"
+
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+    
+        orde = orders_crm.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
+        ord_item=checkout_item_crm.objects.all()
+
+        orde_client=orders.objects.filter(date__date__gte=st_dt,date__date__lte=en_dt)
+        ord_item_client=checkout_item.objects.all()
+
+        assigns=order_management.objects.filter(user=user, work_status="completed")
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'assigns':assigns,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'user':user,
+        }
+        return render(request,'staff/printing_complete_order.html', context)
+
+
+def printing_filter_complete_order_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id)
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(regno=ord_id)
+        ord_item_client=checkout_item.objects.all()
+        segment="printing_complete_order"
+        usr=request.session['userid']
+        user=user_registration.objects.get(id=usr)
+        assigns=order_management.objects.filter(user=user, work_status="completed")
+  
+
+        
+        context={
+            "orders":orde,
+            "ord_item":ord_item,
+            'segment':segment,
+            'user':user,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+            'assigns':assigns,
+        }
+        return render(request,'staff/printing_complete_order.html', context)
 #main
 def logout(request):
     if 'userid' in request.session:  

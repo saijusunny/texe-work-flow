@@ -1,0 +1,738 @@
+{% extends "staff/base.html" %}
+
+{% block title %} orders {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+{%load static%}
+<style>
+  .in_expect{
+    width: 25%;
+  }
+  @media screen and (max-width: 960px) {  
+    .in_expect{
+    width: 45%;
+  }
+  }
+  #footer{
+        margin-top: 1rem;
+        color: white;
+      }
+  section{
+      margin-top: 2rem;
+  }
+  svg{
+      top:30px
+  }
+  
+  @media screen and (max-width: 960px) {  
+  svg{
+      top:-13rem
+  }
+  }
+  
+  /* vars */
+  :root {
+    --back: #eeeeee;
+    --blue: #0082d2;
+    --green: #33DDAA;
+    --gray: #777777;
+    --size: 200px;  
+  }
+  
+  
+  .tracking-wrapper {
+    margin: 30px;
+    padding: 0;
+  }
+  .tracking * {
+    padding: 0;
+    margin: 0;
+  }
+  .tracking {
+    width: var(--size);
+    max-width: 100%;
+    position: relative;
+  }
+  .tracking .empty-bar {
+    background: #ddd;
+    position: absolute;
+    width: 90%;
+    height: 20%;
+    top: 40%;
+    margin-left: 5%;
+  }
+  .tracking .color-bar {
+    background: var(--blue);
+    position: absolute;
+    height: 20%;
+    top: 40%;
+    margin-left: 5%;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+  }
+  .tracking ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+  }
+  .tracking ul > li {
+    background: #ddd;
+    text-align: center;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    z-index: 1;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    display: inline-block;
+    position: relative;
+    width: 10%;
+  }
+  .tracking ul > li .el {
+    position: relative;
+    margin-top: 100%;
+  }
+  .tracking ul > li .el i {
+    position: absolute;
+    bottom: 100%;
+    left: 8%;
+    margin-bottom: 12%;
+    color: #fff;
+    font-size: 100%;
+    display: none;
+  }
+  .tracking ul > li .txt {
+    color: #999;
+    position: absolute;
+    top: 120%;
+    left: -75%;
+    text-align: center;
+    width: 250%;
+    font-size: .75rem;
+  }
+  .tracking .progress-0 .color-bar { width: 00%; }
+  .tracking .progress-1 .color-bar { width: 15%; }
+  .tracking .progress-2 .color-bar { width: 30%; }
+  .tracking .progress-3 .color-bar { width: 45%; }
+  .tracking .progress-4 .color-bar { width: 60%; }
+  .tracking .progress-5 .color-bar { width: 75%; }
+  .tracking .progress-6 .color-bar { width: 90%; }
+  .tracking .progress-7 .color-bar { width: 90%; }
+  
+  .tracking .progress-0 > ul > li.bullet-1,
+  .tracking .progress-1 > ul > li.bullet-1,
+  .tracking .progress-2 > ul > li.bullet-1,
+  .tracking .progress-3 > ul > li.bullet-1,
+  .tracking .progress-4 > ul > li.bullet-1,
+  .tracking .progress-5 > ul > li.bullet-1,
+  .tracking .progress-6 > ul > li.bullet-1,
+  .tracking .progress-7 > ul > li.bullet-1
+  { background-color: var(--blue); }
+  
+  .tracking .progress-2 > ul > li.bullet-2,
+  .tracking .progress-3 > ul > li.bullet-2,
+  .tracking .progress-4 > ul > li.bullet-2,
+  .tracking .progress-5 > ul > li.bullet-2,
+  .tracking .progress-6 > ul > li.bullet-2,
+  .tracking .progress-7 > ul > li.bullet-2
+  { background-color: var(--blue); }
+  
+  .tracking .progress-4 > ul > li.bullet-3,
+  .tracking .progress-5 > ul > li.bullet-3,
+  .tracking .progress-6 > ul > li.bullet-3,
+  .tracking .progress-7 > ul > li.bullet-3
+  { background-color: var(--blue); }
+  
+  .tracking .progress-6 > ul > li.bullet-4,
+  .tracking .progress-7 > ul > li.bullet-4
+  { background-color: var(--blue); }
+  
+  .tracking .progress-7 > ul > li.bullet-4
+  { background-color: var(--green); }
+  
+  .tracking .progress-1 > ul > li.bullet-1 .el i,
+  .tracking .progress-2 > ul > li.bullet-1 .el i,
+  .tracking .progress-3 > ul > li.bullet-1 .el i,
+  .tracking .progress-4 > ul > li.bullet-1 .el i,
+  .tracking .progress-5 > ul > li.bullet-1 .el i,
+  .tracking .progress-6 > ul > li.bullet-1 .el i,
+  .tracking .progress-7 > ul > li.bullet-1 .el i
+  { display: block; }
+  
+  .tracking .progress-3 > ul > li.bullet-2 .el i,
+  .tracking .progress-4 > ul > li.bullet-2 .el i,
+  .tracking .progress-5 > ul > li.bullet-2 .el i,
+  .tracking .progress-6 > ul > li.bullet-2 .el i,
+  .tracking .progress-7 > ul > li.bullet-2 .el i
+  { display: block; }
+  
+  .tracking .progress-5 > ul > li.bullet-3 .el i,
+  .tracking .progress-6 > ul > li.bullet-3 .el i,
+  .tracking .progress-7 > ul > li.bullet-3 .el i
+  { display: block; }
+  
+  .tracking .progress-7 > ul > li.bullet-4 .el i
+  { display: block; }
+  
+  .tracking .progress-1 > ul > li.bullet-1 .txt,
+  .tracking .progress-2 > ul > li.bullet-1 .txt,
+  .tracking .progress-3 > ul > li.bullet-1 .txt,
+  .tracking .progress-4 > ul > li.bullet-1 .txt,
+  .tracking .progress-5 > ul > li.bullet-1 .txt,
+  .tracking .progress-6 > ul > li.bullet-1 .txt,
+  .tracking .progress-7 > ul > li.bullet-1 .txt
+  { color: var(--blue); }
+  
+  .tracking .progress-3 > ul > li.bullet-2 .txt,
+  .tracking .progress-4 > ul > li.bullet-2 .txt,
+  .tracking .progress-5 > ul > li.bullet-2 .txt,
+  .tracking .progress-6 > ul > li.bullet-2 .txt,
+  .tracking .progress-7 > ul > li.bullet-2 .txt
+  { color: var(--blue); }
+  
+  .tracking .progress-5 > ul > li.bullet-3 .txt,
+  .tracking .progress-6 > ul > li.bullet-3 .txt,
+  .tracking .progress-7 > ul > li.bullet-3 .txt
+  { color: var(--blue); }
+  
+  .tracking .progress-7 > ul > li.bullet-4 .txt
+  { color: var(--blue); }
+  
+  /* demo */
+  .controls {
+    margin: 90px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .controls > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: space-between;
+    margin: 0;
+    padding: 0;
+  }
+  .controls p,
+  .controls button {
+    border: 0;
+    line-height: 20px;
+    padding: 15px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  .controls button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 6px;
+    background: var(--blue);
+    color: #fff;
+    border-radius: 50px;
+    transition: all .3s;
+  }
+  .controls button:nth-child(1) {
+    margin-left: 0;
+  }
+  .controls button i {
+    font-size: 1rem;
+    margin: 0 5px;
+  }
+  .controls button#prev { padding-right: 30px; }
+  .controls button#next { padding-left: 30px; }
+  
+  .controls button:hover,
+  .controls button:focus {
+    outline: none;
+    background-color: var(--green);
+  }
+  #filter{
+    margin-right: 100px;
+  }
+  #flt_div{
+    text-align: right;
+  }
+  @media screen and (max-width: 960px) {  
+    #filter{
+    margin-right: 0px;
+  }
+  #flt_div{
+    text-align: center;
+  }
+  }
+  
+  
+  </style>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-sm-12   text-left">
+                                <h5 class="card-category"></h5>
+                                <h2 class="card-title" id="card-title">Orders</h2>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-6">
+
+                        </div>
+                        <div class="col-6">
+
+                            
+                            
+                            <div class="float-right btn-group btn-group-toggle mr-4"  >
+                                <a  style="text-decoration: none;" href="" data-toggle="modal" data-target="#flt_id" title="filter by id">
+                                <div class="btn btn-sm btn-primary btn-simple"  >
+                                  
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Id Filter</span>
+                                    <span class="d-block d-sm-none">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+                                      </svg>
+                                    </span>
+                                </div>
+
+                                </a>
+                                <a  style="text-decoration: none;"  href="" data-toggle="modal" data-target="#flt_date" title="Filter by date">
+
+                                <div class="btn btn-sm btn-primary btn-simple" id="1">
+                                    <input type="radio" class="d-none d-sm-none" name="options">
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Date Filter</span>
+                                    <span class="d-block d-sm-none">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                        <path d="M7 11.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5"/>
+                                      </svg>
+                                    </span>
+                                </div>
+                                </a>
+
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mb-3 ">
+                  {%for i in orders%}
+                  {%for l in assigns%}
+                  {% if i.id == l.order_crm_id%}
+                    <div class="col-md-6 col-xl-6">
+                       
+                      <div class="card shadow-0 border rounded-3 outers">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="dropdown" style="position: relative;float: right; top: 0;right: 20px;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton">
+                                  {{l.work_status}}
+                                </button>
+                              
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-12 mt-2" style="text-align: right;">
+                              <label for="" >Delivery Date : &nbsp;&nbsp; </label>
+                              <input type="date" class="form-control mr-3 mb-2 in_expect " id="in_expect{{i.id}}" style="float: right;" onchange="update_date_crm('{{i.id}}','{{i.id}}')" value="{{i.delivery_date |date:'Y-m-d'}}" disabled>
+                            </div>
+                          </div>
+                          
+                          <div class="row clickable-row" data-href="{%url 'staff_orders_list_designer' i.id%}">
+                            <div class="col-md-12 col-lg-2 col-xl-2 mb-4 mb-lg-0">
+                              
+                              <div class="bg-image hover-zoom ripple rounded ripple-surface" >
+                                <a href="{%url 'staff_orders_list_designer' i.id%}">
+                                  {% if i.user.profile == "static\images\static_image\icon.svg"%}
+                                  <img src="{% static 'noimage.jpg' %}"class="w-100"/>
+                                  {%elif i.user.profile == ""%}
+                                  <img src="{% static 'noimage.jpg' %}"class="w-100"/>
+                                  {%else%}
+                                  <img src="{{i.user.profile.url}}"class="w-100"/>
+                                  {%endif%}
+                                </a>
+                                <a href="#!">
+                                  <div class="hover-overlay">
+                                    <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xl-6 mt-1 ">
+                              <h5 class="card-title">{{i.user.regno}}</h5>
+                              <h5 class="card-title">{{i.user.name}}</h5>
+                              <div class="d-flex flex-row">
+                              <p class="">
+                                  <span style=" font-size: 12px;">Order Number : {{i.regno}}</span><br>
+                                  <span style=" font-size: 12px;">Ph. No : {{i.user.number}}</span><br>
+                                  <span style=" font-size: 12px;">Address : {{i.user.addres}}</span><br>
+                                  <span style=" font-size: 12px;">Order Date : {{i.date}}</span><br>
+                                  <span style=" font-size: 12px;">Total Amount : ₹{{i.total_amount}}</span><br>
+                              </p>
+                              
+              
+                              
+                              </div>
+                              
+                              
+                            </div>
+                            
+                            <div class="col-md-6 col-lg-4 col-xl-4 ">
+                              <div class="d-flex flex-row align-items-center mb-1">
+
+                                  
+                              </div>
+                              
+                              <div class="d-flex flex-column mt-4">
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+               
+                  {%else%}
+                  {%endif%}
+                  {%endfor%}
+                  {%endfor%}
+                  
+
+                
+                  
+                
+                    {%for i in orde_client%}
+                    {%for l in assigns%}
+                    {% if i.id == l.order_id%}
+                    
+                    <div class="col-md-6 col-xl-6">
+                    
+                      <div class="card shadow-0 border rounded-3 outers">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="dropdown" style="position: relative;float: right; top: 0;right: 20px;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" >
+                                  {{l.work_status}}
+                                </button>
+                                
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-12 mt-2" style="text-align: right;">
+                              <label for="" >Delivery Date : &nbsp;&nbsp; </label>
+                              <input type="date" class="form-control mr-3 mb-2 in_expect" id="in_expect{{i.regno}}" style="float: right;"  value="{{i.delivery_date |date:'Y-m-d'}}" disabled>
+                            </div>
+                          </div>
+                          
+                          <div class="row  clickable-row" data-href="{%url 'staff_orders_list_designer_client' i.id%}">
+                            <div class="col-md-12 col-lg-2 col-xl-2 mb-4 mb-lg-0">
+                              
+                              <div class="bg-image hover-zoom ripple rounded ripple-surface" >
+                                <a href="{%url 'staff_orders_list_designer_client' i.id%}">
+                                  {% if i.user.profile == "static\images\static_image\icon.svg"%}
+                                  <img src="{% static 'noimage.jpg' %}"class="w-100"/>
+                                  {%elif i.user.profile == ""%}
+                                  <img src="{% static 'noimage.jpg' %}"class="w-100"/>
+                                  {%else%}
+                                  <img src="http://127.0.0.1:7000{{i.user.profile.url}}"class="w-100"/>
+                                  {%endif%}
+                                  </a>
+                                
+                                <a href="#!">
+                                  <div class="hover-overlay">
+                                    <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xl-6 mt-1 ">
+                              <h5 class="card-title">{{i.user.regno}}</h5>
+                              <h5 class="card-title">{{i.user.name}}</h5>
+                              <div class="d-flex flex-row">
+                              <p class="">
+                                  <span style=" font-size: 12px;">Order Number : <span class="ord_num">{{i.regno}}</span></span><br>
+                                  <span style=" font-size: 12px;">Ph. No : {{i.user.number}}</span><br>
+                                  <span style=" font-size: 12px;">Address : {{i.user.addres}}</span><br>
+                                  <span style=" font-size: 12px;">Order Date : {{i.date}}</span><br>
+                                  <span style=" font-size: 12px;">Total Amount : ₹{{i.total_amount}}</span><br>
+                              </p>
+                              
+              
+                              
+                              </div>
+                              
+                              
+                            </div>
+                            
+                            <div class="col-md-6 col-lg-4 col-xl-4 ">
+                              <div class="d-flex flex-row align-items-center mb-1">
+
+                                
+              
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                      
+                                      
+                                  </div>
+                                </div>
+                                  
+                              </div>
+                              
+                              <div class="d-flex flex-column mt-4">
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+          
+                    </div>
+                    {%else%}
+                    {%endif%}
+                    {%endfor%}
+                  
+                    {%endfor%}
+                  </div>
+                  
+
+                {%if orders%}
+                  {% if orde_client%}
+                  
+                  {%else%}
+                
+                  {%endif%}
+                {%else%}
+                  {% if orde_client%}
+                    
+                    {%else%}
+                    <div class="row">
+                        <div class="col-sm-8 p-5" style="text-align: center;margin: auto;">
+                            
+                            <div class="alert alert-danger">
+                              <ul>
+                                
+                                      <li style="font-size: 16px;">No Orders Found!</li>
+                                
+                              </ul>
+                          </div>
+                        </div>
+                    </div>
+                    {%endif%}
+                
+                {%endif%}
+
+                  
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+    <div class="modal fade" id="flt_date" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Filter By Date</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'stiching_filter_complete_order'%}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %} 
+    
+                <div class="row">
+                  
+                  <div class="col-6 ">
+                      <div>
+                          <label for="">Start Date</label>
+                      </div>
+                      <div>
+                      <input type="date" class="drop form-control  mt-2 text-light" name="str_dt" style="border:1px solid #6C7293 ;height:70px;"  >
+                      </div>
+    
+        
+                  </div>
+                  <div class="col-6 ">
+                      <div>
+                          <label for=""> End Date</label>
+                      </div>
+                      <div>
+                          <input type="date" name="end_dt" class="drop form-control mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;"  >
+                      </div>
+    
+        
+                  </div>
+    
+                </div>
+    
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Find</button>
+            
+  
+              </form>
+     
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="flt_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Filter By Id</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'stiching_filter_complete_order_id'%}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %} 
+    
+                <div class="row">
+                  
+                  <div class="col-md-12 ">
+                      <div>
+                          <label for="">Order Id :</label>
+                      </div>
+                      <div>
+                      <input type="text" class="drop form-control  mt-2 text-light" name="ord_id" style="border:1px solid #6C7293 ;height:70px;"  >
+                      </div>
+    
+        
+                  </div>
+                  
+    
+                </div>
+    
+                
+                
+              
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Find</button>
+              </form>
+     
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+  function add_stage(id,stg, mang_id){
+    $.ajax({
+              type: "GET",
+              url: "{% url 'staff_change_order_stage' %}",
+              data: {
+                  ele : id,
+                  stage:stg,
+                  mang_ids:mang_id,
+                  
+                  
+              },
+              success:function(response){
+                  alert("Order Stage Update Successfully")
+                  location.reload()
+              }});
+  }
+</script>
+
+<script>
+  function add_stage_client(id,stg,mang_id){
+ 
+    $.ajax({
+              type: "GET",
+              url: "{% url 'staff_change_order_stage_client' %}",
+              data: {
+                  ele : id,
+                  stage:stg,
+                  mang_ids:mang_id,
+                  
+                  
+              },
+              success:function(response){
+                  alert("Order Stage Update Successfully")
+                  location.reload()
+              }});
+  }
+</script>
+
+  
+    <script>
+        
+         function fieldset1_function(){
+            document.getElementById('field2').style.display="none";
+            document.getElementById('field1').style.display="block";
+  
+         }
+         function fieldset2_function(){
+            document.getElementById('field1').style.display="none";
+            document.getElementById('field2').style.display="block";
+  
+         }
+   
+     </script> 
+  
+  
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<script>
+    // Add click event listener to all rows with class "clickable-row"
+    const rows = document.querySelectorAll('.clickable-row');
+    rows.forEach(row => {
+        row.addEventListener('click', () => {
+            // Get the URL from the "data-href" attribute
+            const url = row.getAttribute('data-href');
+            // Navigate to the URL
+            window.location.href = url;
+        });
+    });
+</script>
+<script>
+    const input = document.getElementById('search')
+    input.addEventListener('keyup', (e) => {
+    var inputs = e.target.value.toLowerCase(); //do lowercase
+    document.querySelectorAll('.outers').forEach(function(el) {
+        el.style.display = 'none';
+    });
+
+    document.querySelectorAll('.outers .card-title').forEach(function(el) {
+        //compare 
+        if (el.textContent.toLowerCase().indexOf(inputs) > -1) {
+        el.closest('.outers').style.display = "block"; //if match show that div
+        }
+    })
+    })
+</script> 
+{% endblock javascripts %}
