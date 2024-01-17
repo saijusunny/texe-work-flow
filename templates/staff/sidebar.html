@@ -43,10 +43,26 @@
                         <p style="font-size: 13px;">Order Management</p>
                     </a>
                 </li>
-                {% elif user.designation == "stiching"%}
+                {% elif user.designation == "printing"%}
                 
                 <li class='{% if segment == "printing_order_list"%} active {% endif %}'>
                     <a href="{% url 'printing_order_list'%}">
+                        <i class="tim-icons icon-atom"></i>
+                        <p style="font-size: 13px;">Order Management</p>
+                    </a>
+                </li>
+                {% elif user.designation == "packing"%}
+                
+                <li class='{% if segment == "packing_order_list"%} active {% endif %}'>
+                    <a href="{% url 'packing_order_list'%}">
+                        <i class="tim-icons icon-atom"></i>
+                        <p style="font-size: 13px;">Order Management</p>
+                    </a>
+                </li>
+                {% elif user.designation == "despatch"%}
+                
+                <li class='{% if segment == "despatch_order_list"%} active {% endif %}'>
+                    <a href="{% url 'despatch_order_list'%}">
                         <i class="tim-icons icon-atom"></i>
                         <p style="font-size: 13px;">Order Management</p>
                     </a>
@@ -82,11 +98,31 @@
                             <p style="font-size: 13px;">Completed Order</p>
                         </a>
                     </li>
-                {%elif user.designation == "stiching" %}
+                {%elif user.designation == "printing" %}
             
                 
                     <li class='{% if segment == "printing_complete_order"%} active {% endif %}'>
                         <a href="{% url 'printing_complete_order'%}">
+                            <i class="tim-icons icon-atom"></i>
+                            <p style="font-size: 13px;">Completed Order</p>
+                        </a>
+                    </li>
+
+                    {%elif user.designation == "packing" %}
+            
+                
+                    <li class='{% if segment == "packing_complete_order"%} active {% endif %}'>
+                        <a href="{% url 'packing_complete_order'%}">
+                            <i class="tim-icons icon-atom"></i>
+                            <p style="font-size: 13px;">Completed Order</p>
+                        </a>
+                    </li>
+
+                {%elif user.designation == "despatch" %}
+            
+                
+                    <li class='{% if segment == "despatch_complete_order"%} active {% endif %}'>
+                        <a href="{% url 'despatch_complete_order'%}">
                             <i class="tim-icons icon-atom"></i>
                             <p style="font-size: 13px;">Completed Order</p>
                         </a>

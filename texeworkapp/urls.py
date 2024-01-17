@@ -113,10 +113,38 @@ urlpatterns = [
     path('printing_complete_order',views.printing_complete_order, name='printing_complete_order'),
     path('printing_filter_complete_order',views.printing_filter_complete_order, name='printing_filter_complete_order'),
     path('printing_filter_complete_order_id',views.printing_filter_complete_order_id, name='printing_filter_complete_order_id'),
-
-     
     path('printing_change_order_stage',views.printing_change_order_stage, name='printing_change_order_stage'),
     path('printing_change_order_stage_client',views.printing_change_order_stage_client, name='printing_change_order_stage_client'),
+
+    #! testing
+    path('testing_order_list',views.testing_order_list, name='testing_order_list'),
+    path('testing_filter_order_date',views.testing_filter_order_date, name='testing_filter_order_date'),
+    path('testing_filter_order_id',views.testing_filter_order_id, name='testing_filter_order_id'),
+    path('testing_complete_order',views.testing_complete_order, name='testing_complete_order'),
+    path('testing_filter_complete_order',views.testing_filter_complete_order, name='testing_filter_complete_order'),
+    path('testing_filter_complete_order_id',views.testing_filter_complete_order_id, name='testing_filter_complete_order_id'),
+    path('testing_change_order_stage',views.testing_change_order_stage, name='testing_change_order_stage'),
+    path('testing_change_order_stage_client',views.testing_change_order_stage_client, name='testing_change_order_stage_client'),
+
+    #! packing
+    path('packing_order_list',views.packing_order_list, name='packing_order_list'),
+    path('packing_filter_order_date',views.packing_filter_order_date, name='packing_filter_order_date'),
+    path('packing_filter_order_id',views.packing_filter_order_id, name='packing_filter_order_id'),
+    path('packing_complete_order',views.packing_complete_order, name='packing_complete_order'),
+    path('packing_filter_complete_order',views.packing_filter_complete_order, name='packing_filter_complete_order'),
+    path('packing_filter_complete_order_id',views.packing_filter_complete_order_id, name='packing_filter_complete_order_id'),
+    path('packing_change_order_stage',views.packing_change_order_stage, name='packing_change_order_stage'),
+    path('packing_change_order_stage_client',views.packing_change_order_stage_client, name='packing_change_order_stage_client'),
+
+    #! despatch
+    path('despatch_order_list',views.despatch_order_list, name='despatch_order_list'),
+    path('despatch_filter_order_date',views.despatch_filter_order_date, name='despatch_filter_order_date'),
+    path('despatch_filter_order_id',views.despatch_filter_order_id, name='despatch_filter_order_id'),
+    path('despatch_complete_order',views.despatch_complete_order, name='despatch_complete_order'),
+    path('despatch_filter_complete_order',views.despatch_filter_complete_order, name='despatch_filter_complete_order'),
+    path('despatch_filter_complete_order_id',views.despatch_filter_complete_order_id, name='despatch_filter_complete_order_id'),
+    path('despatch_change_order_stage',views.despatch_change_order_stage, name='despatch_change_order_stage'),
+    path('despatch_change_order_stage_client',views.despatch_change_order_stage_client, name='despatch_change_order_stage_client'),
 
     ########################################################################USER MODULE
     
