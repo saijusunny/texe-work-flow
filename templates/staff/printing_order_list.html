@@ -669,7 +669,7 @@
   function add_stage(id,stg, mang_id){
     $.ajax({
               type: "GET",
-              url: "{% url 'staff_change_order_stage' %}",
+              url: "{% url 'printing_change_order_stage' %}",
               data: {
                   ele : id,
                   stage:stg,
@@ -689,7 +689,7 @@
  
     $.ajax({
               type: "GET",
-              url: "{% url 'staff_change_order_stage_client' %}",
+              url: "{% url 'printing_change_order_stage_client' %}",
               data: {
                   ele : id,
                   stage:stg,

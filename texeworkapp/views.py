@@ -1433,6 +1433,7 @@ def staff_change_order_stage(request):
     ele = request.GET.get('ele')
     stg = request.GET.get('stage')
     mang_id = request.GET.get('mang_ids')
+
     itm=orders_crm.objects.get(id=ele)
     itm.stage="cutting"
     itm.save()
@@ -1750,6 +1751,69 @@ def cutting_filter_complete_order_id(request):
         }
         return render(request,'staff/cutting_complete_order.html', context)
 
+
+def cutting_change_order_stage(request):
+    ele = request.GET.get('ele')
+    stg = request.GET.get('stage')
+    mang_id = request.GET.get('mang_ids')
+
+    itm=orders_crm.objects.get(id=ele)
+    itm.stage="stiching"
+    itm.save()
+    mangement=order_management.objects.get(id=mang_id)
+
+    # Sample date-time strings
+    date_str1 = mangement.start_time
+    date_str2 = timezone.now()
+
+    # Calculate the difference
+    time_difference = date_str1 - date_str2
+
+    mangement.work_status=stg
+    mangement.end_time=datetime.now()
+    mangement.time_taken=time_difference
+    mangement.save()
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+    if user.preformance:
+        user.preformance=int(user.preformance)+1
+    else:
+        user.preformance=1
+    user.save()
+    return JsonResponse({"status":" not"})
+
+
+def cutting_change_order_stage_client(request):
+    ele = request.GET.get('ele')
+    stg = request.GET.get('stage')
+    mang_id = request.GET.get('mang_ids')
+ 
+    itm=orders.objects.get(id=ele)
+    itm.stage="stiching"
+    itm.save()
+    mangement=order_management.objects.get(id=mang_id)
+
+    # Sample date-time strings
+    date_str1 = mangement.start_time
+    date_str2 = timezone.now()
+
+    # Calculate the difference
+    time_difference = date_str1 - date_str2
+
+    mangement.work_status=stg
+    mangement.end_time=datetime.now()
+    mangement.time_taken=time_difference
+    mangement.save()
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+    if user.preformance:
+        user.preformance=int(user.preformance)+1
+    else:
+        user.preformance=1
+    user.save()
+    return JsonResponse({"status":" not"})
+
+
 #! Stiching Section
 def stiching_order_list(request):
 
@@ -1923,6 +1987,68 @@ def stiching_filter_complete_order_id(request):
             'assigns':assigns,
         }
         return render(request,'staff/stiching_complete_order.html', context)
+
+def stiching_change_order_stage(request):
+    ele = request.GET.get('ele')
+    stg = request.GET.get('stage')
+    mang_id = request.GET.get('mang_ids')
+
+    itm=orders_crm.objects.get(id=ele)
+    itm.stage="printing"
+    itm.save()
+    mangement=order_management.objects.get(id=mang_id)
+
+    # Sample date-time strings
+    date_str1 = mangement.start_time
+    date_str2 = timezone.now()
+
+    # Calculate the difference
+    time_difference = date_str1 - date_str2
+
+    mangement.work_status=stg
+    mangement.end_time=datetime.now()
+    mangement.time_taken=time_difference
+    mangement.save()
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+    if user.preformance:
+        user.preformance=int(user.preformance)+1
+    else:
+        user.preformance=1
+    user.save()
+    return JsonResponse({"status":" not"})
+
+
+def stiching_change_order_stage_client(request):
+    ele = request.GET.get('ele')
+    stg = request.GET.get('stage')
+    mang_id = request.GET.get('mang_ids')
+ 
+    itm=orders.objects.get(id=ele)
+    itm.stage="printing"
+    itm.save()
+    mangement=order_management.objects.get(id=mang_id)
+
+    # Sample date-time strings
+    date_str1 = mangement.start_time
+    date_str2 = timezone.now()
+
+    # Calculate the difference
+    time_difference = date_str1 - date_str2
+
+    mangement.work_status=stg
+    mangement.end_time=datetime.now()
+    mangement.time_taken=time_difference
+    mangement.save()
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+    if user.preformance:
+        user.preformance=int(user.preformance)+1
+    else:
+        user.preformance=1
+    user.save()
+    return JsonResponse({"status":" not"})
+
 
 # ? ----------------------------------------------------------------------printning section
 
@@ -2098,6 +2224,71 @@ def printing_filter_complete_order_id(request):
             'assigns':assigns,
         }
         return render(request,'staff/printing_complete_order.html', context)
+
+
+
+def printing_change_order_stage(request):
+    ele = request.GET.get('ele')
+    stg = request.GET.get('stage')
+    mang_id = request.GET.get('mang_ids')
+
+    itm=orders_crm.objects.get(id=ele)
+    itm.stage="testing"
+    itm.save()
+    mangement=order_management.objects.get(id=mang_id)
+
+    # Sample date-time strings
+    date_str1 = mangement.start_time
+    date_str2 = timezone.now()
+
+    # Calculate the difference
+    time_difference = date_str1 - date_str2
+
+    mangement.work_status=stg
+    mangement.end_time=datetime.now()
+    mangement.time_taken=time_difference
+    mangement.save()
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+    if user.preformance:
+        user.preformance=int(user.preformance)+1
+    else:
+        user.preformance=1
+    user.save()
+    return JsonResponse({"status":" not"})
+
+
+def printing_change_order_stage_client(request):
+    ele = request.GET.get('ele')
+    stg = request.GET.get('stage')
+    mang_id = request.GET.get('mang_ids')
+ 
+    itm=orders.objects.get(id=ele)
+    itm.stage="testinng"
+    itm.save()
+    mangement=order_management.objects.get(id=mang_id)
+
+    # Sample date-time strings
+    date_str1 = mangement.start_time
+    date_str2 = timezone.now()
+
+    # Calculate the difference
+    time_difference = date_str1 - date_str2
+
+    mangement.work_status=stg
+    mangement.end_time=datetime.now()
+    mangement.time_taken=time_difference
+    mangement.save()
+    usr=request.session['userid']
+    user=user_registration.objects.get(id=usr)
+    if user.preformance:
+        user.preformance=int(user.preformance)+1
+    else:
+        user.preformance=1
+    user.save()
+    return JsonResponse({"status":" not"})
+
+
 #main
 def logout(request):
     if 'userid' in request.session:  
