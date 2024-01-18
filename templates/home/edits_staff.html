@@ -99,19 +99,39 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6 pr-md-1">
+                <div class="col-md-4 pr-md-1">
                   <div class="">
                     <label>Profile Image</label><br>
                     
                     <input type="file" class="form-control" placeholder="City" value="{{usr_client.addres}}" name="propic">
                   </div>
                 </div>
-                <div class="col-md-6 px-md-1">
+                <div class="col-md-4 px-md-1">
                   <div class="form-group">
                     <label>Location</label>
                     <input type="text" class="form-control" placeholder="location" name="location" value="{{usr_client.location}}">
                   </div>
+
+             
                 </div>
+
+                <div class="col-md-4 px-md-1">
+                  <div class="form-group">
+                    <label>Status</label>
+                      <select name="status" id="" class="form-control">
+                        <option value="{{usr_client.status}}" style="color: black;" selected>{{usr_client.status}}</option>
+  
+                        <option value="active" style="color: black;">active</option>
+                        <option value="deactive" style="color: black;">deactive</option>
+                        <option value="leave" style="color: black;">leave</option>
+                        
+                    </select>
+                  </div>
+
+             
+                </div>
+
+                
                 
               </div>
               

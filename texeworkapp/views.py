@@ -313,7 +313,7 @@ def save_edit_staff(request,id):
         usr.location=request.POST.get('location', None)
         usr.designation=request.POST.get('desi', None)
         usr.dob=request.POST.get('dob', None)
-
+        usr.status=request.POST.get('status', None)
         usr.complaint=request.POST.get('complaintss',None)
         usr.orders=request.POST.get('order',None)
     
@@ -339,6 +339,7 @@ def orders_dta(request):
 
     orde_client=orders.objects.all().order_by("-id")
     ord_item_client=checkout_item.objects.all()
+
     context={
             'segment':segment,
      
@@ -369,7 +370,7 @@ def filter_order(request):
             'orde_client':orde_client,
             'ord_item_client':ord_item_client,
         }
-        return render(request,request.session['previous_html'], context)
+        return render(request,'home/orders.html', context)
 
 
 def filter_order_id(request):
@@ -389,7 +390,7 @@ def filter_order_id(request):
             'orde_client':orde_client,
             'ord_item_client':ord_item_client,
         }
-        return render(request,request.session['previous_html'], context)
+        return render(request,'home/orders.html', context)
 
 
 def pending_orders(request):
@@ -977,6 +978,7 @@ def orders_list_designer_client(request,id):
     orde = orders.objects.filter(id=id).order_by("-id")
    
     ord_item=checkout_item.objects.filter(id=id)
+    print(ord_item.count())
     request.session['previous_url'] = request.META.get('HTTP_REFERER')
  
     segment="order_managements"
@@ -3014,5 +3016,8 @@ def logout(request):
         return redirect('/')
 
 
+###############################################################  Automatic Assigning
 
+ord_manag=order_management.objects.filter(work_status="designing")
+print(ord_manag.count())
 

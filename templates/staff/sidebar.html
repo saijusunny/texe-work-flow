@@ -18,7 +18,7 @@
                 
                 
 
-                {% if user.designation == "designer"%}
+                {% if user.designation == "designing"%}
                 
                 <li class='{% if segment == "order_staff_designer"%} active {% endif %}'>
                     <a href="{% url 'order_staff_designer'%}">
@@ -51,6 +51,14 @@
                         <p style="font-size: 13px;">Order Management</p>
                     </a>
                 </li>
+                {% elif user.designation == "testing"%}
+                
+                <li class='{% if segment == "testing_order_list"%} active {% endif %}'>
+                    <a href="{% url 'testing_order_list'%}">
+                        <i class="tim-icons icon-atom"></i>
+                        <p style="font-size: 13px;">Order Management</p>
+                    </a>
+                </li>
                 {% elif user.designation == "packing"%}
                 
                 <li class='{% if segment == "packing_order_list"%} active {% endif %}'>
@@ -72,7 +80,7 @@
 
                 
 
-                {% if user.designation == "designer"%}
+                {% if user.designation == "designing"%}
                 
                 <li class='{% if segment == "completed_work_designer"%} active {% endif %}'>
                     <a href="{% url 'completed_work_designer'%}">
@@ -103,6 +111,15 @@
                 
                     <li class='{% if segment == "printing_complete_order"%} active {% endif %}'>
                         <a href="{% url 'printing_complete_order'%}">
+                            <i class="tim-icons icon-atom"></i>
+                            <p style="font-size: 13px;">Completed Order</p>
+                        </a>
+                    </li>
+                    {%elif user.designation == "testing" %}
+            
+                
+                    <li class='{% if segment == "testing_complete_order"%} active {% endif %}'>
+                        <a href="{% url 'testing_complete_order'%}">
                             <i class="tim-icons icon-atom"></i>
                             <p style="font-size: 13px;">Completed Order</p>
                         </a>
