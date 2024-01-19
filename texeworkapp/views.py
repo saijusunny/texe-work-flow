@@ -3018,6 +3018,79 @@ def logout(request):
 
 ###############################################################  Automatic Assigning
 
-ord_manag=order_management.objects.filter(work_status="designing")
-print(ord_manag.count())
+# staff status 
+
+stf= user_registration.objects.filter(status="active")
+ord_manag=order_management.objects.all()
+ord_crm=orders_crm.objects.all()
+ord_client=orders.objects.all()
+for cli in ord_client:
+    ord_ids=cli.id
+    if cli.stage == "checkout": 
+        
+        for mang in ord_manag:
+            
+            if ord_ids == mang.order_id:
+                if mang.work_status == "working":
+                    
+                    print(ord_ids)
+                    print("pending")
+                
+            else:
+                pass
+    elif cli.stage == "designing":
+        for mang in ord_manag:
+            if ord_ids == mang.order_id:
+                if (mang.work_status == "working") or (mang.work_status == "completed"):
+                    ord_ids=cli.id
+                    print(ord_ids)
+                    print("designing")
+                else:
+                    for stf_id in stf:
+                        if ord_ids == stf_id.id:
+                            if order_management.objects.filter(user=stf_id,work_status="completed").exists():
+                                ord_ass=order_management()
+                                ord_ass.user=stf_id
+                                ord_ass.order=cli
+                                ord_ass.order_crm=None
+                                ord_ass.work_status="working"
+                                ord_ass.start_time=timezone.now()
+                                ord_ass.save()
+
+                            else:
+                                pass
+
+                    
+
+            else:
+              
+                pass
+        
+    elif cli.stage == "cutting":
+        ord_ids=cli.id
+        print(ord_ids)
+        print("cutting")
+    elif cli.stage == "stiching":
+        ord_ids=cli.id
+        print(ord_ids)
+        print("stiching")
+    elif cli.stage == "printing":
+        ord_ids=cli.id
+        print(ord_ids)
+        print("printing")
+    elif cli.stage == "testing":
+        ord_ids=cli.id
+        print(ord_ids)
+        print("testing")
+    elif cli.stage == "packing":
+        ord_ids=cli.id
+        print(ord_ids)
+        print("packing")
+    elif cli.stage == "despatch":
+        ord_ids=cli.id
+        print(ord_ids)
+        print("despatch")
+    else:
+        pass
+
 
