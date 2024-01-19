@@ -3071,29 +3071,193 @@ for cli in ord_client:
                 else:
                     pass
     elif cli.stage == "cutting":
-        ord_ids=cli.id
-        print(ord_ids)
-        print("cutting")
+        
+        
+        if order_management.objects.filter(order_id=ord_ids).exists():
+            
+            pass
+        else:
+            
+            
+            for stf_id in stf:
+                
+                if stf_id.designation == "cutting":
+                    if order_management.objects.filter(user=stf_id,work_status="completed").exists():
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                    elif order_management.objects.filter(user=stf_id,work_status="working").exists():
+                        pass
+                    else:
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                else:
+                    pass
     elif cli.stage == "stiching":
-        ord_ids=cli.id
-        print(ord_ids)
-        print("stiching")
+        
+        
+        if order_management.objects.filter(order_id=ord_ids).exists():
+            
+            pass
+        else:
+            
+            
+            for stf_id in stf:
+                
+                if stf_id.designation == "stiching":
+                    if order_management.objects.filter(user=stf_id,work_status="completed").exists():
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                    elif order_management.objects.filter(user=stf_id,work_status="working").exists():
+                        pass
+                    else:
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                else:
+                    pass
     elif cli.stage == "printing":
-        ord_ids=cli.id
-        print(ord_ids)
-        print("printing")
+        
+        if order_management.objects.filter(order_id=ord_ids).exists():
+            
+            pass
+        else:
+            
+            
+            for stf_id in stf:
+                
+                if stf_id.designation == "printing":
+                    if order_management.objects.filter(user=stf_id,work_status="completed").exists():
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                    elif order_management.objects.filter(user=stf_id,work_status="working").exists():
+                        pass
+                    else:
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                else:
+                    pass
     elif cli.stage == "testing":
-        ord_ids=cli.id
-        print(ord_ids)
-        print("testing")
+        
+        if order_management.objects.filter(order_id=ord_ids).exists():
+            
+            pass
+        else:
+            
+            
+            for stf_id in stf:
+                
+                if stf_id.designation == "testing":
+                    if order_management.objects.filter(user=stf_id,work_status="completed").exists():
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                    elif order_management.objects.filter(user=stf_id,work_status="working").exists():
+                        pass
+                    else:
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                else:
+                    pass
     elif cli.stage == "packing":
-        ord_ids=cli.id
-        print(ord_ids)
-        print("packing")
+        
+        if order_management.objects.filter(order_id=ord_ids).exists():
+            
+            pass
+        else:
+            
+            
+            for stf_id in stf:
+                
+                if stf_id.designation == "packing":
+                    if order_management.objects.filter(user=stf_id,work_status="completed").exists():
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                    elif order_management.objects.filter(user=stf_id,work_status="working").exists():
+                        pass
+                    else:
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                else:
+                    pass
     elif cli.stage == "despatch":
-        ord_ids=cli.id
-        print(ord_ids)
-        print("despatch")
+        
+        if order_management.objects.filter(order_id=ord_ids).exists():
+            
+            pass
+        else:
+            
+            
+            for stf_id in stf:
+                
+                if stf_id.designation == "despatch":
+                    if order_management.objects.filter(user=stf_id,work_status="completed").exists():
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                    elif order_management.objects.filter(user=stf_id,work_status="working").exists():
+                        pass
+                    else:
+                        ord_ass=order_management()
+                        ord_ass.user=stf_id
+                        ord_ass.order_id=cli.id
+                        ord_ass.order_crm_id=None
+                        ord_ass.work_status="working"
+                        ord_ass.start_time=timezone.now()
+                        ord_ass.save()
+                else:
+                    pass
     else:
         pass
 
