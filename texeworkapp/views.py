@@ -457,6 +457,7 @@ def filter_pending_id(request):
         return render(request,'home/pending_orders.html', context)
 
 
+
 def today_orders(request):
     resolved_func = resolve(request.path_info).func
     segment="orders_dta"
@@ -599,6 +600,7 @@ def change_order_status_client(request):
         itm.stage="despatch"
     itm.save()
     return JsonResponse({"status":" not"})
+
 
 
 def change_order_stage(request):
@@ -940,7 +942,72 @@ def cart_change_model(request):
 def order_managements(request):
     return render(request, 'home/order_management.html')
 
-def pending_orders(request):
+
+
+def payment_pending_orders(request):
+    resolved_func = resolve(request.path_info).func
+    segment="order_managements"
+ 
+    orde=orders_crm.objects.filter(stage="payment").order_by("-id")
+    ord_item=checkout_item_crm.objects.all()
+
+    orde_client=orders.objects.filter(stage="payment").order_by("-id")
+    ord_item_client=checkout_item.objects.all()
+    request.session['previous_html']='home/payment_pending_orders.html'
+    context={
+            'segment':segment,
+            'stg':"Payment pending orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+    
+    return render(request, 'home/payment_pending_orders.html', context)
+
+def filter_payment_pending(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="orders_dta"
+       
+        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="payment")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="payment")
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Payment pending orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/payment_pending_orders.html', context)
+
+
+def filter_payment_pending_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="payment" )
+        ord_item=checkout_item_crm.objects.all()
+        segment="orders_dta"
+    
+        orde_client=orders.objects.filter(regno=ord_id,stage="payment" )
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Payment pending orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/payment_pending_orders.html', context)
+
+
+
+def pending_orders_mang(request):
     resolved_func = resolve(request.path_info).func
     segment="order_managements"
  
@@ -959,6 +1026,48 @@ def pending_orders(request):
         }
     
     return render(request, 'home/pending_payment.html',context)
+
+
+def filter_pending_orders(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="orders_dta"
+       
+        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="pending")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="pending")
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Pending orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/pending_payment.html', context)
+
+
+def filter_pending_orders_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="pending" )
+        ord_item=checkout_item_crm.objects.all()
+        segment="orders_dta"
+    
+        orde_client=orders.objects.filter(regno=ord_id,stage="pending" )
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Pending orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/pending_payment.html', context)
+
 
 
 #####!*/**/*/*/*/*/**/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/* For Design - Admin
@@ -1015,6 +1124,7 @@ def save_assign_stage(request, id):
         ors.user=idrs
         ors.order_id=id
         ors.work_status="working"
+        ors.order_no=ords.regno
         ors.save()
         orde_stat = orders.objects.get(id=id)
         orde_stat.stage=request.POST.get('stage')
@@ -1032,6 +1142,7 @@ def save_assign_stage_crm(request, id):
         ors.user=idrs
         ors.order_crm_id=id
         ors.work_status="working"
+        ors.order_no=ords.regno
         ors.save()
         orde_stat = orders_crm.objects.get(id=id)
         orde_stat.stage=request.POST.get('stage')
@@ -1060,7 +1171,49 @@ def designer_section(request):
             'ord_item_client':ord_item_client,
         }
     
-    return render(request, 'home/pending_payment.html',context)
+    return render(request, 'home/designer_section.html',context)
+
+
+def filter_designing_orders(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="order_managements"
+       
+        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="designing")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="designing")
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Designing orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/designer_section.html', context)
+
+
+def filter_designing_orders_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="designing" )
+        ord_item=checkout_item_crm.objects.all()
+        segment="order_managements"
+    
+        orde_client=orders.objects.filter(regno=ord_id,stage="designing" )
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Designing orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/designer_section.html', context)
+
 
 
 #####!*/**/*/*/*/*/**/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/* For Cutting - Admin
@@ -1087,7 +1240,50 @@ def cutting_section(request):
             'ord_item_client':ord_item_client,
         }
     
-    return render(request, 'home/pending_payment.html',context)
+    return render(request, 'home/cutting_section.html',context)
+
+
+
+def filter_cutting_orders(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="order_managements"
+       
+        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="cutting")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="cutting")
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Cutting orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/cutting_section.html', context)
+
+
+def filter_cutting_orders_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="cutting" )
+        ord_item=checkout_item_crm.objects.all()
+        segment="order_managements"
+    
+        orde_client=orders.objects.filter(regno=ord_id,stage="cutting" )
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Cutting orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/cutting_section.html', context)
+
 
 def stiching_section(request):
    
@@ -1099,7 +1295,7 @@ def stiching_section(request):
 
     orde_client=orders.objects.filter(stage="stiching").order_by("-id")
     ord_item_client=checkout_item.objects.all()
-    request.session['previous_html']="home/pending_payment.html"
+    request.session['previous_html']="home/cutting_section.html"
 
     context={
             'segment':segment,
@@ -1110,7 +1306,47 @@ def stiching_section(request):
             'ord_item_client':ord_item_client,
         }
     
-    return render(request, 'home/pending_payment.html',context)
+    return render(request, 'home/stiching_section.html',context)
+
+def filter_stiching_orders(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="order_managements"
+       
+        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="stiching")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="stiching")
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Stiching orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/stiching_section.html', context)
+
+
+def filter_stiching_orders_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="stiching" )
+        ord_item=checkout_item_crm.objects.all()
+        segment="order_managements"
+    
+        orde_client=orders.objects.filter(regno=ord_id,stage="stiching" )
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Stiching orders",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/stiching_section.html', context)
 
 
 
@@ -1135,7 +1371,50 @@ def printing_section(request):
             'ord_item_client':ord_item_client,
         }
     
-    return render(request, 'home/pending_payment.html',context)
+    return render(request, 'home/printing_section.html',context)
+
+def filter_printing_orders(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="order_managements"
+       
+        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="printing")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="printing")
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Printing Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/printing_section.html', context)
+
+
+def filter_printing_orders_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="printing" )
+        ord_item=checkout_item_crm.objects.all()
+        segment="order_managements"
+    
+        orde_client=orders.objects.filter(regno=ord_id,stage="printing" )
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Printing Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/printing_section.html', context)
+
+
+
 
 def testing_section(request):
     resolved_func = resolve(request.path_info).func
@@ -1157,7 +1436,47 @@ def testing_section(request):
             'ord_item_client':ord_item_client,
         }
     
-    return render(request, 'home/pending_payment.html',context)
+    return render(request, 'home/testing_section.html',context)
+
+def filter_testing_orders(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="order_managements"
+       
+        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="testing")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="testing")
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Testing Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/testing_section.html', context)
+
+
+def filter_testing_orders_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="testing" )
+        ord_item=checkout_item_crm.objects.all()
+        segment="order_managements"
+    
+        orde_client=orders.objects.filter(regno=ord_id,stage="testing" )
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Testing Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/testing_section.html', context)
 
 def packing_section(request):
     resolved_func = resolve(request.path_info).func
@@ -1179,7 +1498,49 @@ def packing_section(request):
             'ord_item_client':ord_item_client,
         }
     
-    return render(request, 'home/pending_payment.html',context)
+    return render(request, 'home/packing_section.html',context)
+
+
+def filter_packing_orders(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="order_managements"
+       
+        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="packing")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="packing")
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Packing Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/packing_section.html', context)
+
+
+def filter_packing_orders_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="packing" )
+        ord_item=checkout_item_crm.objects.all()
+        segment="order_managements"
+    
+        orde_client=orders.objects.filter(regno=ord_id,stage="packing" )
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Packing Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/packing_section.html', context)
+
 
 def despatch_section(request):
     resolved_func = resolve(request.path_info).func
@@ -1201,7 +1562,49 @@ def despatch_section(request):
             'ord_item_client':ord_item_client,
         }
     
-    return render(request, 'home/pending_payment.html',context)
+    return render(request, 'home/despatch_section.html',context)
+
+
+def filter_despatch_orders(request):
+    if request.method=="POST":
+        st_dt=request.POST.get('str_dt')
+        en_dt=request.POST.get('end_dt')
+        segment="order_managements"
+       
+        orde = orders_crm.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="despatch")
+        ord_item=checkout_item_crm.objects.all()
+        orde_client=orders.objects.filter(date__gte=st_dt,date__lte=en_dt,stage="despatch")
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Despatch Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/despatch_section.html', context)
+
+
+def filter_despatch_orders_id(request):
+    if request.method=="POST":
+        ord_id=request.POST.get('ord_id')
+        orde = orders_crm.objects.filter(regno=ord_id,stage="despatch" )
+        ord_item=checkout_item_crm.objects.all()
+        segment="order_managements"
+    
+        orde_client=orders.objects.filter(regno=ord_id,stage="despatch" )
+        ord_item_client=checkout_item.objects.all()
+        context={
+            'segment':segment,
+            'stg':"Despatch Section",
+            "orders":orde,
+            "ord_item":ord_item,
+            'orde_client':orde_client,
+            'ord_item_client':ord_item_client,
+        }
+        return render(request,'home/despatch_section.html', context)
+
 ############################################################  STAFF MODULE
 
 def staff_index(request):
@@ -1440,7 +1843,7 @@ def staff_change_order_stage(request):
     mang_id = request.GET.get('mang_ids')
 
     itm=orders_crm.objects.get(id=ele)
-    itm.stage="cutting"
+    itm.stage="payment"
     itm.save()
     mangement=order_management.objects.get(id=mang_id)
 
@@ -1471,7 +1874,7 @@ def staff_change_order_stage_client(request):
     mang_id = request.GET.get('mang_ids')
  
     itm=orders.objects.get(id=ele)
-    itm.stage="cutting"
+    itm.stage="payment"
     itm.save()
     mangement=order_management.objects.get(id=mang_id)
 
@@ -3046,13 +3449,15 @@ def auto_assign_function():
                 for stf_id in stf:
                     
                     if stf_id.designation == "designing":
-                        if order_management.objects.filter(user=stf_id,work_status="completed").exists():
+                        if order_management.objects.filter(user=stf_id,work_status="completed").all().exists():
                             ord_ass=order_management()
                             ord_ass.user=stf_id
                             ord_ass.order_id=cli.id
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
+                            
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3063,6 +3468,8 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
+                          
                             ord_ass.save()
                     else:
                         pass
@@ -3085,6 +3492,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3095,6 +3503,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3117,6 +3526,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3127,6 +3537,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3147,6 +3558,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3157,6 +3569,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3177,6 +3590,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3187,6 +3601,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3208,6 +3623,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3218,6 +3634,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3239,6 +3656,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3249,6 +3667,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=None
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                        
         else:
@@ -3285,6 +3704,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3296,6 +3716,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3318,6 +3739,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id                          
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3328,6 +3750,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3350,6 +3773,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3360,6 +3784,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3380,6 +3805,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3390,6 +3816,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3410,6 +3837,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3420,6 +3848,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3441,6 +3870,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3451,6 +3881,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass
@@ -3472,6 +3903,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                         elif order_management.objects.filter(user=stf_id,work_status="working").exists():
                             pass
@@ -3482,6 +3914,7 @@ def auto_assign_function():
                             ord_ass.order_crm_id=cli.id
                             ord_ass.work_status="working"
                             ord_ass.start_time=timezone.now()
+                            ord_ass.order_no=cli.regno
                             ord_ass.save()
                     else:
                         pass

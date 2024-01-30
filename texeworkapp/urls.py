@@ -38,6 +38,7 @@ urlpatterns = [
     path('pending_orders',views.pending_orders, name='pending_orders'),
     path('filter_pending',views.filter_pending, name='filter_pending'),
     path('filter_pending_id',views.filter_pending_id, name='filter_pending_id'),
+    
     path('today_orders',views.today_orders, name='today_orders'),
     path('filter_today_id',views.filter_today_id, name='filter_today_id'),
     path('change_order_status_client',views.change_order_status_client, name='change_order_status_client'),
@@ -54,17 +55,42 @@ urlpatterns = [
     path('save_assign_stage/<int:id>',views.save_assign_stage, name='save_assign_stage'),
     path('save_assign_stage_crm/<int:id>',views.save_assign_stage_crm, name='save_assign_stage_crm'),
 
+    path('payment_pending_orders',views.payment_pending_orders, name='payment_pending_orders'),
+    path('filter_payment_pending',views.filter_payment_pending, name='filter_payment_pending'),
+    path('filter_payment_pending_id',views.filter_payment_pending_id, name='filter_payment_pending_id'),
+
+    path('pending_orders_mang',views.pending_orders_mang, name='pending_orders_mang'),
+    path('filter_pending_orders',views.filter_pending_orders, name='filter_pending_orders'),
+    path('filter_pending_orders_id',views.filter_pending_orders_id, name='filter_pending_orders_id'),
+
     path('designer_section',views.designer_section, name='designer_section'),
+    path('filter_designing_orders',views.filter_designing_orders, name='filter_designing_orders'),
+    path('filter_designing_orders_id',views.filter_designing_orders_id, name='filter_designing_orders_id'),
+
+    path('cutting_section',views.cutting_section, name='cutting_section'),
+    path('filter_cutting_orders',views.filter_cutting_orders, name='filter_cutting_orders'),
+    path('filter_cutting_orders_id',views.filter_cutting_orders_id, name='filter_cutting_orders_id'),
 
     path('stiching_section',views.stiching_section, name='stiching_section'),
+    path('filter_stiching_orders',views.filter_stiching_orders, name='filter_stiching_orders'),
+    path('filter_stiching_orders_id',views.filter_stiching_orders_id, name='filter_stiching_orders_id'),
+    
     
     path('printing_section',views.printing_section, name='printing_section'),
+    path('filter_printing_orders',views.filter_printing_orders, name='filter_printing_orders'),
+    path('filter_printing_orders_id',views.filter_printing_orders_id, name='filter_printing_orders_id'),
     
     path('testing_section',views.testing_section, name='testing_section'),
+    path('filter_testing_orders',views.filter_testing_orders, name='filter_testing_orders'),
+    path('filter_testing_orders_id',views.filter_testing_orders_id, name='filter_testing_orders_id'),
 
     path('packing_section',views.packing_section, name='packing_section'),
+    path('filter_packing_orders',views.filter_packing_orders, name='filter_packing_orders'),
+    path('filter_packing_orders_id',views.filter_packing_orders_id, name='filter_packing_orders_id'),
 
     path('despatch_section',views.despatch_section, name='despatch_section'),
+    path('filter_despatch_orders',views.filter_despatch_orders, name='filter_despatch_orders'),
+    path('filter_despatch_orders_id',views.filter_despatch_orders_id, name='filter_despatch_orders_id'),
     #########################################################################Staff Module
     path('staff_index',views.staff_index, name='staff_index'),
     path('registrations',views.registrations, name='registrations'),
@@ -85,7 +111,7 @@ urlpatterns = [
 
     #! */*/*/*/*//*/*/*//*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/* Cutting Section - Admin
      
-    path('cutting_section',views.cutting_section, name='cutting_section'),
+    
     path('cutting_order_list',views.cutting_order_list, name='cutting_order_list'),
     path('cutting_filter_order_date',views.cutting_filter_order_date, name='cutting_filter_order_date'),
     path('cutting_filter_order_id',views.cutting_filter_order_id, name='cutting_filter_order_id'),

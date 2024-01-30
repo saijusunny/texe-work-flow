@@ -40,6 +40,7 @@ class order_management(models.Model):
     end_time=models.DateTimeField(null=True, blank=True)
     time_taken=models.CharField(max_length=255, null=True, blank=True)
     work_status=models.CharField(max_length=255, null=True, blank=True)
+    order_no = models.CharField(max_length=255, null=True, blank=True)
     
 
 

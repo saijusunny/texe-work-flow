@@ -580,7 +580,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="{% url 'filter_pending_orders'%}" method="POST" enctype="multipart/form-data">
+            <form action="{% url 'filter_packing_orders'%}" method="POST" enctype="multipart/form-data">
               {% csrf_token %} 
   
               <div class="row">
@@ -629,7 +629,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="{% url 'filter_pending_orders_id'%}" method="POST" enctype="multipart/form-data">
+            <form action="{% url 'filter_packing_orders_id'%}" method="POST" enctype="multipart/form-data">
               {% csrf_token %} 
   
               <div class="row">
