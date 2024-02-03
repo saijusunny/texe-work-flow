@@ -294,7 +294,7 @@
                     
                       
                           <div class="row">
-                            <div class="col-sm-12 mb-5" style="" id="flt_div">
+                            <div class="col-sm-12 mb-5"  id="flt_div">
                               <a href="" data-toggle="modal" data-target="#flt_id" style="text-decoration: none;"><button class="btn btn-primary pl-4 pr-4 pb-2 pt-2" id="">Filter By OrderID</button></a>
                         
                               
@@ -303,7 +303,7 @@
                    
                           {%for i in orders%}
                           
-                          <div class="row justify-content-center mb-3 outers">
+                          <div class="row justify-content-center mb-3 ">
                             <div class="col-md-12 col-xl-10">
                                
                               <div class="card shadow-0 border rounded-3 outers">
@@ -328,10 +328,11 @@
                                       </div>
                                     </div>
                                   </div>
+
                                   <div class="row">
                                     <div class="col-sm-12 mt-2" style="text-align: right;">
                                       <label for="" >Delivery Date : &nbsp;&nbsp; </label>
-                                      <input type="date" class="form-control mr-3 mb-2 in_expect" id="in_expect{{forloop.counter}}" style="float: right;" onchange="update_date_crm('{{i.id}}','{{forloop.counter}}')"value="{{i.delivery_date |date:'Y-m-d'}}">
+                                      <input type="date" class="form-control mr-3 mb-2 in_expect" id="in_expect{{i.id}}" style="float: right;" onchange="update_date_crm('{{i.id}}','{{i.id}}')" value="{{i.delivery_date |date:'Y-m-d'}}">
                                     </div>
                                   </div>
                                   
@@ -356,11 +357,12 @@
                                       </div>
                                     </div>
                                     <div class="col-md-6 col-lg-6 col-xl-6 mt-1 ">
+                                      <h5 ><span>ORD No : </span><span class="card-title">{{i.regno}}</span></h5>
                                       <h5 class="card-title">{{i.user.regno}}</h5>
                                       <h5 class="card-title">{{i.user.name}}</h5>
                                       <div class="d-flex flex-row">
                                       <p class="">
-                                          <span style=" font-size: 12px;">Order Number : {{i.regno}}</span><br>
+                                       
                                           <span style=" font-size: 12px;">Ph. No : {{i.user.number}}</span><br>
                                           <span style=" font-size: 12px;">Address : {{i.user.addres}}</span><br>
                                           <span style=" font-size: 12px;">Order Date : {{i.date}}</span><br>
@@ -436,14 +438,13 @@
                         
                           {%for i in orde_client%}
                           
-                          <div class="row justify-content-center mb-3 outers">
+                          <div class="row justify-content-center mb-3 ">
                             <div class="col-md-12 col-xl-10">
                                
                               <div class="card shadow-0 border rounded-3 outers">
                                 <div class="card-body">
                                   <div class="row">
                                     <div class="col-sm-12">
-                                      
                                       <div class="dropdown" style="position: relative;float: right; top: 0;right: 20px;">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                           {{i.stage}}
@@ -465,7 +466,7 @@
                                   <div class="row">
                                     <div class="col-sm-12 mt-2" style="text-align: right;">
                                       <label for="" >Delivery Date : &nbsp;&nbsp; </label>
-                                      <input type="date" class="form-control mr-3 mb-2 in_expect" id="in_expect{{forloop.counter}}" style="float: right;" onchange="update_date('{{i.regno}}','{{forloop.counter}}')" value="{{i.delivery_date |date:'Y-m-d'}}">
+                                      <input type="date" class="form-control mr-3 mb-2 in_expect" id="in_expect{{i.regno}}" style="float: right;" onchange="update_date('{{i.regno}}', '{{i.regno}}')" value="{{i.delivery_date |date:'Y-m-d'}}">
                                     </div>
                                   </div>
                                   
@@ -490,11 +491,12 @@
                                       </div>
                                     </div>
                                     <div class="col-md-6 col-lg-6 col-xl-6 mt-1 ">
+                                      <h5 ><span>ORD No : </span><span class="card-title">{{i.regno}}</span></h5>
                                       <h5 class="card-title">{{i.user.regno}}</h5>
                                       <h5 class="card-title">{{i.user.name}}</h5>
                                       <div class="d-flex flex-row">
                                       <p class="">
-                                          <span style=" font-size: 12px;">Order Number : {{i.regno}}</span><br>
+                                          
                                           <span style=" font-size: 12px;">Ph. No : {{i.user.number}}</span><br>
                                           <span style=" font-size: 12px;">Address : {{i.user.addres}}</span><br>
                                           <span style=" font-size: 12px;">Order Date : {{i.date}}</span><br>
@@ -509,11 +511,10 @@
                                     </div>
                                     
                                     <div class="col-md-6 col-lg-4 col-xl-4 ">
-                                      
                                       <div class="d-flex flex-row align-items-center mb-1">
+
                                         
-                                        
-                                        
+                      
                                         <div class="row">
                                           <div class="col-sm-12">
                                               
@@ -566,36 +567,35 @@
                             </div>
                           </div>
                           {%endfor%}
+
                           {%if orders%}
-                            {% if orde_client%}
+                          {% if orde_client%}
+                          
+                          {%else%}
+                        
+                          {%endif%}
+                        {%else%}
+                          {% if orde_client%}
                             
                             {%else%}
-                          
-                            {%endif%}
-                          {%else%}
-                            {% if orde_client%}
-                              
-                              {%else%}
-                              <div class="row">
-                                  <div class="col-sm-8 p-5" style="text-align: center;margin: auto;">
-                                      
-                                      <div class="alert alert-danger">
-                                        <ul>
-                                          
-                                                <li style="font-size: 16px;">No Orders Found!</li>
-                                          
-                                        </ul>
-                                    </div>
+                            <div class="row">
+                                <div class="col-sm-8 p-5" style="text-align: center;margin: auto;">
+                                    
+                                    <div class="alert alert-danger">
+                                      <ul>
+                                        
+                                              <li style="font-size: 16px;">No Orders Found!</li>
+                                        
+                                      </ul>
                                   </div>
-                              </div>
-                              {%endif%}
-                          
-                          {%endif%}
+                                </div>
+                            </div>
+                            {%endif%}
+                        
+                        {%endif%}
 
-
-
                           
-                          
+                        
                         
 
                     </div>
@@ -809,6 +809,7 @@
 <script>
   function update_date(id,cnt){
     var date=document.getElementById(`in_expect${cnt}`).value;
+    
     $.ajax({
           type: "GET",
           url: "{% url 'up_expect' %}",
@@ -824,7 +825,7 @@
 </script>
 
 <script>
-  function update_date_crm(id){
+  function update_date_crm(id,cnt){
     var date=document.getElementById(`in_expect${cnt}`).value;
     $.ajax({
           type: "GET",

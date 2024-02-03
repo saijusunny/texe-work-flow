@@ -58,6 +58,8 @@ urlpatterns = [
     path('payment_pending_orders',views.payment_pending_orders, name='payment_pending_orders'),
     path('filter_payment_pending',views.filter_payment_pending, name='filter_payment_pending'),
     path('filter_payment_pending_id',views.filter_payment_pending_id, name='filter_payment_pending_id'),
+    path('payment_completed_crm/<int:id>',views.payment_completed_crm, name='payment_completed_crm'),
+    path('payment_completed_client/<int:id>',views.payment_completed_client, name='payment_completed_client'),
 
     path('pending_orders_mang',views.pending_orders_mang, name='pending_orders_mang'),
     path('filter_pending_orders',views.filter_pending_orders, name='filter_pending_orders'),

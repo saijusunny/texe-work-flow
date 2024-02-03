@@ -158,9 +158,11 @@ def dashboard(request):
         qty=orders_crm.objects.filter(date__day=i).count()
         cnt.append(qty)
     
+    staff=user_registration.objects.all()
+    print(staff)
  
     return render(request,'home/index.html',{'segment':segment,'sub_cat':sub_cat,'nm':nm,
-        'cnt':cnt,'data': data,'event':event})
+        'cnt':cnt,'data': data,'event':event, 'staff':staff})
 
 def get_date_event(request):
     day = request.GET.get('day')
@@ -531,6 +533,7 @@ def up_expect(request):
     return JsonResponse({"status":" not"})
 
 def up_expect_crm(request):
+    print("sdfsfdsfjjffdgjdsdfsdfs")
     ele = request.GET.get('ele')
     count = request.GET.get('count')
     itm=orders_crm.objects.get(id=ele)
@@ -1005,6 +1008,17 @@ def filter_payment_pending_id(request):
         }
         return render(request,'home/payment_pending_orders.html', context)
 
+def payment_completed_crm(request,id):
+    itm=orders_crm.objects.get(id=id)
+    itm.stage="pending"
+    itm.save()
+    return redirect('payment_pending_orders')
+
+def payment_completed_client(request,id):
+    itm=orders_crm.objects.get(id=id)
+    itm.stage="pending"
+    itm.save()
+    return redirect('payment_pending_orders')
 
 
 def pending_orders_mang(request):
@@ -3434,7 +3448,7 @@ def auto_assign_function():
     for cli in ord_client:
         ord_ids=cli.id
         if (cli.stage == "pending") and (cli.status == "checkout"): 
-           cli.stage="designing"
+           cli.stage="cutting"
            cli.save() 
             
         elif cli.stage == "designing":
@@ -3680,7 +3694,7 @@ def auto_assign_function():
         ord_ids=cli.id
       
         if (cli.stage == "pending") and (cli.status == "checkout"): 
-           cli.stage="designing"
+           cli.stage="cutting"
            cli.save() 
             
         elif cli.stage == "designing":
@@ -3923,7 +3937,7 @@ def auto_assign_function():
 
 
 def run_function_every_10_minutes():
-    print("sdfdsfds")
+   
     while True:
         auto_assign_function()
         time.sleep(60)  # 600 seconds = 10 minutes
@@ -3935,4 +3949,3 @@ thread = threading.Thread(target=run_function_every_10_minutes)
 thread.start()
 
     # Add your other tasks or logic here
-

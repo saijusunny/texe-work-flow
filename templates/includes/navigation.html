@@ -44,12 +44,10 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right dropdown-navbar">
                                 <li class="nav-link"><a href="{% url 'pending_orders'%}" class="nav-item dropdown-item">Pending Order</a></li>
-                                <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Todays Order</a></li>
-                                <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item"></a></li>
-                                <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Another
-                                    notification</a></li>
-                                <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Another
-                                    one</a></li>
+                                <li class="nav-link"><a href="{% url 'today_orders'%}" class="nav-item dropdown-item">Todays Order</a></li>
+                                
+                                <li class="nav-link"><a href="{% url 'payment_pending_orders'%}" class="nav-item dropdown-item">Payment Pending Orders</a></li>
+                                
                             </ul>
                         </li>
                     

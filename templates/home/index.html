@@ -47,6 +47,14 @@
                                           <i class="tim-icons icon-bag-16"></i>
                     </span>
                                     </label>
+
+                                    <label class="btn btn-sm btn-primary btn-simple" id="3">
+                                      <input type="radio" class="d-none" name="options">
+                                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Staff</span>
+                                      <span class="d-block d-sm-none">
+                                        <i class="tim-icons icon-bag-16"></i>
+                  </span>
+                                  </label>
                                 </div>
                             </div>
                         </div>
@@ -858,7 +866,7 @@ demo = {
     });
     $("#1").click(function() {
       var chart_labels = [{% for data in sub_cat %} '{{ data.subcategory }}', {% endfor %}];
-      var chart_data = [{% for data in sub_cat %} {{ data.buying_count }}, {% endfor %}];
+      var chart_data = [{% for data in sub_cat %} '{{ data.buying_count }}', {% endfor %}];
       var data = myChartData.config.data;
       data.datasets[0].data = chart_data;
       data.labels = chart_labels;
@@ -876,6 +884,17 @@ demo = {
       document.getElementById('cards_head').innerHTML="Orders Overview"
     });
 
+    $("#3").click(function() {
+      var chart_labels = [{% for data in staff %} '{{ data.name }}', {% endfor %}];
+      
+      var chart_data = [{% for data in staff %} '{{ data.preformance }}', {% endfor %}];
+      
+      var data = myChartData.config.data;
+      data.datasets[0].data = chart_data;
+      data.labels = chart_labels;
+      myChartData.update();
+      document.getElementById('cards_head').innerHTML="Staff Overview"
+    });
 
     var ctx = document.getElementById("CountryChart").getContext("2d");
 

@@ -346,20 +346,10 @@
                                   <div class="row">
                                     <div class="col-sm-12">
                                       <div class="dropdown" style="position: relative;float: right; top: 0;right: 20px;">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          {{i.stage}}
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="" onclick="add_stage('{{i.id}}','pending')">Pending</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage('{{i.id}}','designing')">Designing</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage('{{i.id}}','cutting')">Cutting</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage('{{i.id}}','stiching')">Stiching</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage('{{i.id}}','printing')">Printing</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage('{{i.id}}','testing')">Testing</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage('{{i.id}}','packing')">Packing</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage('{{i.id}}','despatch')">Despatch</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage('{{i.id}}','arrived')">Arrived</a>
-                                        </div>
+                                        <a href="{% url 'payment_completed_crm' i.id %}"><button  class="btn btn-secondar" type="button" >
+                                          Payment Completed
+                                        </button></a>
+                                        
                                       </div>
                                     </div>
                                   </div>
@@ -441,20 +431,9 @@
                                   <div class="row">
                                     <div class="col-sm-12">
                                       <div class="dropdown" style="position: relative;float: right; top: 0;right: 20px;">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          {{i.stage}}
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="" onclick="add_stage_client('{{i.regno}}','pending')">Pending</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage_client('{{i.regno}}','designing')">Designing</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage_client('{{i.regno}}','cutting')">Cutting</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage_client('{{i.regno}}','stiching')">Stiching</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage_client('{{i.regno}}','printing')">Printing</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage_client('{{i.regno}}','testing')">Testing</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage_client('{{i.regno}}','packing')">Packing</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage_client('{{i.regno}}','despatch')">Despatch</a>
-                                          <a class="dropdown-item" href="" onclick="add_stage_client('{{i.regno}}','arrived')">Arrived</a>
-                                        </div>
+                                        <a href="{% url 'payment_completed_client' i.id %}"><button  class="btn btn-secondar" type="button" >
+                                          Payment Completed
+                                        </button></a>
                                       </div>
                                     </div>
                                   </div>
